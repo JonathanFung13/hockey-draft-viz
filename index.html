@@ -11,12 +11,11 @@
   <link rel="apple-touch-icon" href="icon.png">
   <!-- Place favicon.ico in the root directory -->
 
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
+<!--  <link rel="stylesheet" href="css/normalize.css">-->
+<!--  <link rel="stylesheet" href="css/main.css">-->
+  <link rel="stylesheet" href="css/hockey.css">
 
   <meta name="theme-color" content="#fafafa">
-  <script type="text/javascript" src="js/d3.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
 </head>
 
 <body>
@@ -26,34 +25,61 @@
 
   <!-- Add your site or application content here -->
   <div id = "header">
-    <div class = "filters">
-
-    </div>
     <h1>NHL Draft</h1>
     <div id = "legend"></div>
+    <div class = "inputs">
+      <label title="Current status of players"><input checked="checked" value="status" name="playercolor" type="radio">Player Status</label>
+      <label title="Number of times the (offensive or defensive) player was picked as a game starter (As calculated from http://www.pro-football-reference.com/)"><input value="GamesStarted" name="playercolor" type="radio">Games Started</label>
+      <label title="Single score value assigned to the player (As calculated from http://www.pro-football-reference.com/)"><input value="ApproxValue" name="playercolor" type="radio">Approximate Value</label>
+    </div>
+    <div class="help-tip">
+      <div>
+        <h4 style="text-align:center;color:white">Visualization Overview</h4>
+        This visualization presents each NFL team's drafting history. For each team, the past 10 years of draft choices are shown.
+        Each circle is a player. Inside the circle is the position of the player. The circles are colored using that player's value for the selected mode - Player Status, Approximate Value and Games Started.
+        <ul>
+          <li>Clicking on the mini version of any team's draft history displays the team's history details in space below</li>
+          <li>For basic player information, mouse-over the circles in the detailed draft view. </li>
+          <li>To see complete information about a player, click on the player circle in the detailed draft view </li>
+          <li>For more information about the three modes, hover over the names of the modes.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id = "positionCheck"></div>
+    <hr style="width: 100%;">
+
   </div>
 
   <div class="content">
-    <div class = "draft">Draft</div>
-    <div class = "round">Round</div>
-    <div class="team-info" style="margin-top:10px;" id="west"><div style="margin-top: 30px;">West</div></div>
-    <div class="team-info" id="east"><div style="margin-top: 30px;">EAST</div></div>
+    <div class="draft">Draft</div>
+    <div class="round">Round</div>
+    <div class="team-info" style="margin-top:10px;" id="atlantic"><div style="margin-top: 30px;" width="500">Atlantic</div></div>
+    <div class="team-info" id="metropolitan"><div style="margin-top: 30px;">Metro</div></div>
+    <div class="team-info" id="central"><div style="margin-top: 30px;">Central</div></div>
+    <div class="team-info" id="pacific"><div style="margin-top: 30px;">Pacific</div></div>
   </div>
 
+<!--  ### TEMP ###-->
+  <script src="js/jquery-1.12.2.min.js"></script>
+  <script src="js/jquery.ddslick.min.js"></script>
+  <!--  ### TEMP ###-->
+<!--  <script src="js/vendor/modernizr-3.7.1.min.js"></script>-->
+<!--  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>-->
+<!--  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>-->
+  <!--  ### TEMP ###-->
 
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
-  <script src="js/plugins.js"></script>
+<!--  <script src="js/plugins.js"></script>-->
+  <script src="js/d3.js"></script>
   <script src="js/main.js"></script>
+<!--  <script src="js/main.js"></script>-->
 
   <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-  <script>
-    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
-  </script>
-  <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+<!--  <script>-->
+<!--    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;-->
+<!--    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')-->
+<!--  </script>-->
+<!--  <script src="https://www.google-analytics.com/analytics.js" async defer></script>-->
 </body>
 
 </html>

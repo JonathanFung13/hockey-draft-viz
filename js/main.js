@@ -12,7 +12,7 @@ var legendKey ={};
 //needed for legend - decide how many keys should be there
 legendKey['status'] = {basic: { "ACTIVE": "gray", "INACTIVE": "#FF3838", "OTHER_TEAM": "#A2AFEF"},
     class: {"ACTIVE": "active", "INACTIVE": "inactive", "OTHER_TEAM": "other_team"},
-    text: {"ACTIVE": ["Active", 90], "INACTIVE": ["Inactive", 85], "OTHER_TEAM": ["Other Team", 68]} };
+    text: {"ACTIVE": ["Active", 90], "INACTIVE": ["Inactive", 70], "OTHER_TEAM": ["Other Team", 75]} };
 
 // legendKey['GamesStarted'] = {basic: {1: 'green', 2: 'blue', 3: "#D7D6D6", 4: "grey", 5: "#A2AFEF", "noinfo": "gold"},
 //     class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "other": "noinfo"},
@@ -23,9 +23,13 @@ legendKey['status'] = {basic: { "ACTIVE": "gray", "INACTIVE": "#FF3838", "OTHER_
 //     text: {1: ["0-9", 120], 2: ["10-19", 51],3: ["20-39", 58], 4: ["40-69", 61], 5: ["70-150", 63], "other": ["Unavailable",65]} };
 
 
-DIVISIONS = { "New Jersey Devils" : "Metropolitan", "New York Islanders" : "Metropolitan", "New York Rangers" : "Metropolitan", "Philadelphia Flyers" : "Metropolitan", "Pittsburgh Penguins" : "Metropolitan", "Boston Bruins" : "Atlantic", "Buffalo Sabres" : "Atlantic", "Montréal Canadiens" : "Atlantic", "Ottawa Senators" : "Atlantic", "Toronto Maple Leafs" : "Atlantic", "Carolina Hurricanes" : "Metropolitan", "Florida Panthers" : "Atlantic", "Tampa Bay Lightning" : "Atlantic", "Washington Capitals" : "Metropolitan", "Chicago Blackhawks" : "Central", "Detroit Red Wings" : "Atlantic", "Nashville Predators" : "Central", "St. Louis Blues" : "Central", "Calgary Flames" : "Pacific", "Colorado Avalanche" : "Central", "Edmonton Oilers" : "Pacific", "Vancouver Canucks" : "Pacific", "Anaheim Ducks" : "Pacific", "Dallas Stars" : "Central", "Los Angeles Kings" : "Pacific", "San Jose Sharks" : "Pacific", "Columbus Blue Jackets" : "Metropolitan", "Minnesota Wild" : "Central", "Winnipeg Jets" : "Central", "Arizona Coyotes" : "Pacific", "Vegas Golden Knights" : "Pacific"}
-teamNames = {"NJD": "New Jersey Devils", "NYI": "New York Islanders", "NYR": "New York Rangers", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "MTL": "Montréal Canadiens", "OTT": "Ottawa Senators", "TOR": "Toronto Maple Leafs", "CAR": "Carolina Hurricanes", "FLA": "Florida Panthers", "TBL": "Tampa Bay Lightning", "WSH": "Washington Capitals", "CHI": "Chicago Blackhawks", "DET": "Detroit Red Wings", "NSH": "Nashville Predators", "STL": "St. Louis Blues", "CGY": "Calgary Flames", "COL": "Colorado Avalanche", "EDM": "Edmonton Oilers", "VAN": "Vancouver Canucks", "ANA": "Anaheim Ducks", "DAL": "Dallas Stars", "LAK": "Los Angeles Kings", "SJS": "San Jose Sharks", "CBJ": "Columbus Blue Jackets", "MIN": "Minnesota Wild", "WPG": "Winnipeg Jets", "ARI": "Arizona Coyotes", "VGK": "Vegas Golden Knights"}
-TEAMABBRS = {"New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Montréal Canadiens": "MTL", "Ottawa Senators": "OTT", "Toronto Maple Leafs": "TOR", "Carolina Hurricanes": "CAR", "Florida Panthers": "FLA", "Tampa Bay Lightning": "TBL", "Washington Capitals": "WSH", "Chicago Blackhawks": "CHI", "Detroit Red Wings": "DET", "Nashville Predators": "NSH", "St. Louis Blues": "STL", "Calgary Flames": "CGY", "Colorado Avalanche": "COL", "Edmonton Oilers": "EDM", "Vancouver Canucks": "VAN", "Anaheim Ducks": "ANA", "Dallas Stars": "DAL", "Los Angeles Kings": "LAK", "San Jose Sharks": "SJS", "Columbus Blue Jackets": "CBJ", "Minnesota Wild": "MIN", "Winnipeg Jets": "WPG", "Arizona Coyotes": "ARI", "Vegas Golden Knights": "VGK"}
+//DIVISIONS = {"New Jersey Devils" : "Metro", "New York Islanders" : "Metro", "New York Rangers" : "Metro", "Philadelphia Flyers" : "Metro", "Pittsburgh Penguins" : "Metro", "Boston Bruins" : "Atlantic", "Buffalo Sabres" : "Atlantic", "Montréal Canadiens" : "Atlantic", "Ottawa Senators" : "Atlantic", "Toronto Maple Leafs" : "Atlantic", "Carolina Hurricanes" : "Metro", "Florida Panthers" : "Atlantic", "Tampa Bay Lightning" : "Atlantic", "Washington Capitals" : "Metro", "Chicago Blackhawks" : "Central", "Detroit Red Wings" : "Atlantic", "Nashville Predators" : "Central", "St. Louis Blues" : "Central", "Calgary Flames" : "Pacific", "Colorado Avalanche" : "Central", "Edmonton Oilers" : "Pacific", "Vancouver Canucks" : "Pacific", "Anaheim Ducks" : "Pacific", "Dallas Stars" : "Central", "Los Angeles Kings" : "Pacific", "San Jose Sharks" : "Pacific", "Columbus Blue Jackets" : "Metro", "Minnesota Wild" : "Central", "Winnipeg Jets" : "Central", "Arizona Coyotes" : "Pacific", "Vegas Golden Knights" : "Pacific"}
+//teamNames = {"NJD": "New Jersey Devils", "NYI": "New York Islanders", "NYR": "New York Rangers", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "MTL": "Montréal Canadiens", "OTT": "Ottawa Senators", "TOR": "Toronto Maple Leafs", "CAR": "Carolina Hurricanes", "FLA": "Florida Panthers", "TBL": "Tampa Bay Lightning", "WSH": "Washington Capitals", "CHI": "Chicago Blackhawks", "DET": "Detroit Red Wings", "NSH": "Nashville Predators", "STL": "St. Louis Blues", "CGY": "Calgary Flames", "COL": "Colorado Avalanche", "EDM": "Edmonton Oilers", "VAN": "Vancouver Canucks", "ANA": "Anaheim Ducks", "DAL": "Dallas Stars", "LAK": "Los Angeles Kings", "SJS": "San Jose Sharks", "CBJ": "Columbus Blue Jackets", "MIN": "Minnesota Wild", "WPG": "Winnipeg Jets", "ARI": "Arizona Coyotes", "VGK": "Vegas Golden Knights"}
+//TEAMABBRS = {"New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Montréal Canadiens": "MTL", "Ottawa Senators": "OTT", "Toronto Maple Leafs": "TOR", "Carolina Hurricanes": "CAR", "Florida Panthers": "FLA", "Tampa Bay Lightning": "TBL", "Washington Capitals": "WSH", "Chicago Blackhawks": "CHI", "Detroit Red Wings": "DET", "Nashville Predators": "NSH", "St. Louis Blues": "STL", "Calgary Flames": "CGY", "Colorado Avalanche": "COL", "Edmonton Oilers": "EDM", "Vancouver Canucks": "VAN", "Anaheim Ducks": "ANA", "Dallas Stars": "DAL", "Los Angeles Kings": "LAK", "San Jose Sharks": "SJS", "Columbus Blue Jackets": "CBJ", "Minnesota Wild": "MIN", "Winnipeg Jets": "WPG", "Arizona Coyotes": "ARI", "Vegas Golden Knights": "VGK"}
+
+DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston Bruins": "Atlantic", "Buffalo Sabres": "Atlantic", "Calgary Flames": "Pacific", "Carolina Hurricanes": "Metro", "Chicago Blackhawks": "Central", "Colorado Avalanche": "Central", "Columbus Blue Jackets": "Metro", "Dallas Stars": "Central", "Detroit Red Wings": "Atlantic", "Edmonton Oilers": "Pacific", "Florida Panthers": "Atlantic", "Los Angeles Kings": "Pacific", "Minnesota Wild": "Central", "Montréal Canadiens": "Atlantic", "Nashville Predators": "Central", "New Jersey Devils": "Metro", "New York Islanders": "Metro", "New York Rangers": "Metro", "Ottawa Senators": "Atlantic", "Philadelphia Flyers": "Metro", "Pittsburgh Penguins": "Metro", "San Jose Sharks": "Pacific", "St. Louis Blues": "Central", "Tampa Bay Lightning": "Atlantic", "Toronto Maple Leafs": "Atlantic", "Vancouver Canucks": "Pacific", "Vegas Golden Knights": "Pacific", "Washington Capitals": "Metro", "Winnipeg Jets": "Central"}
+teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
+TEAMABBRS = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARI", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY", "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL", "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET", "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK", "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH", "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL", "Tampa Bay Lightning": "TBL", "Toronto Maple Leafs": "TOR", "Vancouver Canucks": "VAN", "Vegas Golden Knights": "VGK", "Washington Capitals": "WSH", "Winnipeg Jets": "WPG"}
 
 var border,colorBy='status';
 max = {
@@ -46,26 +50,55 @@ var filterByTeamName = function(data, teamName) {
 };
 
 // Filter by names of players in drafts
-var initMouseClickDraft = function(data) {
-    var filteredD = data.filter(function(d) {
-        var isName = false;
-        var names = d.name.split(" ");
-        var name = names[1] + ", " +names[0];
-        for (var i = 0; i < draftsFilteredByTeamName.length; i++) {
-            isName = name ==draftsFilteredByTeamName[i].name;
-            if (isName) {
-                break;
+var initMouseClickDraft = function() {
+    var filteredD = {"picture": "http://static.nfl.com/static/content/public/static/img/fantasy/transparent/200x200/NKE415291.png",
+        "College": "Mississippi",
+        "stats": [
+            {
+                "TCKL": "1"
+            },
+            {
+                "SCK": "0.0"
+            },
+            {
+                "FF": "0"
+            },
+            {
+                "INT": "--"
             }
-        }
-        return isName;
-    });
+        ],
+        "name": "Robert Nkemdiche",
+        "Weight": "296",
+        "Age": "22",
+        "number": "#90 DT",
+        "Experience": "2nd season",
+        "Born": "9/19/1994 Atlanta , GA",
+        "High School": "Grayson HS [Loganville, GA]",
+        "team": "Arizona Cardinals",
+        "Height": "6-3"};
+
+
+    // var filteredD = data.filter(function(d) {
+    //     var isName = false;
+    //     var names = d.name.split(" ");
+    //     var name = names[1] + ", " +names[0];
+    //     for (var i = 0; i < draftsFilteredByTeamName.length; i++) {
+    //         isName = name ==draftsFilteredByTeamName[i].name;
+    //         if (isName) {
+    //             break;
+    //         }
+    //     }
+    //     return isName;
+    // });
     return filteredD;
 };
 var initJson = function (svg) {
-    d3.json('playerProfileAll.json', function(data) {
-        mouseClickDrafts = initMouseClickDraft(data);
-        mouseClick(svg, mouseClickDrafts, "#clickProf");
-    });
+    // d3.json('playerProfileAll.json', function(data) {
+    //     mouseClickDrafts = initMouseClickDraft(data);
+    //     mouseClick(svg, mouseClickDrafts, "#clickProf");
+    // });
+    mouseClickDrafts = initMouseClickDraft();
+    mouseClick(svg, mouseClickDrafts, "#clickProf");
 };
 
 d3.csv('data/Draft.csv').then( function(data) {
@@ -108,7 +141,7 @@ d3.csv('data/Draft.csv').then( function(data) {
                 previewHolder = atlSvgHolder.append("div")
                     .attr("class", "teamDiv teamDiv"+i);
                 break;
-            case "Metropolitan":
+            case "Metro":
                 previewHolder = metSvgHolder.append("div")
                     .attr("class", "teamDiv teamDiv"+i);
                 break;
@@ -132,7 +165,7 @@ d3.csv('data/Draft.csv').then( function(data) {
                 .attr("x", borderParams.left - 8 - $(window).scrollLeft())
                 .attr('y', borderParams.top - 64)
 //            d3.select(this).style("border", "1px solid #ddd")
-            d3.selectAll("#SvgHolder > *").remove();
+            //d3.selectAll("#SvgHolder > *").remove();
             displayFullTeamInfo(data, this.children[0].children[0].getAttribute("team-name"), svgHolder, selectedSizes)
         });
 
@@ -197,8 +230,8 @@ function displayFullTeamInfo(data, teamName, svgHolder, selectedSizes) {
         .transition().duration(500).style("opacity", 1);
 
     teamNameDiv.append("img")
-        .attr("id", "teamLogo")
-        .attr("src", "images/" + teamName + ".png");
+       .attr("id", "teamLogo")
+       .attr("src", "images/" + teamName + ".png");
     teamNameDiv
         .append("div")
         .attr("id", "teamName")
@@ -208,7 +241,7 @@ function displayFullTeamInfo(data, teamName, svgHolder, selectedSizes) {
     addPositionLabels(svg, positionFunctions);
     addHoverPreview(svg)
     d3.selectAll("#clickProf > *").remove();
-    // initJson(svg)
+    initJson(svg)
 }
 
 // For displaying all of the charts for all of the teams
@@ -411,7 +444,7 @@ function createChart(svg, sizes) {
             if(legendKey[colorBy].class[val] === undefined) {
                 return legendKey[colorBy].class['other']
             }
-//           console.log(val)
+            console.log(val, legendKey[colorBy].class[val])
             return legendKey[colorBy].class[val]
         })
         .attr("r", radius)
@@ -849,9 +882,8 @@ function onPreviewHover(holder) {
     })
 }
 
-/*
-$(function(){
 
+$(function(){
     $("input[type='radio']").on("click",function(){
         colorBy =this.value;
         clickedDict ={}
@@ -860,7 +892,7 @@ $(function(){
     })
 
 })
-*/
+
 
 //function onPreviewClick(svgClass, svgDisplay, sizes, data, ) {
 //    svgClicked = d3.select("." + svgClass)
