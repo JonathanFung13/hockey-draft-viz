@@ -259,7 +259,7 @@ function createChart(svg, sizes) {
         return d3.descending(a.Year, b.Year) || d3.ascending(a.Round, b.Round);
     });
     var positionsObject={};
-    var objectLength=[];
+    // var objectLength=[];
     var radius = sizes.radius;
     draftsFilteredByTeamName.forEach(function(d) {
         d.Year =+ d.Year;
