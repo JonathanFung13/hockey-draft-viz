@@ -10,9 +10,9 @@ var years, teams;
 
 var legendKey ={};
 //needed for legend - decide how many keys should be there
-legendKey['status'] = {basic: { "ACTIVE": "gray", "INACTIVE": "#FF3838", "OTHER_TEAM": "#A2AFEF"},
-    class: {"ACTIVE": "active", "INACTIVE": "inactive", "OTHER_TEAM": "other_team"},
-    text: {"ACTIVE": ["Active", 90], "INACTIVE": ["Inactive", 70], "OTHER_TEAM": ["Other Team", 75]} };
+legendKey['Status'] = {basic: { "ACTIVE": "green", "INACTIVE": "#FF3838", "OTHER_TEAM": "#A2AFEF", "UNKNOWN": "gray"},
+    class: {"active": "active", "inactive": "inactive", "other_team": "other_team", "unknown": "unknown"},
+    text: {"active": ["Active", 90], "inactive": ["Inactive", 70], "other_team": ["Other Team", 75], "unknown": ["Unknown", 85]} };
 
 // legendKey['GamesStarted'] = {basic: {1: 'green', 2: 'blue', 3: "#D7D6D6", 4: "grey", 5: "#A2AFEF", "noinfo": "gold"},
 //     class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "other": "noinfo"},
@@ -31,7 +31,7 @@ DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston B
 teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
 TEAMABBRS = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARI", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY", "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL", "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET", "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK", "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH", "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL", "Tampa Bay Lightning": "TBL", "Toronto Maple Leafs": "TOR", "Vancouver Canucks": "VAN", "Vegas Golden Knights": "VGK", "Washington Capitals": "WSH", "Winnipeg Jets": "WPG"}
 
-var border,colorBy='status';
+var border,colorBy='Status';
 max = {
     'GamesStarted':16,
     'ApproxValue':10
@@ -102,7 +102,7 @@ var initJson = function (svg) {
 };
 
 d3.csv('data/Draft.csv').then( function(data) {
-    colorBy= "status" //$("input[type='radio']").val();
+    colorBy= "Status" //$("input[type='radio']").val();
     let selectOptions = {};
     // var teamNames = {};
     data.forEach(function(d) {
@@ -125,6 +125,26 @@ d3.csv('data/Draft.csv').then( function(data) {
         .attr("id", "SvgHolder")
         .attr("height", selectedSizes.height + margin.top + margin.bottom)
         .attr("width", selectedSizes.width);
+
+    svgHolder.select("#SvgHolder")
+        .append("div")
+        .attr("id", "instruction")
+        .attr("class", "highlighted")
+        .text("Click on a circle to see detailed player information!")
+
+
+    svgHolder.select("#SvgHolder")
+        .append("div")
+        .attr("class", "teamTitle")
+        .style("opacity", 0)
+        .transition().duration(500).style("opacity", 1)
+
+    svgHolder.select(".teamTitle")
+        .append("div")
+        .attr("id", "teamName")
+    var svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", selectedSizes.width, selectedSizes.height);
+
+
     var atlSvgHolder = d3.select("#atlantic");
     var metSvgHolder = d3.select("#metropolitan");
     var cenSvgHolder = d3.select("#central");
@@ -158,8 +178,8 @@ d3.csv('data/Draft.csv').then( function(data) {
         var previewSvg = createSvg(previewHolder, "Svg" + i, teamName, previewSizes.width, previewSizes.height)
         previewHolder.append("span")
             .html(teamName)
-        onPreviewHover(previewHolder);
-        previewHolder.on("click", function(d) {
+        onPreviewHover(previewHolder); // change opacity of preview when you mouse over
+        previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             var borderParams = $(this).offset()
             d3.select("#selectedBorder > rect")
                 .attr("x", borderParams.left - 8 - $(window).scrollLeft())
@@ -218,24 +238,33 @@ d3.csv('data/Draft.csv').then( function(data) {
 });
 
 function displayFullTeamInfo(data, teamName, svgHolder, selectedSizes) {
-    svgHolder.append("div")
-        .attr("id", "instruction")
-        .attr("class", "highlighted")
-        .text("Click on a circle to see detailed player information!")
-    var svg = createSvg(svgHolder, "selectedSvg","", selectedSizes.width, selectedSizes.height);
-    teamNameDiv = svgHolder.insert("div", ":first-child")
-        .attr("class", "teamTitle")
+//    var svgHolder = d3.select(".content").select("#SvgHolder");
 
-    teamNameDiv.style("opacity", 0)
-        .transition().duration(500).style("opacity", 1);
-
-    teamNameDiv.append("img")
-       .attr("id", "teamLogo")
-       .attr("src", "images/" + teamName + ".png");
-    teamNameDiv
-        .append("div")
-        .attr("id", "teamName")
+    //svgHolder.select("#SvgHolder")
+    //    .select(".teamTitle")
+    svgHolder.select("#teamName")
         .text(teamName);
+        // .exit().remove();
+
+    d3.selectAll(".selectedSvg > *").remove();
+
+    let svg = d3.select(".selectedSvg");
+    // svg.remove();
+
+    //var svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", selectedSizes.width, selectedSizes.height);
+    //teamNameDiv = svgHolder.insert("div", ":first-child")
+    //    .attr("class", "teamTitle")
+
+    // teamNameDiv.style("opacity", 0)
+    //     .transition().duration(500).style("opacity", 1);
+
+    // teamNameDiv.append("img")
+    //   .attr("id", "teamLogo")
+    //   .attr("src", "images/" + teamName + ".png");
+    // teamNameDiv
+    //     .append("div")
+    //     .attr("id", "teamName")
+    //     .text(teamName);
     positionFunctions = displayPlayerCircles(data, teamName, svg, selectedSizes);
     addXYLabels(svg, selectedSizes.radius);
     addPositionLabels(svg, positionFunctions);
@@ -417,7 +446,9 @@ function createChart(svg, sizes) {
     draftPicks = 0;
     circleWrap.append("circle")
         .attr("class", function(d) {
-            val = d[colorBy];
+            let val = d[colorBy];
+            let temp = legendKey[colorBy].class[val];
+            // return "other"; // legendKey[colorBy].class[d[colorBy]];
             if(colorBy === 'ApproxValue'){
                 val1 = parseInt(parseInt(val)/max[colorBy])+1;
                 if(val1>3)
@@ -444,7 +475,7 @@ function createChart(svg, sizes) {
             if(legendKey[colorBy].class[val] === undefined) {
                 return legendKey[colorBy].class['other']
             }
-            console.log(val, legendKey[colorBy].class[val])
+            //console.log(val, legendKey[colorBy].class[val])
             return legendKey[colorBy].class[val]
         })
         .attr("r", radius)
@@ -525,7 +556,8 @@ function createLegend(){
         .attr("transform","translate(45,5)");
     var count = 0;
     for (var i in legendKey[colorBy].class) {
-        keys = Object.keys(legendKey[colorBy].class);
+        let keys = Object.keys(legendKey[colorBy].class);
+        let temp = legendKey[colorBy].text[i];
         legend.append("circle")
             .attr("cx", margin.left - 30 +count*legendKey[colorBy].text[i][1])
             .attr("cy", 30)
@@ -758,7 +790,7 @@ function checkUndefinedPlayer(playerInfo) {
 function createSvg(svgHolder, className,teamName, width, height) {
     var radius = Math.ceil(width * 0.02);
     var g =svgHolder.append("svg")
-        .attr("class", className+" preview-svg")
+        .attr("class", className) //+" preview-svg")
         .attr("width", width)//width + margin.left + margin.right)
         .attr("height", (height + margin.top + margin.bottom))
 
@@ -787,22 +819,26 @@ function addHoverPreview(svg) {
                 .text("Name: " + d.PlayerName);
             divText
                 .append("div")
-                .text("School: " + d.AmateurTeam);
+                .text("Amateur Team: " + d.AmateurTeam);
             divText
                 .append("div")
                 .text("Round: " + d.Round)
 
             divText
                 .append("div")
-                .text("Status: " + legendKey['status'].text[d['Status']][0])
+                .text("Status: " + d.Status) // legendKey['status'].text[d['Status']][0])
 
             divText
                 .append("div")
-                .text("Games Played: " + d['GamesPlayed'])
+                .text("Games Played: " + d.GamesPlayed)
 
             divText
                 .append("div")
-                .text("Approximate Value: " + d.Points)
+                .text("Points: " + d.Points)
+
+            divText
+                .append("div")
+                .text("Points per game: " + d.PPG)
         })
         .on("mousemove", function() {
             d3.select(this).style("opacity", 1);

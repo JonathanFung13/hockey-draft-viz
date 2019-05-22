@@ -141,7 +141,7 @@ circle{
     fill: #778eff;
     opacity: 0.8;
 }
-.other {
+.unknown {
     fill: gold;
     opacity: 0.8;
 }
@@ -232,7 +232,7 @@ span{
 
 #selectedBorder {
     width: 1260px;
-    height: 250px;
+    height: 500px;
 }
 #selectedBorder rect {
     fill: none;
@@ -249,7 +249,7 @@ span{
     display: flex;
     margin-left: 0%;
     position: absolute;
-    margin-top: 210px;
+    margin-top: 450px;
     transition: all 0.8s ease;
 }
 
