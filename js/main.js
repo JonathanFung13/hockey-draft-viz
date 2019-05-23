@@ -185,7 +185,7 @@ d3.csv('data/Draft.csv').then( function(data) {
                 .attr("x", borderParams.left - 8 - $(window).scrollLeft())
                 .attr('y', borderParams.top - 64)
 //            d3.select(this).style("border", "1px solid #ddd")
-            //d3.selectAll("#SvgHolder > *").remove();
+            d3.selectAll(".circleGroup > *").remove();
             displayFullTeamInfo(data, this.children[0].children[0].getAttribute("team-name"), svgHolder, selectedSizes)
         });
 
@@ -246,7 +246,7 @@ function displayFullTeamInfo(data, teamName, svgHolder, selectedSizes) {
         .text(teamName);
         // .exit().remove();
 
-    d3.selectAll(".selectedSvg > *").remove();
+    //d3.selectAll(".circleGroup > *").remove();
 
     let svg = d3.select(".selectedSvg");
     // svg.remove();
@@ -447,8 +447,6 @@ function createChart(svg, sizes) {
     circleWrap.append("circle")
         .attr("class", function(d) {
             let val = d[colorBy];
-            let temp = legendKey[colorBy].class[val];
-            // return "other"; // legendKey[colorBy].class[d[colorBy]];
             if(colorBy === 'ApproxValue'){
                 val1 = parseInt(parseInt(val)/max[colorBy])+1;
                 if(val1>3)
@@ -475,19 +473,16 @@ function createChart(svg, sizes) {
             if(legendKey[colorBy].class[val] === undefined) {
                 return legendKey[colorBy].class['other']
             }
-            //console.log(val, legendKey[colorBy].class[val])
             return legendKey[colorBy].class[val]
         })
         .attr("r", radius)
         .attr("cx", function(d,i) {
             return position(d)
-//            return yPosition(d);
         })
         .attr("cy", function(d) {
             return yPosition(d);
-//             return position(d)
 
-        })
+        });
     draftsFilteredByTeamName.forEach(function(d) {
         d.Year =+ d.Year;
         positionsObject[d.Year]=0
@@ -536,7 +531,6 @@ function recolorPlayers(){
             if(legendKey[colorBy].class[val] === undefined) {
                 return legendKey[colorBy].class['other']
             }
-//           console.log(val)
             return legendKey[colorBy].class[val]
         })
 
@@ -557,7 +551,6 @@ function createLegend(){
     var count = 0;
     for (var i in legendKey[colorBy].class) {
         let keys = Object.keys(legendKey[colorBy].class);
-        let temp = legendKey[colorBy].text[i];
         legend.append("circle")
             .attr("cx", margin.left - 30 +count*legendKey[colorBy].text[i][1])
             .attr("cy", 30)
@@ -826,7 +819,7 @@ function addHoverPreview(svg) {
 
             divText
                 .append("div")
-                .text("Status: " + d.Status) // legendKey['status'].text[d['Status']][0])
+                .text("Status: " + legendKey['Status'].text[d.Status][0])
 
             divText
                 .append("div")
