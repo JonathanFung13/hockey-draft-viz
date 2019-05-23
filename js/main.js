@@ -126,25 +126,6 @@ d3.csv('data/Draft.csv').then( function(data) {
         .attr("height", selectedSizes.height + margin.top + margin.bottom)
         .attr("width", selectedSizes.width);
 
-    svgHolder.select("#SvgHolder")
-        .append("div")
-        .attr("id", "instruction")
-        .attr("class", "highlighted")
-        .text("Click on a circle to see detailed player information!")
-
-
-    svgHolder.select("#SvgHolder")
-        .append("div")
-        .attr("class", "teamTitle")
-        .style("opacity", 0)
-        .transition().duration(500).style("opacity", 1)
-
-    svgHolder.select(".teamTitle")
-        .append("div")
-        .attr("id", "teamName")
-    var svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", selectedSizes.width, selectedSizes.height);
-
-
     var atlSvgHolder = d3.select("#atlantic");
     var metSvgHolder = d3.select("#metropolitan");
     var cenSvgHolder = d3.select("#central");
@@ -185,7 +166,7 @@ d3.csv('data/Draft.csv').then( function(data) {
                 .attr("x", borderParams.left - 8 - $(window).scrollLeft())
                 .attr('y', borderParams.top - 64)
 //            d3.select(this).style("border", "1px solid #ddd")
-            d3.selectAll(".circleGroup > *").remove();
+//            d3.selectAll("#SvgHolder > *").remove();
             displayFullTeamInfo(data, this.children[0].children[0].getAttribute("team-name"), svgHolder, selectedSizes)
         });
 
@@ -217,54 +198,32 @@ d3.csv('data/Draft.csv').then( function(data) {
 
             }
         }
-    })
-//    d3.select("#SvgHolder").on("click", function(d) {
-//        d3.select("#clickProf > *").remove()
-//        if (draftsFilteredByTeamName.active !== undefined) {
-//            draftsFilteredByTeamName.active.clicked = false;
-//        }
-//        if (draftsFilteredByTeamName.prevCircle !== undefined) {
-//            d3.select(draftsFilteredByTeamName.prevCircle).style("stroke-opacity", "0");
-//            d3.select(draftsFilteredByTeamName.prevCircle).style("stroke-width", "2px")
-//
-//        }
-//
-//    })
-
-
+    });
     createLegend()
-
-
 });
 
 function displayFullTeamInfo(data, teamName, svgHolder, selectedSizes) {
-//    var svgHolder = d3.select(".content").select("#SvgHolder");
 
-    //svgHolder.select("#SvgHolder")
-    //    .select(".teamTitle")
-    svgHolder.select("#teamName")
+    d3.selectAll("#SvgHolder > *").remove();
+
+    svgHolder.select("#SvgHolder")
+        .append("div")
+        .attr("class", "teamTitle")
+        .style("opacity", 0)
+        .transition().duration(500).style("opacity", 1)
+
+    svgHolder.select(".teamTitle")
+        .append("div")
+        .attr("id", "teamName")
         .text(teamName);
-        // .exit().remove();
 
-    //d3.selectAll(".circleGroup > *").remove();
+    svgHolder.select("#SvgHolder")
+        .append("div")
+        .attr("id", "instruction")
+        .attr("class", "highlighted")
+        .text("Click on a circle to see detailed player information!")
 
-    let svg = d3.select(".selectedSvg");
-    // svg.remove();
-
-    //var svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", selectedSizes.width, selectedSizes.height);
-    //teamNameDiv = svgHolder.insert("div", ":first-child")
-    //    .attr("class", "teamTitle")
-
-    // teamNameDiv.style("opacity", 0)
-    //     .transition().duration(500).style("opacity", 1);
-
-    // teamNameDiv.append("img")
-    //   .attr("id", "teamLogo")
-    //   .attr("src", "images/" + teamName + ".png");
-    // teamNameDiv
-    //     .append("div")
-    //     .attr("id", "teamName")
-    //     .text(teamName);
+    let svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", selectedSizes.width, selectedSizes.height);
     positionFunctions = displayPlayerCircles(data, teamName, svg, selectedSizes);
     addXYLabels(svg, selectedSizes.radius);
     addPositionLabels(svg, positionFunctions);
@@ -603,13 +562,14 @@ function mouseClick(svg, mcDraft, clickProf) {
     svg.selectAll("g > g").each(function(d) {
         d3.select(this)
             .on("click", function(d) {
-                d3.select("#instruction").classed("highlighted",false)
-                var profile = mcDraft.filter(function(dClick) {
-                    var names = dClick.name.split(" ");
-                    var name = names[1]+", "+names[0];
-                    return name === d.name;
-                });
-                if (profile.length > 0) {
+                d3.select("#instruction").classed("highlighted",false);
+                let profile = d
+                // var profile = mcDraft.filter(function(dClick) {
+                //     var names = dClick.name.split(" ");
+                //     var name = names[1]+", "+names[0];
+                //     return name === d.name;
+                // });
+                if (profile !== undefined) {
                     if (d.clicked === undefined || !d.clicked) {
                         if (draftsFilteredByTeamName.active !== undefined) {
                             draftsFilteredByTeamName.active.clicked = false;
@@ -629,25 +589,25 @@ function mouseClick(svg, mcDraft, clickProf) {
                         d3.selectAll(clickProf+" > *").remove();
                         d3.select(clickProf).append("table").append("caption")
                             .attr("class", "nameCap")
-                            .text(profile[0].name)
+                            .text(d.PlayerName)
                         var tbody = d3.select(clickProf).select("table")
                             .append("tbody");
                         tbody.append("tr").append("td")
                             .attr("colspan", "2")
                             .attr("style", "text-align:center")
                             .append("img")
-                            .attr("id", profile[0].name)
-                            .attr("src", profile[0].picture)
+                            .attr("id", d.PlayerName)
+                            .attr("src", mcDraft.picture)
 //                        .style("width", size + "px")
 //                        .style("height", size + "px");
                         tbody.append("tr").append("th")
                             .attr("colspan", "2")
                             .attr("class", "heading")
                             .text(function() {
-                                if (profile[0].team === undefined) {
+                                if (d.Status !== "active" || d.Status !== "other_team") {
                                     return "Not Active"
                                 }
-                                return profile[0].number + " " + profile[0].team
+                                return d.Pos + " " + teamNames[d.Team]
                             });
                         tbody.append("tr").append("th")
                             .attr("colspan", "2")
@@ -662,7 +622,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .text("Born: ");
                         d3.select("#bornTr")
                             .append("td").text(function() {
-                            return checkUndefinedPlayer(profile[0].Born)
+                            return checkUndefinedPlayer(d.Country)
                         });
                         tbody.append("tr")
                             .attr("id", "ageTr")
@@ -672,7 +632,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .append("span").text("Age: ");
                         d3.select("#ageTr").append("td")
                             .text(function() {
-                                return checkUndefinedPlayer(profile[0].Age)
+                                return checkUndefinedPlayer("Age")
                             });
                         tbody.append("tr")
                             .attr("id", "heightTr")
@@ -682,7 +642,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .text("Height: ");
                         d3.select("#heightTr").append("td")
                             .text(function() {
-                                return checkUndefinedPlayer(profile[0].Height)
+                                return checkUndefinedPlayer(d.Ht)
                             });
                         tbody.append("tr")
                             .attr("id", "weightTr")
@@ -692,7 +652,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .text("Weight: ");
                         d3.select("#weightTr").append("td")
                             .text(function() {
-                                return checkUndefinedPlayer(profile[0].Weight)
+                                return checkUndefinedPlayer(d.Wt)
                             });
                         tbody.append("tr").append("th")
                             .attr("class", "heading")
@@ -703,10 +663,10 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .append("td")
                             .attr("scope", "row")
                             .attr("class", "infoHeading")
-                            .text("High School: ");
+                            .text("Amateur League: ");
                         d3.select("#hsTr").append("td")
                             .text(function() {
-                                    return checkUndefinedPlayer(profile[0]["High School"])
+                                    return checkUndefinedPlayer(d.AmateurLeague)
                                 }
                             );
                         tbody.append("tr")
@@ -714,10 +674,10 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .append("td")
                             .attr("scope", "row")
                             .attr("class", "infoHeading")
-                            .text("College: ");
+                            .text("Team: ");
                         d3.select("#collegeTr").append("td")
                             .text(function() {
-                                return checkUndefinedPlayer(profile[0].College)
+                                return checkUndefinedPlayer(d.AmateurTeam)
                             });
                         tbody.append("tr").append("th")
                             .attr("class", "heading")
@@ -728,27 +688,25 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .append("td")
                             .attr("scope", "row")
                             .attr("class", "infoHeading")
-                            .text("Experience: ");
+                            .text("Games Played: ");
                         d3.select("#expTr").append("td")
-                            .text(function() {
-                                return checkUndefinedPlayer(profile[0].Experience)
-                            });
-                        tbody.append("tr").append("th")
-                            .attr("class", "heading")
-                            .attr("colspan", "2")
-                            .text("2016 NFL Statistics");
-                        for (var k = 0; k < profile[0].stats.length; k++) {
-                            var stat = profile[0].stats[k];
-                            var statKeys = Object.keys(stat);
-                            tbody.append("tr")
-                                .attr("id", statKeys[0]+"Tr")
-                                .append("td")
-                                .attr("scope", "row")
-                                .attr("class", "infoHeading")
-                                .text(statKeys[0] + ": ");
-                            d3.select("#"+statKeys[0]+"Tr").append("td")
-                                .text(stat[statKeys[0]]);
-                        }
+                            .text(d.GamesPlayed);
+                        // tbody.append("tr").append("th")
+                        //     .attr("class", "heading")
+                        //     .attr("colspan", "2")
+                        //     .text("2016 NFL Statistics");
+                        // for (var k = 0; k < profile[0].stats.length; k++) {
+                        //     var stat = profile[0].stats[k];
+                        //     var statKeys = Object.keys(stat);
+                        //     tbody.append("tr")
+                        //         .attr("id", statKeys[0]+"Tr")
+                        //         .append("td")
+                        //         .attr("scope", "row")
+                        //         .attr("class", "infoHeading")
+                        //         .text(statKeys[0] + ": ");
+                        //     d3.select("#"+statKeys[0]+"Tr").append("td")
+                        //         .text(stat[statKeys[0]]);
+                        //}
                         d.clicked = true;
                         //TODO: work for both sides
                         // highlights the circle when clicked
@@ -857,15 +815,15 @@ function addXYLabels(svg, radius) {
     svg.append("g")
         .attr("class", "yAxis")
         .call(yAxis)
-        .style("fill", "aliceblue")
-        .style("font-size", radius * 1.3);
+        .style("fill", "aliceblue");
+        //.style("font-size", radius * 1.3);
 
     //ADD label for X-axis
     var arr = [1,2,3,4,5,6,7];
     var xTicks = svg.append("g")
         .attr("class", "xAxis")
-        .attr("transform", "translate(-6,-35)")
-        .style("font-size", radius * 1.3);
+        .attr("transform", "translate(-6,-35)");
+        //.style("font-size", radius * 1.3);
 
     for (var i = 0; i < arr.length; i++) {
         xTicks.append("text")

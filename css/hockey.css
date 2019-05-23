@@ -76,12 +76,10 @@ text{
     display: none;
 }
 .yAxis {
-    /*    font-size: 10px;*/
     font-family: sans-serif;
     font-weight: bold;
 }
 .xAxis {
-    /*    font-size: 10px;*/
     font-family: sans-serif;
     font-weight: bold;
     fill: aliceblue;
@@ -304,7 +302,7 @@ span{
     /* margin: 0 auto; */
 }
 #teamName {
-    font-size: 25px;
+    font-size: 18px;
     /*
         margin-left: 25%;
         margin-top: -10%;
