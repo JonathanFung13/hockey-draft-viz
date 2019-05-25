@@ -14,27 +14,29 @@ legendKey['Status'] = {basic: { "ACTIVE": "green", "INACTIVE": "#FF3838", "OTHER
     class: {"active": "active", "inactive": "inactive", "other_team": "other_team", "unknown": "unknown"},
     text: {"active": ["Active", 90], "inactive": ["Inactive", 70], "other_team": ["Other Team", 75], "unknown": ["Unknown", 85]} };
 
-// legendKey['GamesStarted'] = {basic: {1: 'green', 2: 'blue', 3: "#D7D6D6", 4: "grey", 5: "#A2AFEF", "noinfo": "gold"},
-//     class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "other": "noinfo"},
-//     text: {1: ["0-15", 120], 2: ["16-31", 58],3: ["32-64", 61], 4: ["65-99", 63], 5: ["100-200", 64], "other": ["Unavailable",68]} };
-//
-// legendKey['ApproxValue'] = {basic: {"GONE": "#FF3838", "ACT": "grey", "SUS": "#D7D6D6", "UDF": "grey", "OTHER_TEAM": "#A2AFEF", "other": "gold"},
-//     class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "other": "noinfo"},
-//     text: {1: ["0-9", 120], 2: ["10-19", 51],3: ["20-39", 58], 4: ["40-69", 61], 5: ["70-150", 63], "other": ["Unavailable",65]} };
+legendKey['GamesPlayed'] = {basic: {1: 'green', 2: 'blue', 3: "#D7D6D6", 4: "grey", 5: "#A2AFEF", "noinfo": "gold"},
+    class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "unknown": "noinfo"},
+    text: {1: ["0-15", 120], 2: ["16-30", 90],3: ["30-45", 90], 4: ["46-60", 90], 5: [">60", 90], "unknown": ["Unknown",90]} };
+
+legendKey['PPG'] = {basic: {"GONE": "#FF3838", "ACT": "grey", "SUS": "#D7D6D6", "UDF": "grey", "OTHER_TEAM": "#A2AFEF", "unknown": "gold"},
+    class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "unknown": "noinfo"},
+    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90], "unknown": ["Unknown",90]} };
 
 
 //DIVISIONS = {"New Jersey Devils" : "Metro", "New York Islanders" : "Metro", "New York Rangers" : "Metro", "Philadelphia Flyers" : "Metro", "Pittsburgh Penguins" : "Metro", "Boston Bruins" : "Atlantic", "Buffalo Sabres" : "Atlantic", "Montréal Canadiens" : "Atlantic", "Ottawa Senators" : "Atlantic", "Toronto Maple Leafs" : "Atlantic", "Carolina Hurricanes" : "Metro", "Florida Panthers" : "Atlantic", "Tampa Bay Lightning" : "Atlantic", "Washington Capitals" : "Metro", "Chicago Blackhawks" : "Central", "Detroit Red Wings" : "Atlantic", "Nashville Predators" : "Central", "St. Louis Blues" : "Central", "Calgary Flames" : "Pacific", "Colorado Avalanche" : "Central", "Edmonton Oilers" : "Pacific", "Vancouver Canucks" : "Pacific", "Anaheim Ducks" : "Pacific", "Dallas Stars" : "Central", "Los Angeles Kings" : "Pacific", "San Jose Sharks" : "Pacific", "Columbus Blue Jackets" : "Metro", "Minnesota Wild" : "Central", "Winnipeg Jets" : "Central", "Arizona Coyotes" : "Pacific", "Vegas Golden Knights" : "Pacific"}
 //teamNames = {"NJD": "New Jersey Devils", "NYI": "New York Islanders", "NYR": "New York Rangers", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "MTL": "Montréal Canadiens", "OTT": "Ottawa Senators", "TOR": "Toronto Maple Leafs", "CAR": "Carolina Hurricanes", "FLA": "Florida Panthers", "TBL": "Tampa Bay Lightning", "WSH": "Washington Capitals", "CHI": "Chicago Blackhawks", "DET": "Detroit Red Wings", "NSH": "Nashville Predators", "STL": "St. Louis Blues", "CGY": "Calgary Flames", "COL": "Colorado Avalanche", "EDM": "Edmonton Oilers", "VAN": "Vancouver Canucks", "ANA": "Anaheim Ducks", "DAL": "Dallas Stars", "LAK": "Los Angeles Kings", "SJS": "San Jose Sharks", "CBJ": "Columbus Blue Jackets", "MIN": "Minnesota Wild", "WPG": "Winnipeg Jets", "ARI": "Arizona Coyotes", "VGK": "Vegas Golden Knights"}
 //TEAMABBRS = {"New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Montréal Canadiens": "MTL", "Ottawa Senators": "OTT", "Toronto Maple Leafs": "TOR", "Carolina Hurricanes": "CAR", "Florida Panthers": "FLA", "Tampa Bay Lightning": "TBL", "Washington Capitals": "WSH", "Chicago Blackhawks": "CHI", "Detroit Red Wings": "DET", "Nashville Predators": "NSH", "St. Louis Blues": "STL", "Calgary Flames": "CGY", "Colorado Avalanche": "COL", "Edmonton Oilers": "EDM", "Vancouver Canucks": "VAN", "Anaheim Ducks": "ANA", "Dallas Stars": "DAL", "Los Angeles Kings": "LAK", "San Jose Sharks": "SJS", "Columbus Blue Jackets": "CBJ", "Minnesota Wild": "MIN", "Winnipeg Jets": "WPG", "Arizona Coyotes": "ARI", "Vegas Golden Knights": "VGK"}
 
-DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston Bruins": "Atlantic", "Buffalo Sabres": "Atlantic", "Calgary Flames": "Pacific", "Carolina Hurricanes": "Metro", "Chicago Blackhawks": "Central", "Colorado Avalanche": "Central", "Columbus Blue Jackets": "Metro", "Dallas Stars": "Central", "Detroit Red Wings": "Atlantic", "Edmonton Oilers": "Pacific", "Florida Panthers": "Atlantic", "Los Angeles Kings": "Pacific", "Minnesota Wild": "Central", "Montréal Canadiens": "Atlantic", "Nashville Predators": "Central", "New Jersey Devils": "Metro", "New York Islanders": "Metro", "New York Rangers": "Metro", "Ottawa Senators": "Atlantic", "Philadelphia Flyers": "Metro", "Pittsburgh Penguins": "Metro", "San Jose Sharks": "Pacific", "St. Louis Blues": "Central", "Tampa Bay Lightning": "Atlantic", "Toronto Maple Leafs": "Atlantic", "Vancouver Canucks": "Pacific", "Vegas Golden Knights": "Pacific", "Washington Capitals": "Metro", "Winnipeg Jets": "Central"}
-teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
-TEAMABBRS = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARI", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY", "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL", "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET", "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK", "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH", "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL", "Tampa Bay Lightning": "TBL", "Toronto Maple Leafs": "TOR", "Vancouver Canucks": "VAN", "Vegas Golden Knights": "VGK", "Washington Capitals": "WSH", "Winnipeg Jets": "WPG"}
+let DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston Bruins": "Atlantic", "Buffalo Sabres": "Atlantic", "Calgary Flames": "Pacific", "Carolina Hurricanes": "Metro", "Chicago Blackhawks": "Central", "Colorado Avalanche": "Central", "Columbus Blue Jackets": "Metro", "Dallas Stars": "Central", "Detroit Red Wings": "Atlantic", "Edmonton Oilers": "Pacific", "Florida Panthers": "Atlantic", "Los Angeles Kings": "Pacific", "Minnesota Wild": "Central", "Montréal Canadiens": "Atlantic", "Nashville Predators": "Central", "New Jersey Devils": "Metro", "New York Islanders": "Metro", "New York Rangers": "Metro", "Ottawa Senators": "Atlantic", "Philadelphia Flyers": "Metro", "Pittsburgh Penguins": "Metro", "San Jose Sharks": "Pacific", "St. Louis Blues": "Central", "Tampa Bay Lightning": "Atlantic", "Toronto Maple Leafs": "Atlantic", "Vancouver Canucks": "Pacific", "Vegas Golden Knights": "Pacific", "Washington Capitals": "Metro", "Winnipeg Jets": "Central"}
+let teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
+let TEAMABBRS = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARI", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY", "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL", "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET", "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK", "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH", "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL", "Tampa Bay Lightning": "TBL", "Toronto Maple Leafs": "TOR", "Vancouver Canucks": "VAN", "Vegas Golden Knights": "VGK", "Washington Capitals": "WSH", "Winnipeg Jets": "WPG"}
 
-var border,colorBy='Status';
+
+var border,colorBy; //='Status';
 max = {
-    'GamesStarted':16,
-    'ApproxValue':10
+    'GamesPlayed':82,
+    'PPG':10,
+    'DraftYear': 2011
 
 }
 
@@ -102,7 +104,7 @@ var initJson = function (svg) {
 };
 
 d3.csv('data/Draft.csv').then( function(data) {
-    colorBy= "Status" //$("input[type='radio']").val();
+    colorBy= $("input[type='radio']").val();
     let selectOptions = {};
     // var teamNames = {};
     data.forEach(function(d) {
@@ -267,7 +269,7 @@ function createChart(svg, sizes) {
         .entries(draftsFilteredByTeamName);
 
     var prev_round = 1; // used to change the start location of the circles depending on the round
-    var prev_year = 2011; //one that should be most recent year
+    var prev_year = max.DraftYear; //one that should be most recent year
     var draftPicks; //to locate circles depending on how many picks per round
     var posArr = nested_data.filter(function(nd) {
         return nd.key == prev_year;
@@ -401,36 +403,37 @@ function createChart(svg, sizes) {
 
 
     prev_round = 1;
-    prev_year = 2011;
+    prev_year = max.DraftYear;
     draftPicks = 0;
     circleWrap.append("circle")
         .attr("class", function(d) {
             let val = d[colorBy];
-            if(colorBy === 'ApproxValue'){
-                val1 = parseInt(parseInt(val)/max[colorBy])+1;
-                if(val1>3)
-                    val1 =parseInt(parseInt(val)/(2*max[colorBy]))+2;
-                if (val1===5 && parseInt(val) < 70)
-                    val1= val1 - 1
-                else if (val1 >= 5) {
-                    val1 = 5
-                }
-                val=val1;
-            } else if (colorBy === 'GamesStarted') {
-                val1 = parseInt(parseInt(val)/max[colorBy])+1;
-                if(val1>3)
-                    val1 =parseInt(parseInt(val)/(2*max[colorBy]))+2;
-                if (parseInt(val) == 64)
-                    val1 = val1 - 1
-                if (val1>=5 && parseInt(val) < 100)
-                    val1=val1-1
-                else if (val1 >= 5)
-                    val1=5
-                val=val1;
+            if(colorBy === 'PPG'){
+                let val1 = +val;
+                val = 1;
+                if(val1>=0.25)
+                    val = 2;
+                if(val1>=0.5)
+                    val = 3;
+                if(val1>=0.75)
+                    val = 4;
+                if(val1>=1.0)
+                    val = 5;
+            } else if (colorBy === 'GamesPlayed') {
+                let val1 = +val / (max.DraftYear - d.Year + 1);
+                val = 1;
+                if(val1>=15)
+                    val = 2;
+                if(val1>=30)
+                    val = 3;
+                if(val1>=45)
+                    val = 4;
+                if(val1>=60)
+                    val = 5;
             }
 
             if(legendKey[colorBy].class[val] === undefined) {
-                return legendKey[colorBy].class['other']
+                return legendKey[colorBy].class['unknown']
             }
             return legendKey[colorBy].class[val]
         })
@@ -463,32 +466,34 @@ function createChart(svg, sizes) {
 function recolorPlayers(){
     d3.selectAll(".content circle")
         .attr("class", function(d) {
-            val =d[colorBy];
-            if(colorBy === 'ApproxValue'){
-                val1 = parseInt(parseInt(val)/max[colorBy])+1;
-                if(val1>3)
-                    val1 =parseInt(parseInt(val)/(2*max[colorBy]))+2;
-                if (val1===5 && parseInt(val) < 70)
-                    val1= val1 - 1
-                else if (val1 >= 5) {
-                    val1 = 5
-                }
-                val=val1;
-            } else if (colorBy === 'GamesStarted') {
-                val1 = parseInt(parseInt(val)/max[colorBy])+1;
-                if(val1>3)
-                    val1 =parseInt(parseInt(val)/(2*max[colorBy]))+2;
-                if (parseInt(val) == 64)
-                    val1 = val1 - 1
-                if (val1>=5 && parseInt(val) < 100)
-                    val1=val1-1
-                else if (val1 >= 5)
-                    val1=5
-                val=val1;
+            let val = d[colorBy];
+            if(colorBy === 'PPG'){
+                let val1 = +val;
+                val = 1;
+                if(val1>=0.25)
+                    val = 2;
+                if(val1>=0.5)
+                    val = 3;
+                if(val1>=0.75)
+                    val = 4;
+                if(val1>=1.0)
+                    val = 5;
+            } else if (colorBy === 'GamesPlayed') {
+                let val1 = +val / (max.DraftYear - d.Year + 1);
+                console.log(val, val1);
+                val = 1;
+                if(val1>=15)
+                    val = 2;
+                if(val1>=30)
+                    val = 3;
+                if(val1>=45)
+                    val = 4;
+                if(val1>=60)
+                    val = 5;
             }
 
             if(legendKey[colorBy].class[val] === undefined) {
-                return legendKey[colorBy].class['other']
+                return legendKey[colorBy].class['unknown']
             }
             return legendKey[colorBy].class[val]
         })
@@ -526,18 +531,18 @@ function createLegend(){
                 } else {
                     d3.selectAll(".content ."+classSelect).each(function(d, i) {
                         d3.select(this).attr("class", function(d) {
-                            val =d[colorBy];
+                            let val =d[colorBy];
                             if(colorBy !='status'){
-                                val1 = parseInt(parseInt(val)/max[colorBy])+1;
+                                let val1 = parseInt(parseInt(val)/max[colorBy])+1;
                                 if(val1>3)
-                                    val1 =parseInt(parseInt(val)/(2*max[colorBy]))+2;
+                                    val1 = parseInt(parseInt(val)/(2*max[colorBy]))+2;
                                 if (val1>5)
                                     val1=5
                                 val=val1;
                             }
 
                             if(legendKey[colorBy].class[val] === undefined) {
-                                return legendKey[colorBy].class['other']
+                                return legendKey[colorBy].class['unknown']
                             }
 
                             return legendKey[colorBy].class[val]
@@ -591,24 +596,23 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .attr("class", "nameCap")
                             .text(d.PlayerName)
                         var tbody = d3.select(clickProf).select("table")
-                            .append("tbody");
-                        tbody.append("tr").append("td")
-                            .attr("colspan", "2")
-                            .attr("style", "text-align:center")
-                            .append("img")
-                            .attr("id", d.PlayerName)
-                            .attr("src", mcDraft.picture)
-//                        .style("width", size + "px")
-//                        .style("height", size + "px");
                         tbody.append("tr").append("th")
                             .attr("colspan", "2")
                             .attr("class", "heading")
                             .text(function() {
-                                if (d.Status !== "active" || d.Status !== "other_team") {
+                                if (d.Status !== "active" && d.Status !== "other_team") {
                                     return "Not Active"
                                 }
                                 return d.Pos + " " + teamNames[d.Team]
                             });
+                        tbody.append("tr")
+                            .attr("id", "expTr")
+                            .append("td")
+                            .attr("scope", "row")
+                            .attr("class", "infoHeading")
+                            .text("Games Played: ");
+                        d3.select("#expTr").append("td")
+                            .text(d.GamesPlayed);
                         tbody.append("tr").append("th")
                             .attr("colspan", "2")
                             .attr("class", "heading")
@@ -657,18 +661,15 @@ function mouseClick(svg, mcDraft, clickProf) {
                         tbody.append("tr").append("th")
                             .attr("class", "heading")
                             .attr("colspan", "2")
-                            .text("Career Information");
+                            .text("Amateur History");
                         tbody.append("tr")
                             .attr("id", 'hsTr')
                             .append("td")
                             .attr("scope", "row")
                             .attr("class", "infoHeading")
-                            .text("Amateur League: ");
+                            .text("League: ");
                         d3.select("#hsTr").append("td")
-                            .text(function() {
-                                    return checkUndefinedPlayer(d.AmateurLeague)
-                                }
-                            );
+                            .text(d.AmateurLeague);
                         tbody.append("tr")
                             .attr("id", 'collegeTr')
                             .append("td")
@@ -676,21 +677,12 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .attr("class", "infoHeading")
                             .text("Team: ");
                         d3.select("#collegeTr").append("td")
-                            .text(function() {
-                                return checkUndefinedPlayer(d.AmateurTeam)
-                            });
-                        tbody.append("tr").append("th")
-                            .attr("class", "heading")
-                            .attr("colspan", "2")
-                            .text("Career History");
-                        tbody.append("tr")
-                            .attr("id", "expTr")
-                            .append("td")
-                            .attr("scope", "row")
-                            .attr("class", "infoHeading")
-                            .text("Games Played: ");
-                        d3.select("#expTr").append("td")
-                            .text(d.GamesPlayed);
+                            .text(d.AmateurTeam);
+                        // tbody.append("tr").append("th")
+                        //     .attr("class", "heading")
+                        //     .attr("colspan", "2")
+                        //     .text("Career History");
+
                         // tbody.append("tr").append("th")
                         //     .attr("class", "heading")
                         //     .attr("colspan", "2")
@@ -841,7 +833,7 @@ function addXYLabels(svg, radius) {
 function addPositionLabels(svg, positionFunctions) {
 
     prev_round = 0;
-    prev_year = 2016;
+    prev_year = max.DraftYear;
     draftPicks = 0;
     svg.selectAll(".circleWrap")
         .append("text")
