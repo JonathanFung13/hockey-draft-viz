@@ -480,7 +480,7 @@ function recolorPlayers(){
                     val = 5;
             } else if (colorBy === 'GamesPlayed') {
                 let val1 = +val / (max.DraftYear - d.Year + 1);
-                console.log(val, val1);
+                // console.log(val, val1);
                 val = 1;
                 if(val1>=15)
                     val = 2;
