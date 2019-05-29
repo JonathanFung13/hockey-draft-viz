@@ -10,15 +10,15 @@ var years, teams;
 
 var legendKey ={};
 //needed for legend - decide how many keys should be there
-legendKey['Status'] = {basic: { "ACTIVE": "green", "INACTIVE": "#FF3838", "OTHER_TEAM": "#A2AFEF", "UNKNOWN": "gray"},
-    class: {"active": "active", "inactive": "inactive", "other_team": "other_team", "unknown": "unknown"},
-    text: {"active": ["Active", 90], "inactive": ["Inactive", 70], "other_team": ["Other Team", 75], "unknown": ["Unknown", 85]} };
+legendKey['status'] = {basic: { "ACTIVE": "green", "OTHER_TEAM": "#A2AFEF", "INACTIVE": "#FF3838"},
+    class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
+    text: {"active": ["Active", 90], "other_team": ["Other Team", 75], "inactive": ["Inactive", 90]}};
 
-legendKey['GamesPlayed'] = {basic: {1: 'green', 2: 'blue', 3: "#D7D6D6", 4: "grey", 5: "#A2AFEF", "noinfo": "gold"},
-    class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "unknown": "noinfo"},
-    text: {1: ["0-15", 120], 2: ["16-30", 90],3: ["30-45", 90], 4: ["46-60", 90], 5: [">60", 90], "unknown": ["Unknown",90]} };
+legendKey['gpClass'] = {basic: {1: 'green', 2: 'blue', 3: "#D7D6D6", 4: "grey", 5: "#A2AFEF", "noinfo": "gold"},
+    class: {4: "four", 3: "three", 2: "two", 1: "one", "unknown": "noinfo"},
+    text: {4: [">60", 90], 3: ["40-60", 90], 2: ["20-40", 90], 1: ["0-20", 120], "unknown": ["Unknown",90]} };
 
-legendKey['PPG'] = {basic: {"GONE": "#FF3838", "ACT": "grey", "SUS": "#D7D6D6", "UDF": "grey", "OTHER_TEAM": "#A2AFEF", "unknown": "gold"},
+legendKey['ppgClass'] = {basic: {"GONE": "#FF3838", "ACT": "grey", "SUS": "#D7D6D6", "UDF": "grey", "OTHER_TEAM": "#A2AFEF", "unknown": "gold"},
     class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "unknown": "noinfo"},
     text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90], "unknown": ["Unknown",90]} };
 
@@ -28,15 +28,16 @@ legendKey['PPG'] = {basic: {"GONE": "#FF3838", "ACT": "grey", "SUS": "#D7D6D6", 
 //TEAMABBRS = {"New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Montréal Canadiens": "MTL", "Ottawa Senators": "OTT", "Toronto Maple Leafs": "TOR", "Carolina Hurricanes": "CAR", "Florida Panthers": "FLA", "Tampa Bay Lightning": "TBL", "Washington Capitals": "WSH", "Chicago Blackhawks": "CHI", "Detroit Red Wings": "DET", "Nashville Predators": "NSH", "St. Louis Blues": "STL", "Calgary Flames": "CGY", "Colorado Avalanche": "COL", "Edmonton Oilers": "EDM", "Vancouver Canucks": "VAN", "Anaheim Ducks": "ANA", "Dallas Stars": "DAL", "Los Angeles Kings": "LAK", "San Jose Sharks": "SJS", "Columbus Blue Jackets": "CBJ", "Minnesota Wild": "MIN", "Winnipeg Jets": "WPG", "Arizona Coyotes": "ARI", "Vegas Golden Knights": "VGK"}
 
 let DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston Bruins": "Atlantic", "Buffalo Sabres": "Atlantic", "Calgary Flames": "Pacific", "Carolina Hurricanes": "Metro", "Chicago Blackhawks": "Central", "Colorado Avalanche": "Central", "Columbus Blue Jackets": "Metro", "Dallas Stars": "Central", "Detroit Red Wings": "Atlantic", "Edmonton Oilers": "Pacific", "Florida Panthers": "Atlantic", "Los Angeles Kings": "Pacific", "Minnesota Wild": "Central", "Montréal Canadiens": "Atlantic", "Nashville Predators": "Central", "New Jersey Devils": "Metro", "New York Islanders": "Metro", "New York Rangers": "Metro", "Ottawa Senators": "Atlantic", "Philadelphia Flyers": "Metro", "Pittsburgh Penguins": "Metro", "San Jose Sharks": "Pacific", "St. Louis Blues": "Central", "Tampa Bay Lightning": "Atlantic", "Toronto Maple Leafs": "Atlantic", "Vancouver Canucks": "Pacific", "Vegas Golden Knights": "Pacific", "Washington Capitals": "Metro", "Winnipeg Jets": "Central"}
-let teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
-let TEAMABBRS = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARI", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY", "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL", "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET", "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK", "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH", "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL", "Tampa Bay Lightning": "TBL", "Toronto Maple Leafs": "TOR", "Vancouver Canucks": "VAN", "Vegas Golden Knights": "VGK", "Washington Capitals": "WSH", "Winnipeg Jets": "WPG"}
+//let teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
+let teamNames = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "Boston Bruins": "Boston", "Buffalo Sabres": "Buffalo", "Calgary Flames": "Calgary", "Carolina Hurricanes": "Carolina", "Chicago Blackhawks": "Chicago", "Colorado Avalanche": "Colorado", "Columbus Blue Jackets": "Columbus", "Dallas Stars": "Dallas", "Detroit Red Wings": "Detroit", "Edmonton Oilers": "Edmonton", "Florida Panthers": "Florida", "Los Angeles Kings": "Los Angeles", "Minnesota Wild": "Minnesota", "Montréal Canadiens": "Montréal", "Nashville Predators": "Nashville", "New Jersey Devils": "New Jersey", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "Ottawa", "Philadelphia Flyers": "Philadelphia", "Pittsburgh Penguins": "Pittsburgh", "San Jose Sharks": "San Jose", "St. Louis Blues": "St. Louis", "Tampa Bay Lightning": "Tampa Bay", "Toronto Maple Leafs": "Toronto", "Vancouver Canucks": "Vancouver", "Vegas Golden Knights": "Vegas", "Washington Capitals": "Washington", "Winnipeg Jets": "Winnipeg"}
+//let TEAMABBRS = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARI", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY", "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL", "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET", "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK", "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH", "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL", "Tampa Bay Lightning": "TBL", "Toronto Maple Leafs": "TOR", "Vancouver Canucks": "VAN", "Vegas Golden Knights": "VGK", "Washington Capitals": "WSH", "Winnipeg Jets": "WPG"}
 
 
 var border,colorBy; //='Status';
 max = {
     'GamesPlayed':82,
     'PPG':10,
-    'DraftYear': 2011
+    'DraftYear': 2018
 
 }
 
@@ -46,7 +47,7 @@ var CIRCLE_GAP_FACTOR = 1.6; // To have same gap between rounds
 
 var filterByTeamName = function(data, teamName) {
     var dataFilteredByTeam = data.filter(function(d) {
-        return d.Team == TEAMABBRS[teamName]
+        return d["team.name"] == teamName
     });
     return dataFilteredByTeam;
 };
@@ -103,13 +104,13 @@ var initJson = function (svg) {
     mouseClick(svg, mouseClickDrafts, "#clickProf");
 };
 
-d3.csv('data/Draft.csv').then( function(data) {
+d3.csv('data/draft_data.csv').then( function(data) {
     colorBy= $("input[type='radio']").val();
     let selectOptions = {};
     // var teamNames = {};
     data.forEach(function(d) {
-        selectOptions[d.Team] = 1;
-        // teamNames[d.Team] = d.Team
+        selectOptions[d["team.name"]] = 1;
+        // teamNames[d["team.name"]] = d["team.name"]
     });
 
     //make a selection bar by getting the team name from the data
@@ -136,7 +137,7 @@ d3.csv('data/Draft.csv').then( function(data) {
 
 
     for (var i = 0; i < Object.keys(selectOptions).length; i++) {
-        var teamName = teamNames[Object.keys(selectOptions)[i]];
+        var teamName = Object.keys(selectOptions)[i];
 
         var previewHolder;
         switch(DIVISIONS[teamName]) {
@@ -160,7 +161,7 @@ d3.csv('data/Draft.csv').then( function(data) {
 
         var previewSvg = createSvg(previewHolder, "Svg" + i, teamName, previewSizes.width, previewSizes.height)
         previewHolder.append("span")
-            .html(teamName)
+            .html(teamNames[teamName])
         onPreviewHover(previewHolder); // change opacity of preview when you mouse over
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             var borderParams = $(this).offset()
@@ -245,25 +246,25 @@ function createChart(svg, sizes) {
     width = sizes.width;
     height = sizes.height;
 
-    draftsFilteredByTeamName.sort(function(a,b) {
-        return d3.descending(a.Year, b.Year) || d3.ascending(a.Round, b.Round);
-    });
+    // draftsFilteredByTeamName.sort(function(a,b) {
+    //     return d3.descending(a.year, b.year) || d3.ascending(a.Round, b.Round);
+    // });
     var positionsObject={};
     // var objectLength=[];
     var radius = sizes.radius;
     draftsFilteredByTeamName.forEach(function(d) {
-        d.Year =+ d.Year;
-        positionsObject[d.Year]=0
+        d.year =+ d.year;
+        positionsObject[d.year]=0
 
     });
 
     var nested_data = d3.nest()
-        .key(function(d) { return d.Year; })
+        .key(function(d) { return d.year; })
         .key(function(d) {
-            if (d.Round > 7) {
-                d.Round = 7;
+            if (d.round > 7) {
+                d.round = 7;
             }
-            return d.Round;
+            return d.round;
         })
         .rollup(function(leaves) { return leaves.length; })
         .entries(draftsFilteredByTeamName);
@@ -278,23 +279,23 @@ function createChart(svg, sizes) {
     });
 
     var position = function(d){
-        if (d.Round > 7) {
-            d.Round = 7;
+        if (d.round > 7) {
+            d.round = 7;
         }
-        // console.log(d.Year,d.Round,d.Pick,d.Overall,d.Team,d.PlayerName, prev_year, prev_round);
-        if (d.Year != prev_year) {
+        // console.log(d.year,d.round,d.Pick,d.Overall,d["team.name"],d["prospect.fullName"], prev_year, prev_round);
+        if (d.year != prev_year) {
             //reset prev_round to 0 at the beginning of new year
             prev_round = 0;
             posArr = nested_data.filter(function(nd) {
-                return nd.key == d.Year;
+                return nd.key == d.year;
             })[0].values.filter(function(nd) {
                 return nd.key == prev_round;
             });
             draftPicks=0;
         }
-        if (d.Round != prev_round) {
+        if (d.round != prev_round) {
             draftPicks = 1;
-            while (prev_round != d.Round) {
+            while (prev_round != d.round) {
                 var sumFactor = 0;
                 var limit;
                 if (prev_round === "N/A") {
@@ -305,94 +306,94 @@ function createChart(svg, sizes) {
                 for (var i = 0; i < limit; i++) {
                     sumFactor += CIRCLE_GAP_FACTOR;
                 }
-                positionsObject[d.Year]=radius * 3 * (sumFactor-1)+radius*1.8;
+                positionsObject[d.year]=radius * 3 * (sumFactor-1)+radius*1.8;
                 prev_round++;
                 if (prev_round > 7) {
                     prev_round = "N/A"
                 }
             }
             posArr = nested_data.filter(function(nd) {
-                return nd.key == d.Year;
+                return nd.key == d.year;
             })[0].values.filter(function(nd) {
-                return nd.key == d.Round;
+                return nd.key == d.round;
             });
-            positionsObject[d.Year]+=radius * 3;
+            positionsObject[d.year]+=radius * 3;
             if (posArr[0].values === 1) {
-                positionsObject[d.Year] += radius
+                positionsObject[d.year] += radius
             }
         } else {
             draftPicks++;
             if (draftPicks === 3) {
                 if (posArr[0].values == 3 || posArr[0].values == 5) {
-                    positionsObject[d.Year] -= radius*.9;
+                    positionsObject[d.year] -= radius*.9;
                 } else {
-                    positionsObject[d.Year]-=radius*1.8;
+                    positionsObject[d.year]-=radius*1.8;
                 }
             } else if (posArr[0].values == 5 && draftPicks == 4) {
-                positionsObject[d.Year] -=radius*0.9;
+                positionsObject[d.year] -=radius*0.9;
 //                if (draftPicks == 1 || draftPicks == 4) {
-//                    positionsObject[d.Year] -=radius*1.5;
+//                    positionsObject[d.year] -=radius*1.5;
 //                } else {
-//                    positionsObject[d.Year] +=radius*2.5;
+//                    positionsObject[d.year] +=radius*2.5;
 //                }
             } else {
-                positionsObject[d.Year]+=radius*1.8
+                positionsObject[d.year]+=radius*1.8
             }
         }
-        prev_year = d.Year;
-        return positionsObject[d.Year]
+        prev_year = d.year;
+        return positionsObject[d.year]
     };
     // Set the ranges
     //var x = d3.scale.linear().range([0, width]);
 
     var yLoc = d3.scaleLinear()
         .range([height/YLOC_SCALE, 0])
-        .domain([d3.min(draftsFilteredByTeamName, function(d) { return d.Year; }), d3.max(draftsFilteredByTeamName, function(d) { return d.Year; })]);
+        .domain([d3.min(draftsFilteredByTeamName, function(d) { return d.year; }), d3.max(draftsFilteredByTeamName, function(d) { return d.year; })]);
 
     var yPosition = function(d) {
-        if (d.Year != prev_year) {
+        if (d.year != prev_year) {
             //reset prev_round to 1 at the beginning of new year
             prev_round = 1;
             posArr = nested_data.filter(function(nd) {
-                return nd.key == d.Year;
+                return nd.key == d.year;
             })[0].values.filter(function(nd) {
                 return nd.key == prev_round;
             });
             draftPicks=0;
         }
-        if (d.Round != prev_round) {
+        if (d.round != prev_round) {
             draftPicks=0;
             posArr = nested_data.filter(function(nd) {
-                return nd.key == d.Year;
+                return nd.key == d.year;
             })[0].values.filter(function(nd) {
-                return nd.key == d.Round;
+                return nd.key == d.round;
             });
         }
         draftPicks++;
-        prev_round = d.Round;
-        prev_year = d.Year;
+        prev_round = d.round;
+        prev_year = d.year;
         if (posArr[0].values === 5 && draftPicks !== 3) {
             if (draftPicks < 3) {
-                return yLoc(d.Year) - radius * 1.3
+                return yLoc(d.year) - radius * 1.3
             } else {
-                return yLoc(d.Year) + radius * 1.3
+                return yLoc(d.year) + radius * 1.3
             }
         }
         if (posArr[0].values === 3 || posArr[0].values === 4) { // 3 and 4
             if (draftPicks > 2) {
-                return yLoc(d.Year) + radius * 0.7
+                return yLoc(d.year) + radius * 0.7
             } else {
-                return yLoc(d.Year) - radius * 0.7
+                return yLoc(d.year) - radius * 0.7
             }
         }
-        return yLoc(d.Year)
+        return yLoc(d.year)
     };
 
 // Add the scatterplot
 
     draftsFilteredByTeamName.forEach(function(d) {
-        d.Year =+ d.Year;
-        positionsObject[d.Year]=0
+        d.year =+ d.year;
+        positionsObject[d.year]=0
     });
     var circleWrap = svg.selectAll("dot")
         .data(draftsFilteredByTeamName)
@@ -408,29 +409,8 @@ function createChart(svg, sizes) {
     circleWrap.append("circle")
         .attr("class", function(d) {
             let val = d[colorBy];
-            if(colorBy === 'PPG'){
-                let val1 = +val;
-                val = 1;
-                if(val1>=0.25)
-                    val = 2;
-                if(val1>=0.5)
-                    val = 3;
-                if(val1>=0.75)
-                    val = 4;
-                if(val1>=1.0)
-                    val = 5;
-            } else if (colorBy === 'GamesPlayed') {
-                let val1 = +val / (max.DraftYear - d.Year + 1);
-                val = 1;
-                if(val1>=15)
-                    val = 2;
-                if(val1>=30)
-                    val = 3;
-                if(val1>=45)
-                    val = 4;
-                if(val1>=60)
-                    val = 5;
-            }
+            console.log(d["prospect.fullName"], legendKey['status'].class[d['status']],
+                legendKey['gpClass'].class[d['gpClass']], legendKey['ppgClass'].class[d['ppgClass']]);
 
             if(legendKey[colorBy].class[val] === undefined) {
                 return legendKey[colorBy].class['unknown']
@@ -446,8 +426,8 @@ function createChart(svg, sizes) {
 
         });
     draftsFilteredByTeamName.forEach(function(d) {
-        d.Year =+ d.Year;
-        positionsObject[d.Year]=0
+        d.year =+ d.year;
+        positionsObject[d.year]=0
     });
 
 
@@ -467,30 +447,6 @@ function recolorPlayers(){
     d3.selectAll(".content circle")
         .attr("class", function(d) {
             let val = d[colorBy];
-            if(colorBy === 'PPG'){
-                let val1 = +val;
-                val = 1;
-                if(val1>=0.25)
-                    val = 2;
-                if(val1>=0.5)
-                    val = 3;
-                if(val1>=0.75)
-                    val = 4;
-                if(val1>=1.0)
-                    val = 5;
-            } else if (colorBy === 'GamesPlayed') {
-                let val1 = +val / (max.DraftYear - d.Year + 1);
-                // console.log(val, val1);
-                val = 1;
-                if(val1>=15)
-                    val = 2;
-                if(val1>=30)
-                    val = 3;
-                if(val1>=45)
-                    val = 4;
-                if(val1>=60)
-                    val = 5;
-            }
 
             if(legendKey[colorBy].class[val] === undefined) {
                 return legendKey[colorBy].class['unknown']
@@ -594,16 +550,16 @@ function mouseClick(svg, mcDraft, clickProf) {
                         d3.selectAll(clickProf+" > *").remove();
                         d3.select(clickProf).append("table").append("caption")
                             .attr("class", "nameCap")
-                            .text(d.PlayerName)
+                            .text(d["prospect.fullName"])
                         var tbody = d3.select(clickProf).select("table")
                         tbody.append("tr").append("th")
                             .attr("colspan", "2")
                             .attr("class", "heading")
                             .text(function() {
-                                if (d.Status !== "active" && d.Status !== "other_team") {
+                                if (d.status === "inactive") {
                                     return "Not Active"
                                 }
-                                return d.Pos + " " + teamNames[d.Team]
+                                return "#" + d.jerseyNumber + " " + d.position + " " + d.teamName
                             });
                         tbody.append("tr")
                             .attr("id", "expTr")
@@ -612,7 +568,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .attr("class", "infoHeading")
                             .text("Games Played: ");
                         d3.select("#expTr").append("td")
-                            .text(d.GamesPlayed);
+                            .text(d.gamesPlayed);
                         tbody.append("tr").append("th")
                             .attr("colspan", "2")
                             .attr("class", "heading")
@@ -626,7 +582,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .text("Born: ");
                         d3.select("#bornTr")
                             .append("td").text(function() {
-                            return checkUndefinedPlayer(d.Country)
+                            return checkUndefinedPlayer(d.birthCountry)
                         });
                         tbody.append("tr")
                             .attr("id", "ageTr")
@@ -646,7 +602,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .text("Height: ");
                         d3.select("#heightTr").append("td")
                             .text(function() {
-                                return checkUndefinedPlayer(d.Ht)
+                                return checkUndefinedPlayer(d.height)
                             });
                         tbody.append("tr")
                             .attr("id", "weightTr")
@@ -656,7 +612,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .text("Weight: ");
                         d3.select("#weightTr").append("td")
                             .text(function() {
-                                return checkUndefinedPlayer(d.Wt)
+                                return checkUndefinedPlayer(d.weight)
                             });
                         tbody.append("tr").append("th")
                             .attr("class", "heading")
@@ -669,7 +625,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .attr("class", "infoHeading")
                             .text("League: ");
                         d3.select("#hsTr").append("td")
-                            .text(d.AmateurLeague);
+                            .text(d.amateurLeague);
                         tbody.append("tr")
                             .attr("id", 'collegeTr')
                             .append("td")
@@ -677,7 +633,7 @@ function mouseClick(svg, mcDraft, clickProf) {
                             .attr("class", "infoHeading")
                             .text("Team: ");
                         d3.select("#collegeTr").append("td")
-                            .text(d.AmateurTeam);
+                            .text(d.amateurTeam);
                         // tbody.append("tr").append("th")
                         //     .attr("class", "heading")
                         //     .attr("colspan", "2")
@@ -759,29 +715,29 @@ function addHoverPreview(svg) {
                 .attr("width", "200px");
             divText
                 .append("div")
-                .text("Name: " + d.PlayerName);
+                .text("Name: " + d["prospect.fullName"]);
             divText
                 .append("div")
-                .text("Amateur Team: " + d.AmateurTeam);
+                .text("Amateur Team: " + d.amateurTeam);
             divText
                 .append("div")
-                .text("Round: " + d.Round)
+                .text("Round: " + d.round)
 
             divText
                 .append("div")
-                .text("Status: " + legendKey['Status'].text[d.Status][0])
+                .text("Status: " + legendKey['Status'].text[d.status][0])
 
             divText
                 .append("div")
-                .text("Games Played: " + d.GamesPlayed)
+                .text("Games Played: " + d.gamesPlayed)
 
             divText
                 .append("div")
-                .text("Points: " + d.Points)
+                .text("Points: " + d.points)
 
             divText
                 .append("div")
-                .text("Points per game: " + d.PPG)
+                .text("Points per game: " + d.pointsPerGame)
         })
         .on("mousemove", function() {
             d3.select(this).style("opacity", 1);
@@ -802,7 +758,7 @@ function addXYLabels(svg, radius) {
     // var yAxis = d3.svg.axis().scale(y)
     //     .orient("left");
     var yAxis = d3.axisLeft(y);
-    y.domain([new Date(d3.min(draftsFilteredByTeamName, function(d) { return d.Year; }),0,1), new Date(d3.max(draftsFilteredByTeamName, function(d) { return d.Year; }),0,1)]);
+    y.domain([new Date(d3.min(draftsFilteredByTeamName, function(d) { return d.year; }),0,1), new Date(d3.max(draftsFilteredByTeamName, function(d) { return d.year; }),0,1)]);
 
     svg.append("g")
         .attr("class", "yAxis")
@@ -840,7 +796,7 @@ function addPositionLabels(svg, positionFunctions) {
         .attr("class", "positionLabel")
         .attr("text-anchor", "middle")
         .text(function(d) {
-            return d.Pos;
+            return d.position;
         })
         .attr("x", function(d,i) {
 //           return positionFunctions.yPosition(d);

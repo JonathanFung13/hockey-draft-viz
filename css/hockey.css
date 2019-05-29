@@ -118,12 +118,12 @@ circle{
     transition: all 0.4s ease;
 }
 .inactive{
-    fill: #ed7d3a;
+    fill: #9A420F;
     opacity: 0.8;
 }
 
 .active {
-    fill: #2fbf71;
+    fill: #17E678;
     opacity: 0.8;
 
 }
@@ -136,7 +136,7 @@ circle{
     opacity: 0.8;
 }
 .other_team {
-    fill: #8cd867;
+    fill: #E6E617;
     opacity: 0.8;
 }
 .unknown {
