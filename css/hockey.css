@@ -144,6 +144,34 @@ circle{
     opacity: 0.8;
 }
 
+.one{
+    fill: #9A420F;
+    opacity: 0.5;
+}
+
+.two{
+    fill: #E69A17;
+    opacity: 0.8;
+}
+
+.three{
+    fill: #E6E617;
+    opacity: 0.8;
+}
+
+.four{
+    fill: #12B35D;
+    opacity: 0.8;
+}
+
+.five{
+    fill: #17E678;
+    opacity: 0.8;
+}
+
+
+.noinfo{fill: #878787;}
+
 
 
 /*CLICK PROFILE*/
@@ -190,12 +218,12 @@ span{
 .team-info span {
     font-size: 10px;
     position: absolute;
-    margin-left: -60px;
-    margin-top: 75px;
-    width: 65px;
+    margin-left: -80px;
+    margin-top: 85px;
+    width: 90px;
     overflow: hidden;
     cursor: default;
-
+    text-align: center;
 }
 
 /* TEAMS PREVIEW*/
@@ -332,13 +360,6 @@ span{
     display: block;
 }
 
-.one{fill: #ef2d56;}
-.two{fill: #ed7d3a;}
-.three{fill: #8cd867;}
-.four{fill: #8cd867;}
-.five{fill: #2fbf71;}
-
-.noinfo{fill: #878787;}
 
 
 .unselected{
