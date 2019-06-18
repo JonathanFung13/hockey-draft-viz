@@ -473,87 +473,107 @@ function mouseClick(svg, clickProf) {
                             .text(d["prospect.fullName"])
                         var tbody = d3.select(clickProf).select("table")
                         tbody.append("tr").append("th")
-                            .attr("colspan", "2")
+                            .attr("colspan", "4")
                             .attr("class", "heading")
                             .text(function() {
                                 if (d.status === "inactive") {
                                     return "Not Active"
                                 }
-                                return "#" + d.jerseyNumber + " " + d.position + " " + d.teamName
+                                return "#" + d.jerseyNumber + ", " + d.position + ", " + d.teamName
                             });
                         tbody.append("tr")
                             .attr("id", "expTr")
                             .append("td")
                             .attr("scope", "row")
                             .attr("class", "infoHeading")
-                            .text("Games Played: ");
+                            .text("GP: ");
                         d3.select("#expTr").append("td")
+                            .text("G: ");
+                        d3.select("#expTr").append("td")
+                            .text("A: ");
+                        d3.select("#expTr").append("td")
+                            .text("Pts: ");
+                        tbody.append("tr")
+                            .attr("id", "statTr")
+                            .append("td")
+                            .attr("scope", "row")
+                            .attr("class", "infoHeading")
                             .text(d.gamesPlayed);
+                        d3.select("#statTr").append("td")
+                            .text(d.goals);
+                        d3.select("#statTr").append("td")
+                            .text(d.assists);
+                        d3.select("#statTr").append("td")
+                            .text(d.points);
                         tbody.append("tr").append("th")
-                            .attr("colspan", "2")
+                            .attr("colspan", "4")
                             .attr("class", "heading")
                             .text("Personal Information");
                         tbody.append("tr")
-                            .attr("id", "bornTr")
-                            .append("th")
-                            .attr("scope", "row")
-                            .attr("class", "infoHeading")
-                            .append("span")
-                            .text("Born: ");
-                        d3.select("#bornTr")
-                            .append("td").text(function() {
-                            return checkUndefinedPlayer(d.birthCountry)
-                        });
-                        tbody.append("tr")
                             .attr("id", "ageTr")
                             .append("th")
+                            .attr("colspan", "2")
                             .attr("scope", "row")
                             .attr("class", "infoHeading")
-                            .append("span").text("Age: ");
+                            .append("span").text("Birth Date: ");
                         d3.select("#ageTr").append("td")
-                            .text(function() {
-                                return checkUndefinedPlayer("Age")
-                            });
+                            .attr("colspan", "2")
+                            .text(d.birthDate);
                         tbody.append("tr")
                             .attr("id", "heightTr")
                             .append("th")
+                            .attr("colspan", "2")
                             .attr("class", "infoHeading")
                             .attr("scope", "row")
                             .text("Height: ");
                         d3.select("#heightTr").append("td")
+                            .attr("colspan", "2")
                             .text(function() {
                                 return checkUndefinedPlayer(d.height)
                             });
                         tbody.append("tr")
                             .attr("id", "weightTr")
                             .append("th")
+                            .attr("colspan", "2")
                             .attr("class", "infoHeading")
                             .attr("scope", "row")
                             .text("Weight: ");
                         d3.select("#weightTr").append("td")
+                            .attr("colspan", "2")
                             .text(function() {
                                 return checkUndefinedPlayer(d.weight)
                             });
+                        tbody.append("tr")
+                            .attr("id", "bornTr")
+                            .append("th")
+                            .attr("colspan", "2")
+                            .attr("scope", "row")
+                            .attr("class", "infoHeading")
+                            .append("span")
+                            .text("Nationality: ");
+                        d3.select("#bornTr")
+                            .attr("colspan", "2")
+                            .append("td").text(function() {
+                            return checkUndefinedPlayer(d.nationality)
+                        });
                         tbody.append("tr").append("th")
                             .attr("class", "heading")
-                            .attr("colspan", "2")
+                            .attr("colspan", "4")
                             .text("Amateur History");
                         tbody.append("tr")
                             .attr("id", 'hsTr')
                             .append("td")
-                            .attr("scope", "row")
+                            .attr("colspan", "4")
                             .attr("class", "infoHeading")
-                            .text("League: ");
-                        d3.select("#hsTr").append("td")
-                            .text(d.amateurLeague);
-                        tbody.append("tr")
-                            .attr("id", 'collegeTr')
-                            .append("td")
-                            .attr("scope", "row")
-                            .attr("class", "infoHeading")
-                            .text("Team: ");
-                        d3.select("#collegeTr").append("td")
-                            .text(d.amateurTeam);
+                            .text(d['amateurTeam.name'] + " (" + d['amateurLeague.name'] + ")");
+                        // tbody.append("tr")
+                        //     .attr("id", 'collegeTr')
+                        //     .append("td")
+                        //     .attr("scope", "row")
+                        //     .attr("class", "infoHeading")
+                        //     .text("Team: ");
+                        // d3.select("#collegeTr").append("td")
+                        //     .text(d['amateurTeam.name']);
                         // tbody.append("tr").append("th")
                         //     .attr("class", "heading")
                         //     .attr("colspan", "2")
