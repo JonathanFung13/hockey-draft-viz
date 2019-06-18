@@ -257,12 +257,12 @@ function createChart(svg, sizes) {
         } else {
             draftPicks++;
             if (draftPicks === 3) {
-                if (posArr[0].values == 3 || posArr[0].values == 5) {
+                if (posArr[0].value == 3 || posArr[0].value == 5) {
                     positionsObject[d.year] -= radius*.9;
                 } else {
                     positionsObject[d.year]-=radius*1.8;
                 }
-            } else if (posArr[0].values == 5 && draftPicks == 4) {
+            } else if (posArr[0].value == 5 && draftPicks == 4) {
                 positionsObject[d.year] -=radius*0.9;
 //                if (draftPicks == 1 || draftPicks == 4) {
 //                    positionsObject[d.year] -=radius*1.5;
@@ -305,14 +305,14 @@ function createChart(svg, sizes) {
         draftPicks++;
         prev_round = d.round;
         prev_year = d.year;
-        if (posArr[0].values === 5 && draftPicks !== 3) {
+        if (posArr[0].value === 5 && draftPicks !== 3) {
             if (draftPicks < 3) {
-                return yLoc(d.year) - radius * 1.3
+                return yLoc(d.year) - radius * 0.7
             } else {
-                return yLoc(d.year) + radius * 1.3
+                return yLoc(d.year) + radius * 0.7
             }
         }
-        if (posArr[0].values === 3 || posArr[0].values === 4) { // 3 and 4
+        if (posArr[0].value === 3 || posArr[0].value === 4) { // 3 and 4
             if (draftPicks > 2) {
                 return yLoc(d.year) + radius * 0.7
             } else {
