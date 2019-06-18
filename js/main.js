@@ -15,12 +15,12 @@ legendKey['status'] = {basic: { "ACTIVE": "green", "OTHER_TEAM": "#A2AFEF", "INA
     text: {"active": ["On roster", 90], "other_team": ["Other teams roster", 90], "inactive": ["Inactive", 120]}};
 
 legendKey['gpClass'] = {basic: {1: 'green', 2: 'blue', 3: "#D7D6D6", 4: "grey", 5: "#A2AFEF", "noinfo": "gold"},
-    class: {4: "four", 3: "three", 2: "two", 1: "one", "unknown": "noinfo"},
-    text: {4: [">60", 90], 3: ["40-60", 90], 2: ["20-40", 90], 1: ["0-20", 120], "unknown": ["Unknown",90]} };
+    class: {4: "four", 3: "three", 2: "two", 1: "one"},
+    text: {4: [">60", 90], 3: ["40-60", 90], 2: ["20-40", 90], 1: ["0-20", 120]} };
 
 legendKey['ppgClass'] = {basic: {"GONE": "#FF3838", "ACT": "grey", "SUS": "#D7D6D6", "UDF": "grey", "OTHER_TEAM": "#A2AFEF", "unknown": "gold"},
-    class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", "unknown": "noinfo"},
-    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90], "unknown": ["Unknown",90]} };
+    class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"},
+    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90]} };
 
 let DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston Bruins": "Atlantic", "Buffalo Sabres": "Atlantic", "Calgary Flames": "Pacific", "Carolina Hurricanes": "Metro", "Chicago Blackhawks": "Central", "Colorado Avalanche": "Central", "Columbus Blue Jackets": "Metro", "Dallas Stars": "Central", "Detroit Red Wings": "Atlantic", "Edmonton Oilers": "Pacific", "Florida Panthers": "Atlantic", "Los Angeles Kings": "Pacific", "Minnesota Wild": "Central", "Montréal Canadiens": "Atlantic", "Nashville Predators": "Central", "New Jersey Devils": "Metro", "New York Islanders": "Metro", "New York Rangers": "Metro", "Ottawa Senators": "Atlantic", "Philadelphia Flyers": "Metro", "Pittsburgh Penguins": "Metro", "San Jose Sharks": "Pacific", "St. Louis Blues": "Central", "Tampa Bay Lightning": "Atlantic", "Toronto Maple Leafs": "Atlantic", "Vancouver Canucks": "Pacific", "Vegas Golden Knights": "Pacific", "Washington Capitals": "Metro", "Winnipeg Jets": "Central"}
 //let teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
@@ -281,7 +281,7 @@ function createChart(svg, sizes) {
 
     var yLoc = d3.scaleLinear()
         .range([height/YLOC_SCALE, 0])
-        .domain([d3.min(draftsFilteredByTeamName, function(d) { return d.year; }), d3.max(draftsFilteredByTeamName, function(d) { return d.year; })]);
+        .domain([minDraftYear, maxDraftYear]);
 
     var yPosition = function(d) {
         if (d.year != prev_year) {
@@ -638,22 +638,25 @@ function addHoverPreview(svg) {
                 .text("Name: " + d["prospect.fullName"]);
             divText
                 .append("div")
-                .text("Amateur Team: " + d.amateurTeam);
+                .text("Draft Year: " + d.year);
             divText
                 .append("div")
-                .text("Round: " + d.round)
+                .text("Round: " + d.round);
+            divText
+                .append("div")
+                .text("Pick: " + d.pickOverall);
 
             divText
                 .append("div")
-                .text("Status: " + legendKey['status'].text[d.status][0])
+                .text("Status: " + legendKey['status'].text[d.status][0]);
 
             divText
                 .append("div")
-                .text("Games Played: " + d.gamesPlayed)
+                .text("Games Played: " + d.gamesPlayed);
 
             divText
                 .append("div")
-                .text("Points: " + d.points)
+                .text("Points: " + d.points);
 
             divText
                 .append("div")
@@ -678,7 +681,7 @@ function addXYLabels(svg, radius) {
     // var yAxis = d3.svg.axis().scale(y)
     //     .orient("left");
     var yAxis = d3.axisLeft(y);
-    y.domain([new Date(d3.min(draftsFilteredByTeamName, function(d) { return d.year; }),0,1), new Date(d3.max(draftsFilteredByTeamName, function(d) { return d.year; }),0,1)]);
+    y.domain([new Date(minDraftYear,0,1), new Date(maxDraftYear,0,1)]);
 
     svg.append("g")
         .attr("class", "yAxis")

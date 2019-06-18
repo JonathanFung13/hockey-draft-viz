@@ -11,7 +11,7 @@ body {
     margin-bottom: 20px;
     color: #F6F6F6;
     position: fixed;
-    width: 100%;
+    width: 900px;
     top: 0;
     background: #2B2B2B;
     z-index: 100;
@@ -228,7 +228,7 @@ span{
 
 /* TEAMS PREVIEW*/
 .team-info {
-    width: 1260px;
+    width: 800px;
     margin: auto 0;
     display: flex;
     position: absolute;
@@ -343,7 +343,7 @@ span{
     float: left;
     /* position: absolute; */
     /* left: 650px; */
-    right: 100px;
+    right: 50px;
     /* top: 10px; */
     fill: white;
     font-size:14px;
@@ -351,7 +351,7 @@ span{
 }
 .inputs{
     position: absolute;
-    right: 200px;
+    right: 5px;
     z-index: 10000;
     font-size: 12px;
 }
@@ -402,8 +402,8 @@ span{
 /*http://tutorialzine.com/2014/07/css-inline-help-tips/*/
 .help-tip{
     position: absolute;
-    top: 8px;
-    right: 35px;
+    top: 5px;
+    right: 5px;
     text-align: center;
     background-color: #6a6a6a;
     border-radius: 50%;

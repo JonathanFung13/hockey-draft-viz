@@ -28,17 +28,21 @@
     <h1>NHL Draft</h1>
     <div id = "legend"></div>
     <div class = "inputs">
-      <label title="Current status of players"><input checked="checked" value="status" name="playercolor" type="radio">Roster Status</label>
-      <label title="Number of times the (offensive or defensive) player was picked as a game starter (As calculated from http://www.pro-football-reference.com/)"><input value="gpClass" name="playercolor" type="radio">Games Played (per season)</label>
-      <label title="Single score value assigned to the player (As calculated from http://www.pro-football-reference.com/)"><input value="ppgClass" name="playercolor" type="radio">Points Per Game</label>
+      <label title="Current roster status of players"><input checked="checked" value="status" name="playercolor" type="radio">Roster Status</label>
+      <label title="Mean average games played per season"><input value="gpClass" name="playercolor" type="radio">Games Played (per season)</label>
+      <label title="Career points per game"><input value="ppgClass" name="playercolor" type="radio">Points Per Game</label>
     </div>
     <div class="help-tip">
       <div>
         <h4 style="text-align:center;color:white">Visualization Overview</h4>
-        This visualization presents each NFL team's drafting history. For each team, the past 10 years of draft choices are shown.
-        Each circle is a player. Inside the circle is the position of the player. The circles are colored using that player's value for the selected mode - Player Status, Approximate Value and Games Started.
+        This visualization displays the results of the last 15 NHL drafts.  The teams are displayed alphabetically within
+        each division.  The draft picks are represented by a circle.  Each circle is labeled with the position of the
+        player and the color corresponds to the legend at the top.  The legend can be toggled through three modes:
+        Roster Status, Games Played per Season and Career Points per Game.
         <ul>
-          <li>Clicking on the mini version of any team's draft history displays the team's history details in space below</li>
+          <li>Use the radio buttons to change legend modes</li>
+          <li>Selecting a team's draft history displays a detailed view of the team's history below</li>
+          <li>Click a circle in the legend to toggle that color on or off in the visualization</li>
           <li>For basic player information, mouse-over the circles in the detailed draft view. </li>
           <li>To see complete information about a player, click on the player circle in the detailed draft view </li>
           <li>For more information about the three modes, hover over the names of the modes.</li>
