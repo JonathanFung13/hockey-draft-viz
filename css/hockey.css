@@ -56,7 +56,7 @@ text{
 /*PLAYER INFORMATION*/
 #clickProf {
     flex: 1;
-    margin-left: 930px;
+    margin-left: 550px;
 }
 
 #clickProf img {
@@ -273,7 +273,8 @@ span{
 }
 #SvgHolder {
     display: flex;
-    margin-left: 0%;
+    flex-direction: column;
+    margin-left: 5px;
     position: absolute;
     margin-top: 450px;
     transition: all 0.8s ease;
@@ -287,12 +288,17 @@ span{
 #instruction {
     /* width: 390px; */
     /* float: right; */
-    display: flex;
-    right: 30px;
-    top: 30px;
-    position: absolute;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*right: 30px;*/
+    /*top: 30px;*/
+    /*position: absolute;*/
     font-size: 13px;
     color: #8f8f8f;
+    margin-top: 2%;
+    width: 500px;
+    /*margin-right: 10px;*/
+    text-align: center;
 }
 
 #instruction.highlighted{
@@ -316,11 +322,12 @@ span{
 
 /*LOGOS*/
 .teamTitle {
-    margin-left: 5%;
-    margin-top: 2%;
-    width: 220px;
-    margin-right: 10px;
+    /*margin-left: 5%;*/
+    margin-top: 5%;
+    width: 500px;
+    /*margin-right: 10px;*/
     text-align: center;
+    /*color: #ffff7d;*/
 }
 
 #teamLogo {

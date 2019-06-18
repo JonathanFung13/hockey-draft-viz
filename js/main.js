@@ -31,7 +31,7 @@ var border, colorBy;
 let minDraftYear = 2003;
 let maxDraftYear = 2018;
 
-let selectedSizes = {"width": 1000 , "height": 700 - margin.top - margin.bottom, radius: 12.5};
+let selectedSizes = {"width": 900 , "height": 700 - margin.top - margin.bottom, radius: 12.5};
 let previewSizes = {"width": 95 - margin.left - margin.right, "height": 110 - margin.top - margin.bottom, radius: 2}
 
 
@@ -147,18 +147,18 @@ function displayFullTeamInfo(data, teamName, svgHolder, selectedSizes) {
         .append("div")
         .attr("class", "teamTitle")
         .style("opacity", 0)
-        .transition().duration(500).style("opacity", 1)
+        .transition().duration(500).style("opacity", 1);
 
     svgHolder.select(".teamTitle")
         .append("div")
         .attr("id", "teamName")
-        .text(teamName);
+        .text(teamName + " Details");
 
     svgHolder.select("#SvgHolder")
         .append("div")
         .attr("id", "instruction")
         .attr("class", "highlighted")
-        .text("Click on a circle to see detailed player information!")
+        .text("Click on a circle to see detailed player information!");
 
     let svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", selectedSizes.width, selectedSizes.height);
     positionFunctions = displayPlayerCircles(data, teamName, svg, selectedSizes);
@@ -706,8 +706,8 @@ function addXYLabels(svg, radius) {
     svg.append("g")
         .attr("class", "yAxis")
         .call(yAxis)
-        .style("fill", "aliceblue");
-        //.style("font-size", radius * 1.3);
+        .style("fill", "aliceblue")
+        .style("font-size", radius * 1.3);
 
     //ADD label for X-axis
     var arr = [1,2,3,4,5,6,7];
