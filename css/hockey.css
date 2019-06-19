@@ -57,6 +57,7 @@ text{
 #clickProf {
     flex: 1;
     margin-left: 550px;
+    margin-top: 30px;
 }
 
 #clickProf img {
@@ -177,8 +178,8 @@ circle{
 /*CLICK PROFILE*/
 /*TABLE*/
 table {
-    width: 255px;
-    height: 540px;
+    width: 250px;
+    /*height: 540px;*/
     border: 1px solid #6d6d6d;
     background: #262525;
     /* line-height: 1.2em; */
@@ -295,7 +296,7 @@ span{
     /*position: absolute;*/
     font-size: 13px;
     color: #8f8f8f;
-    margin-top: 2%;
+    /*margin-top: 2%;*/
     width: 500px;
     /*margin-right: 10px;*/
     text-align: center;

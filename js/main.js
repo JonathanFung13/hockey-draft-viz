@@ -637,7 +637,7 @@ function createSvg(svgHolder, className,teamName, width, height) {
         .attr("class", "circleGroup")
         .attr("team-name", teamName)
         .attr("transform",
-            "translate(" + radius * 2.5 + "," + radius * 5 + ")")
+            "translate(" + radius * 3 + "," + radius * 3 + ")")
     g.style("opacity", 0)
         .transition().duration(500).style("opacity", 1);
     return g;
@@ -697,17 +697,16 @@ function addHoverPreview(svg) {
 function addXYLabels(svg, radius) {
     // Add the Y Axis
     var y = d3.scaleTime()
+        .domain([new Date(minDraftYear,0,1), new Date(maxDraftYear,0,1)])
         .range([height/YLOC_SCALE, 0]);
-    // var yAxis = d3.svg.axis().scale(y)
-    //     .orient("left");
-    var yAxis = d3.axisLeft(y);
-    y.domain([new Date(minDraftYear,0,1), new Date(maxDraftYear,0,1)]);
+    var yAxis = d3.axisLeft(y)
+        .ticks(d3.timeYear);
 
     svg.append("g")
         .attr("class", "yAxis")
         .call(yAxis)
         .style("fill", "aliceblue")
-        .style("font-size", radius * 1.3);
+        .style("font-size", String(radius * 1.3) + "px");
 
     //ADD label for X-axis
     var arr = [1,2,3,4,5,6,7];
