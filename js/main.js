@@ -51,7 +51,7 @@ var initJson = function (svg) {
 };
 
 d3.csv('data/draft_data.csv').then( function(data) {
-    colorBy= $("input[type='radio']").val();
+    colorBy = $('#filters option:selected').val(); //$("#yourdropdownid option:selected").text();
     let selectOptions = {};
     // var teamNames = {};
     data.forEach(function(d) {
@@ -758,7 +758,7 @@ function onPreviewHover(holder) {
 
 
 $(function(){
-    $("input[type='radio']").on("click",function(){
+    $("#filters").on("click",function(){ //$("#yourdropdownid option:selected").text();
         colorBy =this.value;
         clickedDict ={}
         createLegend();

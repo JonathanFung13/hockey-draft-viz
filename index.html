@@ -27,11 +27,18 @@
   <div id = "header">
     <h1>NHL Draft</h1>
     <div id = "legend"></div>
-    <div class = "inputs">
-      <label title="Current roster status of players"><input checked="checked" value="status" name="playercolor" type="radio">Roster Status</label>
-      <label title="Mean average games played per season"><input value="gpClass" name="playercolor" type="radio">Games Played (per season)</label>
-      <label title="Career points per game"><input value="ppgClass" name="playercolor" type="radio">Points Per Game</label>
-    </div>
+<!--    <div class = "inputs">-->
+<!--      <label title="Current roster status of players"><input checked="checked" value="status" name="playercolor" type="radio">Roster Status</label>-->
+<!--      <label title="Mean average games played per season"><input value="gpClass" name="playercolor" type="radio">Games Played (per season)</label>-->
+<!--      <label title="Career points per game"><input value="ppgClass" name="playercolor" type="radio">Points Per Game</label>-->
+<!--    </div>-->
+    <select name = "filters" id="filters" class="inputs">
+      <option value="status">Roster Status</option>
+      <option value="gpClass">Games Played (per season)</option>
+      <option value="ppgClass">Points Per Game</option>
+    </select>
+
+
     <div class="help-tip">
       <div>
         <h4 style="text-align:center;color:white">Visualization Overview</h4>
