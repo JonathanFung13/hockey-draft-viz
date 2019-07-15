@@ -6,12 +6,13 @@ body {
     color: #ddd;
     font-family: "Helvetica Neue", Helvetica;
     font-weight: normal;
+    width: 900px;
 }
 header {
     margin-bottom: 20px;
     color: #F6F6F6;
     position: fixed;
-    width: 780px;
+    width: 900px;
     top: 0;
     background: #2B2B2B;
     z-index: 100;
@@ -188,7 +189,7 @@ table {
 .heading {
     font-size: 15px;
     text-align: center;
-    background: #6f6f6f;
+    background: #c7c7c7;
     color: white;
     line-height: 25px;
     opacity: 0.9;
@@ -357,7 +358,7 @@ span{
     font-size:14px;
     margin-left: 25px;
 }
-.inputs{
+#filters{
     position: absolute;
     top: 20px;
     right: 30px;
@@ -365,7 +366,7 @@ span{
     font-size: 12px;
 }
 
-.inputs label {
+#filters label {
     display: block;
 }
 
