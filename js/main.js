@@ -1,14 +1,14 @@
-var widthScreen = '100%';
-var heightScreen = '100%';
-var margin = {top: 5, right: 5, bottom: 5, left: 0}/*,
+const widthScreen = '100%';
+const heightScreen = '100%';
+const margin = {top: 5, right: 5, bottom: 5, left: 0}/*,
     width = 80 - margin.left - margin.right,
     height = 90 - margin.top - margin.bottom;*/
 var draftsFilteredByTeamName, mouseClickDrafts;
 // var clickedDict = {"gone": false, "act": false, "sus": false, "udf": false, "other_team": false, "other": false};
-var clickedDict = {"active": false, "inactive": false, "other_team": false};
+let clickedDict = {"active": false, "inactive": false, "other_team": false};
 var years, teams;
 
-var legendKey ={};
+const legendKey ={};
 //needed for legend - decide how many keys should be there
 legendKey['status'] = {basic: { "ACTIVE": "green", "OTHER_TEAM": "#A2AFEF", "INACTIVE": "#FF3838"},
     class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
@@ -22,22 +22,22 @@ legendKey['ppgClass'] = {basic: {"GONE": "#FF3838", "ACT": "grey", "SUS": "#D7D6
     class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"},
     text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90]} };
 
-let DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston Bruins": "Atlantic", "Buffalo Sabres": "Atlantic", "Calgary Flames": "Pacific", "Carolina Hurricanes": "Metro", "Chicago Blackhawks": "Central", "Colorado Avalanche": "Central", "Columbus Blue Jackets": "Metro", "Dallas Stars": "Central", "Detroit Red Wings": "Atlantic", "Edmonton Oilers": "Pacific", "Florida Panthers": "Atlantic", "Los Angeles Kings": "Pacific", "Minnesota Wild": "Central", "Montréal Canadiens": "Atlantic", "Nashville Predators": "Central", "New Jersey Devils": "Metro", "New York Islanders": "Metro", "New York Rangers": "Metro", "Ottawa Senators": "Atlantic", "Philadelphia Flyers": "Metro", "Pittsburgh Penguins": "Metro", "San Jose Sharks": "Pacific", "St. Louis Blues": "Central", "Tampa Bay Lightning": "Atlantic", "Toronto Maple Leafs": "Atlantic", "Vancouver Canucks": "Pacific", "Vegas Golden Knights": "Pacific", "Washington Capitals": "Metro", "Winnipeg Jets": "Central"}
+const DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston Bruins": "Atlantic", "Buffalo Sabres": "Atlantic", "Calgary Flames": "Pacific", "Carolina Hurricanes": "Metro", "Chicago Blackhawks": "Central", "Colorado Avalanche": "Central", "Columbus Blue Jackets": "Metro", "Dallas Stars": "Central", "Detroit Red Wings": "Atlantic", "Edmonton Oilers": "Pacific", "Florida Panthers": "Atlantic", "Los Angeles Kings": "Pacific", "Minnesota Wild": "Central", "Montréal Canadiens": "Atlantic", "Nashville Predators": "Central", "New Jersey Devils": "Metro", "New York Islanders": "Metro", "New York Rangers": "Metro", "Ottawa Senators": "Atlantic", "Philadelphia Flyers": "Metro", "Pittsburgh Penguins": "Metro", "San Jose Sharks": "Pacific", "St. Louis Blues": "Central", "Tampa Bay Lightning": "Atlantic", "Toronto Maple Leafs": "Atlantic", "Vancouver Canucks": "Pacific", "Vegas Golden Knights": "Pacific", "Washington Capitals": "Metro", "Winnipeg Jets": "Central"}
 //let teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
-let teamNames = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "Boston Bruins": "Boston", "Buffalo Sabres": "Buffalo", "Calgary Flames": "Calgary", "Carolina Hurricanes": "Carolina", "Chicago Blackhawks": "Chicago", "Colorado Avalanche": "Colorado", "Columbus Blue Jackets": "Columbus", "Dallas Stars": "Dallas", "Detroit Red Wings": "Detroit", "Edmonton Oilers": "Edmonton", "Florida Panthers": "Florida", "Los Angeles Kings": "Los Angeles", "Minnesota Wild": "Minnesota", "Montréal Canadiens": "Montréal", "Nashville Predators": "Nashville", "New Jersey Devils": "New Jersey", "New York Islanders": "NY Islanders", "New York Rangers": "NY Rangers", "Ottawa Senators": "Ottawa", "Philadelphia Flyers": "Philadelphia", "Pittsburgh Penguins": "Pittsburgh", "San Jose Sharks": "San Jose", "St. Louis Blues": "St. Louis", "Tampa Bay Lightning": "Tampa Bay", "Toronto Maple Leafs": "Toronto", "Vancouver Canucks": "Vancouver", "Vegas Golden Knights": "Vegas", "Washington Capitals": "Washington", "Winnipeg Jets": "Winnipeg"}
+const teamNames = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "Boston Bruins": "Boston", "Buffalo Sabres": "Buffalo", "Calgary Flames": "Calgary", "Carolina Hurricanes": "Carolina", "Chicago Blackhawks": "Chicago", "Colorado Avalanche": "Colorado", "Columbus Blue Jackets": "Columbus", "Dallas Stars": "Dallas", "Detroit Red Wings": "Detroit", "Edmonton Oilers": "Edmonton", "Florida Panthers": "Florida", "Los Angeles Kings": "Los Angeles", "Minnesota Wild": "Minnesota", "Montréal Canadiens": "Montréal", "Nashville Predators": "Nashville", "New Jersey Devils": "New Jersey", "New York Islanders": "NY Islanders", "New York Rangers": "NY Rangers", "Ottawa Senators": "Ottawa", "Philadelphia Flyers": "Philadelphia", "Pittsburgh Penguins": "Pittsburgh", "San Jose Sharks": "San Jose", "St. Louis Blues": "St. Louis", "Tampa Bay Lightning": "Tampa Bay", "Toronto Maple Leafs": "Toronto", "Vancouver Canucks": "Vancouver", "Vegas Golden Knights": "Vegas", "Washington Capitals": "Washington", "Winnipeg Jets": "Winnipeg"}
 //let TEAMABBRS = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARI", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY", "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL", "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET", "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK", "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH", "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL", "Tampa Bay Lightning": "TBL", "Toronto Maple Leafs": "TOR", "Vancouver Canucks": "VAN", "Vegas Golden Knights": "VGK", "Washington Capitals": "WSH", "Winnipeg Jets": "WPG"}
 
 var border, colorBy;
-let minDraftYear = 2003;
-let maxDraftYear = 2018;
+const minDraftYear = 2003;
+const maxDraftYear = 2018;
 
-let selectedSizes = {"width": 900 , "height": 700 - margin.top - margin.bottom, radius: 12.5};
-let previewSizes = {"width": 95 - margin.left - margin.right, "height": 110 - margin.top - margin.bottom, radius: 2}
+const selectedSizes = {"width": 780 , "height": 700 - margin.top - margin.bottom, radius: 12.5};
+const previewSizes = {"width": 95 - margin.left - margin.right, "height": 110 - margin.top - margin.bottom, radius: 2}
 
 
 // STATIC FINAL VAR
-var YLOC_SCALE = 1.4;
-var CIRCLE_GAP_FACTOR = 1.6; // To have same gap between rounds
+const YLOC_SCALE = 1.4;
+const CIRCLE_GAP_FACTOR = 1.6; // To have same gap between rounds
 
 var filterByTeamName = function(data, teamName) {
     var dataFilteredByTeam = data.filter(function(d) {
@@ -59,7 +59,7 @@ d3.csv('data/draft_data.csv').then( function(data) {
         // teamNames[d["team.name"]] = d["team.name"]
     });
 
-    var svgHolder = d3.select(".content");
+    var svgHolder = d3.select("section");
     svgHolder.append("div")
         .attr("id", "SvgHolder")
         .attr("height", selectedSizes.height + margin.top + margin.bottom)
@@ -112,14 +112,14 @@ d3.csv('data/draft_data.csv').then( function(data) {
     }
 
 //    var borderParams = $(".Svg1").parent().offset()
-    d3.select(".content").append("svg")
+    d3.select("section").append("svg")
         .attr("id", "selectedBorder")
         .append("rect")
         .attr("width", 75)
         .attr("height", 100)
 
     $(".teamDiv"+1).trigger("click");
-    d3.select(".content").append("div")
+    d3.select("section").append("div")
         .attr("id", "clickProf")
 
     // Get rid of player information
@@ -377,7 +377,7 @@ function createChart(svg, sizes) {
 
 
 function recolorPlayers(){
-    d3.selectAll(".content circle")
+    d3.selectAll("section circle")
         .attr("class", function(d) {
             let val = d[colorBy];
 
@@ -415,7 +415,7 @@ function createLegend(){
                     });
                     clickedDict[classSelect]=true;
                 } else {
-                    d3.selectAll(".content ."+classSelect).each(function(d, i) {
+                    d3.selectAll("section ."+classSelect).each(function(d, i) {
                         d3.select(this).attr("class", function(d) {
                             let val =d[colorBy];
                             if(legendKey[colorBy].class[val] === undefined) {
