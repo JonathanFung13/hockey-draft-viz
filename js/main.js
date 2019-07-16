@@ -1,124 +1,76 @@
-const widthScreen = '100%';
-const heightScreen = '100%';
-const margin = {top: 5, right: 5, bottom: 5, left: 0}/*,
-    width = 80 - margin.left - margin.right,
-    height = 90 - margin.top - margin.bottom;*/
-var draftsFilteredByTeamName, mouseClickDrafts;
-// var clickedDict = {"gone": false, "act": false, "sus": false, "udf": false, "other_team": false, "other": false};
-let clickedDict = {"active": false, "inactive": false, "other_team": false};
-var years, teams;
 
-const legendKey ={};
-//needed for legend - decide how many keys should be there
-legendKey['status'] = {basic: { "ACTIVE": "green", "OTHER_TEAM": "#A2AFEF", "INACTIVE": "#FF3838"},
-    class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
-    text: {"active": ["On roster", 90], "other_team": ["Other teams roster", 90], "inactive": ["Inactive", 120]}};
+// Constants
+const MARGINS = {top: 5, right: 5, bottom: 5, left: 0}
+const SMALL_SZ = {"width": 95 - MARGINS.left - MARGINS.right, "height": 110 - MARGINS.top - MARGINS.bottom, radius: 2}
+const LARGE_SIZE = {"width": 780 , "height": 700 - MARGINS.top - MARGINS.bottom, radius: 12.5};
+const YLOC_SCALE = 1.4;
+const CIRCLE_GAP_FACTOR = 1.5; // To have same gap between rounds
 
-legendKey['gpClass'] = {basic: {1: 'green', 2: 'blue', 3: "#D7D6D6", 4: "grey", 5: "#A2AFEF", "noinfo": "gold"},
-    class: {4: "four", 3: "three", 2: "two", 1: "one"},
-    text: {4: [">60", 90], 3: ["40-60", 90], 2: ["20-40", 90], 1: ["0-20", 120]} };
-
-legendKey['ppgClass'] = {basic: {"GONE": "#FF3838", "ACT": "grey", "SUS": "#D7D6D6", "UDF": "grey", "OTHER_TEAM": "#A2AFEF", "unknown": "gold"},
-    class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"},
-    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90]} };
-
-const DIVISIONS = {"Anaheim Ducks": "Pacific", "Arizona Coyotes": "Pacific", "Boston Bruins": "Atlantic", "Buffalo Sabres": "Atlantic", "Calgary Flames": "Pacific", "Carolina Hurricanes": "Metro", "Chicago Blackhawks": "Central", "Colorado Avalanche": "Central", "Columbus Blue Jackets": "Metro", "Dallas Stars": "Central", "Detroit Red Wings": "Atlantic", "Edmonton Oilers": "Pacific", "Florida Panthers": "Atlantic", "Los Angeles Kings": "Pacific", "Minnesota Wild": "Central", "Montréal Canadiens": "Atlantic", "Nashville Predators": "Central", "New Jersey Devils": "Metro", "New York Islanders": "Metro", "New York Rangers": "Metro", "Ottawa Senators": "Atlantic", "Philadelphia Flyers": "Metro", "Pittsburgh Penguins": "Metro", "San Jose Sharks": "Pacific", "St. Louis Blues": "Central", "Tampa Bay Lightning": "Atlantic", "Toronto Maple Leafs": "Atlantic", "Vancouver Canucks": "Pacific", "Vegas Golden Knights": "Pacific", "Washington Capitals": "Metro", "Winnipeg Jets": "Central"}
-//let teamNames = {"ANA": "Anaheim Ducks", "ARI": "Arizona Coyotes", "BOS": "Boston Bruins", "BUF": "Buffalo Sabres", "CAR": "Carolina Hurricanes", "CBJ": "Columbus Blue Jackets", "CGY": "Calgary Flames", "CHI": "Chicago Blackhawks", "COL": "Colorado Avalanche", "DAL": "Dallas Stars", "DET": "Detroit Red Wings", "EDM": "Edmonton Oilers", "FLA": "Florida Panthers", "LAK": "Los Angeles Kings", "MIN": "Minnesota Wild", "MTL": "Montréal Canadiens", "NJD": "New Jersey Devils", "NSH": "Nashville Predators", "NYI": "New York Islanders", "NYR": "New York Rangers", "OTT": "Ottawa Senators", "PHI": "Philadelphia Flyers", "PIT": "Pittsburgh Penguins", "SJS": "San Jose Sharks", "STL": "St. Louis Blues", "TBL": "Tampa Bay Lightning", "TOR": "Toronto Maple Leafs", "VAN": "Vancouver Canucks", "VGK": "Vegas Golden Knights", "WPG": "Winnipeg Jets", "WSH": "Washington Capitals"}
-const teamNames = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "Boston Bruins": "Boston", "Buffalo Sabres": "Buffalo", "Calgary Flames": "Calgary", "Carolina Hurricanes": "Carolina", "Chicago Blackhawks": "Chicago", "Colorado Avalanche": "Colorado", "Columbus Blue Jackets": "Columbus", "Dallas Stars": "Dallas", "Detroit Red Wings": "Detroit", "Edmonton Oilers": "Edmonton", "Florida Panthers": "Florida", "Los Angeles Kings": "Los Angeles", "Minnesota Wild": "Minnesota", "Montréal Canadiens": "Montréal", "Nashville Predators": "Nashville", "New Jersey Devils": "New Jersey", "New York Islanders": "NY Islanders", "New York Rangers": "NY Rangers", "Ottawa Senators": "Ottawa", "Philadelphia Flyers": "Philadelphia", "Pittsburgh Penguins": "Pittsburgh", "San Jose Sharks": "San Jose", "St. Louis Blues": "St. Louis", "Tampa Bay Lightning": "Tampa Bay", "Toronto Maple Leafs": "Toronto", "Vancouver Canucks": "Vancouver", "Vegas Golden Knights": "Vegas", "Washington Capitals": "Washington", "Winnipeg Jets": "Winnipeg"}
-//let TEAMABBRS = {"Anaheim Ducks": "ANA", "Arizona Coyotes": "ARI", "Boston Bruins": "BOS", "Buffalo Sabres": "BUF", "Calgary Flames": "CGY", "Carolina Hurricanes": "CAR", "Chicago Blackhawks": "CHI", "Colorado Avalanche": "COL", "Columbus Blue Jackets": "CBJ", "Dallas Stars": "DAL", "Detroit Red Wings": "DET", "Edmonton Oilers": "EDM", "Florida Panthers": "FLA", "Los Angeles Kings": "LAK", "Minnesota Wild": "MIN", "Montréal Canadiens": "MTL", "Nashville Predators": "NSH", "New Jersey Devils": "NJD", "New York Islanders": "NYI", "New York Rangers": "NYR", "Ottawa Senators": "OTT", "Philadelphia Flyers": "PHI", "Pittsburgh Penguins": "PIT", "San Jose Sharks": "SJS", "St. Louis Blues": "STL", "Tampa Bay Lightning": "TBL", "Toronto Maple Leafs": "TOR", "Vancouver Canucks": "VAN", "Vegas Golden Knights": "VGK", "Washington Capitals": "WSH", "Winnipeg Jets": "WPG"}
-
-var border, colorBy;
+const TEAM_NAMES = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "Boston Bruins": "Boston", "Buffalo Sabres": "Buffalo", "Calgary Flames": "Calgary", "Carolina Hurricanes": "Carolina", "Chicago Blackhawks": "Chicago", "Colorado Avalanche": "Colorado", "Columbus Blue Jackets": "Columbus", "Dallas Stars": "Dallas", "Detroit Red Wings": "Detroit", "Edmonton Oilers": "Edmonton", "Florida Panthers": "Florida", "Los Angeles Kings": "Los Angeles", "Minnesota Wild": "Minnesota", "Montréal Canadiens": "Montréal", "Nashville Predators": "Nashville", "New Jersey Devils": "New Jersey", "New York Islanders": "NY Islanders", "New York Rangers": "NY Rangers", "Ottawa Senators": "Ottawa", "Philadelphia Flyers": "Philadelphia", "Pittsburgh Penguins": "Pittsburgh", "San Jose Sharks": "San Jose", "St. Louis Blues": "St. Louis", "Tampa Bay Lightning": "Tampa Bay", "Toronto Maple Leafs": "Toronto", "Vancouver Canucks": "Vancouver", "Vegas Golden Knights": "Vegas", "Washington Capitals": "Washington", "Winnipeg Jets": "Winnipeg"}
+const DIVISIONS = {"Anaheim Ducks": "#pacific", "Arizona Coyotes": "#pacific", "Boston Bruins": "#atlantic", "Buffalo Sabres": "#atlantic", "Calgary Flames": "#pacific", "Carolina Hurricanes": "#metropolitan", "Chicago Blackhawks": "#central", "Colorado Avalanche": "#central", "Columbus Blue Jackets": "#metropolitan", "Dallas Stars": "#central", "Detroit Red Wings": "#atlantic", "Edmonton Oilers": "#pacific", "Florida Panthers": "#atlantic", "Los Angeles Kings": "#pacific", "Minnesota Wild": "#central", "Montréal Canadiens": "#atlantic", "Nashville Predators": "#central", "New Jersey Devils": "#metropolitan", "New York Islanders": "#metropolitan", "New York Rangers": "#metropolitan", "Ottawa Senators": "#atlantic", "Philadelphia Flyers": "#metropolitan", "Pittsburgh Penguins": "#metropolitan", "San Jose Sharks": "#pacific", "St. Louis Blues": "#central", "Tampa Bay Lightning": "#atlantic", "Toronto Maple Leafs": "#atlantic", "Vancouver Canucks": "#pacific", "Vegas Golden Knights": "#pacific", "Washington Capitals": "#metropolitan", "Winnipeg Jets": "#central"}
 const minDraftYear = 2003;
 const maxDraftYear = 2018;
 
-const selectedSizes = {"width": 780 , "height": 700 - margin.top - margin.bottom, radius: 12.5};
-const previewSizes = {"width": 95 - margin.left - margin.right, "height": 110 - margin.top - margin.bottom, radius: 2}
+const legendKey ={};
+//needed for legend - decide how many keys should be there
+legendKey['status'] = {class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
+    text: {"active": ["On roster", 90], "other_team": ["Other teams roster", 90], "inactive": ["Inactive", 120]}};
+legendKey['gpClass'] = {class: {4: "four", 3: "three", 2: "two", 1: "one"},
+    text: {4: [">60", 90], 3: ["40-60", 90], 2: ["20-40", 90], 1: ["0-20", 120]} };
+legendKey['ppgClass'] = {class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"},
+    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90]} };
+
+// Variables
+var draftsFilteredByTeamName;
+let clickedDict = {"active": false, "inactive": false, "other_team": false};
+var years;
+var border, colorBy;
+
+// Start visualization
+displayTeams();
 
 
-// STATIC FINAL VAR
-const YLOC_SCALE = 1.4;
-const CIRCLE_GAP_FACTOR = 1.6; // To have same gap between rounds
+async function displayTeams() {
+    let data = await d3.csv('data/draft_data.csv');
 
-var filterByTeamName = function(data, teamName) {
-    var dataFilteredByTeam = data.filter(function(d) {
-        return d["team.name"] == teamName && d.year >= minDraftYear
-    });
-    return dataFilteredByTeam;
-};
+    colorBy = $('#filters option:selected').val();
 
-var initJson = function (svg) {
-    mouseClick(svg, "#clickProf");
-};
-
-d3.csv('data/draft_data.csv').then( function(data) {
-    colorBy = $('#filters option:selected').val(); //$("#yourdropdownid option:selected").text();
-    let selectOptions = {};
-    // var teamNames = {};
-    data.forEach(function(d) {
-        selectOptions[d["team.name"]] = 1;
-        // teamNames[d["team.name"]] = d["team.name"]
-    });
-
-    var svgHolder = d3.select("section");
+    var svgHolder = d3.select("section")
     svgHolder.append("div")
         .attr("id", "SvgHolder")
-        .attr("height", selectedSizes.height + margin.top + margin.bottom)
-        .attr("width", selectedSizes.width);
+        .attr("height", LARGE_SIZE.height + MARGINS.top + MARGINS.bottom)
+        .attr("width", LARGE_SIZE.width);
 
-    var atlSvgHolder = d3.select("#atlantic");
-    var metSvgHolder = d3.select("#metropolitan");
-    var cenSvgHolder = d3.select("#central");
-    var pacSvgHolder = d3.select("#pacific");
+    for (var i = 0; i < Object.keys(TEAM_NAMES).length; i++) {
+        var teamName = Object.keys(TEAM_NAMES)[i];
 
-    for (var i = 0; i < Object.keys(selectOptions).length; i++) {
-        var teamName = Object.keys(selectOptions)[i];
+        var previewHolder = d3.select(DIVISIONS[teamName])
+            .append("div")
+            .attr("class", "teamDiv teamDiv"+i);
 
-        var previewHolder;
-        switch(DIVISIONS[teamName]) {
-            case "Atlantic":
-                previewHolder = atlSvgHolder.append("div")
-                    .attr("class", "teamDiv teamDiv"+i);
-                break;
-            case "Metro":
-                previewHolder = metSvgHolder.append("div")
-                    .attr("class", "teamDiv teamDiv"+i);
-                break;
-            case "Central":
-                previewHolder = cenSvgHolder.append("div")
-                    .attr("class", "teamDiv teamDiv"+i);
-                break;
-            default: // must be in the pacific
-                previewHolder = pacSvgHolder.append("div")
-                    .attr("class", "teamDiv teamDiv"+i);
-                break;
-        }
-
-        var previewSvg = createSvg(previewHolder, "Svg" + i, teamName, previewSizes.width, previewSizes.height)
+        var previewSvg = createSvg(previewHolder, "Svg" + i, teamName, SMALL_SZ.width, SMALL_SZ.height)
         previewHolder.append("span")
-            .html(teamNames[teamName])
+            .html(TEAM_NAMES[teamName]);
         onPreviewHover(previewHolder); // change opacity of preview when you mouse over
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             var borderParams = $(this).offset()
             d3.select("#selectedBorder > rect")
                 .attr("x", borderParams.left - 8 - $(window).scrollLeft())
                 .attr('y', borderParams.top - 64)
-//            d3.select(this).style("border", "1px solid #ddd")
-//            d3.selectAll("#SvgHolder > *").remove();
-            displayFullTeamInfo(data, this.children[0].children[0].getAttribute("team-name"), svgHolder, selectedSizes)
+            displayFullTeamInfo(data, this.children[0].children[0].getAttribute("team-name"), svgHolder, LARGE_SIZE)
         });
 
-        displayPlayerCircles(data, teamName, previewSvg, previewSizes)
+        displayPlayerCircles(data, teamName, previewSvg, SMALL_SZ)
 
     }
 
-//    var borderParams = $(".Svg1").parent().offset()
     d3.select("section").append("svg")
         .attr("id", "selectedBorder")
         .append("rect")
         .attr("width", 75)
         .attr("height", 100)
 
-    $(".teamDiv"+1).trigger("click");
+    $(".teamDiv"+2).trigger("click");
     d3.select("section").append("div")
         .attr("id", "clickProf")
 
@@ -137,43 +89,20 @@ d3.csv('data/draft_data.csv').then( function(data) {
         }
     });
     createLegend()
-});
-
-function displayFullTeamInfo(data, teamName, svgHolder, selectedSizes) {
-
-    d3.selectAll("#SvgHolder > *").remove();
-
-    svgHolder.select("#SvgHolder")
-        .append("div")
-        .attr("class", "teamTitle")
-        .style("opacity", 0)
-        .transition().duration(500).style("opacity", 1);
-
-    svgHolder.select(".teamTitle")
-        .append("div")
-        .attr("id", "teamName")
-        .text(teamName + " Details");
-
-    svgHolder.select("#SvgHolder")
-        .append("div")
-        .attr("id", "instruction")
-        .attr("class", "highlighted")
-        .text("Click on a circle to see detailed player information!");
-
-    let svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", selectedSizes.width, selectedSizes.height);
-    positionFunctions = displayPlayerCircles(data, teamName, svg, selectedSizes);
-    addXYLabels(svg, selectedSizes.radius);
-    addPositionLabels(svg, positionFunctions);
-    addHoverPreview(svg)
-    d3.selectAll("#clickProf > *").remove();
-    initJson(svg)
-}
+};
 
 // For displaying all of the charts for all of the teams
 function displayPlayerCircles(data, teamName, svg, sizes) {
     draftsFilteredByTeamName = filterByTeamName(data, teamName);
     return createChart(svg, sizes);
 }
+var filterByTeamName = function(data, teamName) {
+    var dataFilteredByTeam = data.filter(function(d) {
+        return d["team.name"] == teamName && d.year >= minDraftYear
+    });
+    return dataFilteredByTeam;
+};
+
 
 function createChart(svg, sizes) {
     width = sizes.width;
@@ -376,6 +305,46 @@ function createChart(svg, sizes) {
 }
 
 
+
+
+function displayFullTeamInfo(data, teamName, svgHolder, LARGE_SIZE) {
+
+    d3.selectAll("#SvgHolder > *").remove();
+
+    svgHolder.select("#SvgHolder")
+        .append("div")
+        .attr("class", "teamTitle")
+        .style("opacity", 0)
+        .transition().duration(500).style("opacity", 1);
+
+    svgHolder.select(".teamTitle")
+        .append("div")
+        .attr("id", "teamName")
+        .text(teamName + " Details");
+
+    svgHolder.select("#SvgHolder")
+        .append("div")
+        .attr("id", "instruction")
+        .attr("class", "highlighted")
+        .text("Click on a circle to see detailed player information!");
+
+    let svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", LARGE_SIZE.width, LARGE_SIZE.height);
+    positionFunctions = displayPlayerCircles(data, teamName, svg, LARGE_SIZE);
+    addXYLabels(svg, LARGE_SIZE.radius);
+    addPositionLabels(svg, positionFunctions);
+    addHoverPreview(svg)
+    d3.selectAll("#clickProf > *").remove();
+    initJson(svg)
+}
+
+
+var initJson = function (svg) {
+    mouseClick(svg, "#clickProf");
+};
+
+
+
+
 function recolorPlayers(){
     d3.selectAll("section circle")
         .attr("class", function(d) {
@@ -402,7 +371,7 @@ function createLegend(){
     for (var i in legendKey[colorBy].class) {
         let keys = Object.keys(legendKey[colorBy].class);
         legend.append("circle")
-            .attr("cx", margin.left - 30 + count*legendKey[colorBy].text[i][1])
+            .attr("cx", MARGINS.left - 30 + count*legendKey[colorBy].text[i][1])
             .attr("cy", 30)
             .attr("r", 10)
             .attr("class", legendKey[colorBy].class[i])
@@ -429,7 +398,7 @@ function createLegend(){
                 }
             });
         legend.append("text")
-            .attr("x", margin.left-15 +count *legendKey[colorBy].text[i][1])
+            .attr("x", MARGINS.left-15 +count *legendKey[colorBy].text[i][1])
             .attr("y", 35)
             //            .style("font-family", "sans-serif")
             //            .style("fill", "white")
@@ -630,8 +599,8 @@ function createSvg(svgHolder, className,teamName, width, height) {
     var radius = Math.ceil(width * 0.02);
     var g =svgHolder.append("svg")
         .attr("class", className) //+" preview-svg")
-        .attr("width", width)//width + margin.left + margin.right)
-        .attr("height", (height + margin.top + margin.bottom))
+        .attr("width", width)//width + MARGINS.left + MARGINS.right)
+        .attr("height", (height + MARGINS.top + MARGINS.bottom))
 
         .append("g")
         .attr("class", "circleGroup")
