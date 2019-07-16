@@ -54,10 +54,10 @@ async function displayTeams() {
             d3.select("#selectedBorder > rect")
                 .attr("x", borderParams.left - 8)
                 .attr('y', borderParams.top - 64);
-            displayFullTeamInfo(data, this.children[0].children[0].getAttribute("team-name"), svgHolder)
+            displayTeamDetail(data, this.children[0].children[0].getAttribute("team-name"), svgHolder)
         });
 
-        displayPlayerCircles(data, teamName, previewSvg, PREVIEW_SIZE)
+        displayTeam(data, teamName, previewSvg, PREVIEW_SIZE)
 
     }
 
@@ -89,9 +89,9 @@ async function displayTeams() {
 };
 
 // For displaying all of the charts for all of the teams
-function displayPlayerCircles(data, teamName, svg, sizes) {
+function displayTeam(data, teamName, svg, sizes) {
     draftsFilteredByTeamName = filterByTeamName(data, teamName);
-    return createChart(draftsFilteredByTeamName, svg, sizes);
+    return plotDraftPicks(draftsFilteredByTeamName, svg, sizes);
 }
 
 function filterByTeamName(data, teamName) {
@@ -102,8 +102,8 @@ function filterByTeamName(data, teamName) {
 };
 
 
-function createChart(draftsFilteredByTeamName, svg, sizes) {
-    let width = sizes.width;
+function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
+    //let width = sizes.width;
     let height = sizes.height;
     let radius = sizes.radius;
     let positionsObject={};
@@ -114,7 +114,7 @@ function createChart(draftsFilteredByTeamName, svg, sizes) {
     });
 
     let nested_data = d3.nest()
-        .key(function(d) { return d.year; })
+        .key(y => y.year)
         .key(function(d) {
             if (d.round > 7) {
                 d.round = 7;
@@ -133,10 +133,7 @@ function createChart(draftsFilteredByTeamName, svg, sizes) {
         return nd.key == prev_round;
     });
 
-    let position = function(d){
-        if (d.round > 7) {
-            d.round = 7;
-        }
+    let xPosition = function(d){
         // console.log(d.year,d.round,d.Pick,d.Overall,d["team.name"],d["prospect.fullName"], prev_year, prev_round);
         if (d.year != prev_year) {
             //reset prev_round to 0 at the beginning of new year
@@ -185,7 +182,7 @@ function createChart(draftsFilteredByTeamName, svg, sizes) {
                     positionsObject[d.year]-=radius*1.8;
                 }
             } else if (posArr[0].value == 5 && draftPicks == 4) {
-                positionsObject[d.year] -=radius*0.9;
+                positionsObject[d.year] -= radius*0.9;
 //                if (draftPicks == 1 || draftPicks == 4) {
 //                    positionsObject[d.year] -=radius*1.5;
 //                } else {
@@ -244,8 +241,7 @@ function createChart(draftsFilteredByTeamName, svg, sizes) {
         return yLoc(d.year)
     };
 
-// Add the scatterplot
-
+    // Add the scatterplot
     draftsFilteredByTeamName.forEach(function(d) {
         d.year =+ d.year;
         positionsObject[d.year]=0
@@ -264,22 +260,17 @@ function createChart(draftsFilteredByTeamName, svg, sizes) {
     circleWrap.append("circle")
         .attr("class", function(d) {
             let val = d[colorBy];
-            // console.log(d["prospect.fullName"], legendKey['status'].class[d['status']],
-            //     legendKey['gpClass'].class[d['gpClass']], legendKey['ppgClass'].class[d['ppgClass']]);
 
-            if(legendKey[colorBy].class[val] === undefined) {
+            if (legendKey[colorBy].class[val] === undefined) {
                 return legendKey[colorBy].class['unknown']
             }
             return legendKey[colorBy].class[val]
         })
         .attr("r", radius)
-        .attr("cx", function(d,i) {
-            return position(d)
-        })
-        .attr("cy", function(d) {
-            return yPosition(d);
+        .attr("cx", x => xPosition(x))
+        .attr("cy", y => yPosition(y)
+        );
 
-        });
     draftsFilteredByTeamName.forEach(function(d) {
         d.year =+ d.year;
         positionsObject[d.year]=0
@@ -293,14 +284,14 @@ function createChart(draftsFilteredByTeamName, svg, sizes) {
         }
     }
     // For now
-    let positionFunctions = {"position": position, "yPosition": yPosition};
+    let positionFunctions = {"xPosition": xPosition, "yPosition": yPosition};
     return positionFunctions
 }
 
 
 
 
-function displayFullTeamInfo(data, teamName, svgHolder) {
+function displayTeamDetail(data, teamName, svgHolder) {
 
     d3.selectAll("#SvgHolder > *").remove();
 
@@ -322,18 +313,13 @@ function displayFullTeamInfo(data, teamName, svgHolder) {
         .text("Click on a circle to see detailed player information!");
 
     let svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", DETAIL_SIZE.width, DETAIL_SIZE.height);
-    positionFunctions = displayPlayerCircles(data, teamName, svg, DETAIL_SIZE);
+    let positionFunctions = displayTeam(data, teamName, svg, DETAIL_SIZE);
     addXYLabels(svg, DETAIL_SIZE.height, DETAIL_SIZE.radius);
     addPositionLabels(svg, positionFunctions);
-    addHoverPreview(svg)
+    addHoverPreview(svg);
     d3.selectAll("#clickProf > *").remove();
-    initJson(svg)
-}
-
-
-var initJson = function (svg) {
     mouseClick(svg, "#clickProf");
-};
+}
 
 
 
@@ -351,8 +337,6 @@ function recolorPlayers(){
 }
 
 function createLegend(){
-
-    //create legend
     d3.select("#legend svg").remove();
     let svgOrig = d3.select("#legend").append("svg")
         .attr("width", "700px") //to keep it below the svg files above
@@ -362,7 +346,7 @@ function createLegend(){
         .attr("transform","translate(45,5)");
     let count = 0;
     for (let i in legendKey[colorBy].class) {
-        let keys = Object.keys(legendKey[colorBy].class);
+        // let keys = Object.keys(legendKey[colorBy].class);
         legend.append("circle")
             .attr("cx", MARGINS.left - 30 + count*legendKey[colorBy].text[i][1])
             .attr("cy", 30)
@@ -645,8 +629,8 @@ function addHoverPreview(svg) {
         .on("mousemove", function() {
             d3.select(this).style("opacity", 1);
             d3.selectAll(".previewWrap")
-                .style("top",(d3.mouse(document.body)[1] + 40) + "px")
-                .style("left",(d3.mouse(document.body)[0] + 20) + "px");
+                .style("top", (d3.mouse(document.body)[1] + 40) + "px")
+                .style("left", (d3.mouse(document.body)[0] + 20) + "px");
         })
         .on("mouseout", function(d) {
             d3.selectAll(".previewWrap").remove();
@@ -655,7 +639,7 @@ function addHoverPreview(svg) {
 }
 
 function addXYLabels(svg, height, radius) {
-    // Add the Y Axis
+    // Add the draft year labels to the Y Axis
     let y = d3.scaleTime()
         .domain([new Date(minDraftYear,0,1), new Date(maxDraftYear,0,1)])
         .range([height/YLOC_SCALE, 0]);
@@ -668,7 +652,7 @@ function addXYLabels(svg, height, radius) {
         .style("fill", "aliceblue")
         .style("font-size", String(radius * 1.3) + "px");
 
-    //ADD label for X-axis
+    // Add the draft round labels to the X Axis
     let arr = [1,2,3,4,5,6,7];
     let xTicks = svg.append("g")
         .attr("class", "xAxis")
@@ -690,21 +674,15 @@ function addXYLabels(svg, height, radius) {
 
 function addPositionLabels(svg, positionFunctions) {
     //prev_round = 0;
-    prev_year = maxDraftYear;
+    //prev_year = maxDraftYear;
     //draftPicks = 0;
     svg.selectAll(".circleWrap")
         .append("text")
         .attr("class", "positionLabel")
         .attr("text-anchor", "middle")
-        .text(function(d) {
-            return d.position;
-        })
-        .attr("x", function(d,i) {
-            return positionFunctions.position(d)
-        })
-        .attr("y", function(d) {
-            return positionFunctions.yPosition(d)+5;
-        })
+        .text(pos => pos.position)
+        .attr("x", x => positionFunctions.xPosition(x))
+        .attr("y", y => positionFunctions.yPosition(y)+5)
 }
 
 function onPreviewHover(holder) {
@@ -720,7 +698,7 @@ function onPreviewHover(holder) {
 $(function(){
     $("#filters").on("click",function(){ //$("#yourdropdownid option:selected").text();
         colorBy =this.value;
-        clickedDict ={}
+        clickedDict ={};
         createLegend();
         recolorPlayers();
     })
