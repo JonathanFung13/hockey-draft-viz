@@ -281,7 +281,6 @@ function getArraySomething(data, year, round) {
         .values.filter(nd => nd.key == round);
 }
 
-
 function displayTeamDetail(picksByTeam, teamName, svgHolder) {
     d3.selectAll("#SvgHolder > *").remove();
 
@@ -387,10 +386,13 @@ function displayPlayerProfile(picksByTeam, svg, clickProf) {
                     size = parseInt(window.innerWidth) * 0.2;
                     playerProfile.active = d;
                     d3.selectAll(clickProf+" > *").remove();
-                    d3.select(clickProf).append("table").append("caption")
+
+                    let table = d3.select(clickProf).append("table");
+                    table.append("caption")
                         .attr("class", "nameCap")
                         .text(d["prospect.fullName"])
-                    let tbody = d3.select(clickProf).select("table");
+
+                    let tbody = table.append("tbody");
                     tbody.append("tr").append("th")
                         .attr("colspan", "4")
                         .attr("class", "heading")
@@ -401,79 +403,55 @@ function displayPlayerProfile(picksByTeam, svg, clickProf) {
                                 return "#" + d.jerseyNumber + ", " + d.position + ", " + d.teamName
                             }
                         });
-                    tbody.append("tr")
-                        .attr("id", "expTr")
+
+                    let rows = tbody
+                        .selectAll("tr")
+                        .data(function() {
+                            if (d.position === "G") {
+                                return [[], ["GP:", "SA:", "SAV%:", "SO:"],
+                                    [d.gamesPlayed, d.shotsAgainst, (+d.savePctg).toFixed(3), d.shutouts]]
+                            } else {
+                                return [[], ["GP:", "G:", "A:", "Pts:"],
+                                    [d.gamesPlayed, d.goals, d.assists, d.points]]
+                            }
+                        })
+                        .enter()
+                        .append("tr")
+                        .attr("class", "infoHeading");
+
+                    let cells = rows.selectAll("td")
+                        .data(d => d)
+                        .enter()
                         .append("td")
-                        .attr("scope", "row")
-                        .attr("class", "infoHeading")
-                        .text("GP: ");
-                    d3.select("#expTr").append("td")
-                        .text("G: ");
-                    d3.select("#expTr").append("td")
-                        .text("A: ");
-                    d3.select("#expTr").append("td")
-                        .text("Pts: ");
-                    tbody.append("tr")
-                        .attr("id", "statTr")
-                        .append("td")
-                        .attr("scope", "row")
-                        .attr("class", "infoHeading")
-                        .text(d.gamesPlayed);
-                    d3.select("#statTr").append("td")
-                        .text(d.goals);
-                    d3.select("#statTr").append("td")
-                        .text(d.assists);
-                    d3.select("#statTr").append("td")
-                        .text(d.points);
+                        .text(d => d);
+
                     tbody.append("tr").append("th")
                         .attr("colspan", "4")
                         .attr("class", "heading")
                         .text("Personal Information");
-                    tbody.append("tr")
-                        .attr("id", "ageTr")
-                        .append("th")
+
+                    rows = tbody
+                        .selectAll("tr")
+                        .data([[],[],[],[],["Birth Date: ", d.birthDate],
+                                    ["Height: ", d.height],
+                                    ["Weight: ", d.weight],
+                                    ["Nationality: ", d.nationality]])
+                        .enter()
+                        .append("tr")
+                        .attr("class", "infoHeading");
+
+                    cells = rows.selectAll("td")
+                        .data(d => d)
+                        .enter()
+                        .append("td")
                         .attr("colspan", "2")
-                        .attr("scope", "row")
-                        .attr("class", "infoHeading")
-                        .append("span").text("Birth Date: ");
-                    d3.select("#ageTr").append("td")
-                        .attr("colspan", "2")
-                        .text(d.birthDate);
-                    tbody.append("tr")
-                        .attr("id", "heightTr")
-                        .append("th")
-                        .attr("colspan", "2")
-                        .attr("class", "infoHeading")
-                        .attr("scope", "row")
-                        .text("Height: ");
-                    d3.select("#heightTr").append("td")
-                        .attr("colspan", "2")
-                        .text(d.height);
-                    tbody.append("tr")
-                        .attr("id", "weightTr")
-                        .append("th")
-                        .attr("colspan", "2")
-                        .attr("class", "infoHeading")
-                        .attr("scope", "row")
-                        .text("Weight: ");
-                    d3.select("#weightTr").append("td")
-                        .attr("colspan", "2")
-                        .text(d.weight);
-                    tbody.append("tr")
-                        .attr("id", "bornTr")
-                        .append("th")
-                        .attr("colspan", "2")
-                        .attr("scope", "row")
-                        .attr("class", "infoHeading")
-                        .append("span")
-                        .text("Nationality: ");
-                    d3.select("#bornTr")
-                        .attr("colspan", "2")
-                        .append("td").text(d.nationality);
+                        .text(d => d);
+
                     tbody.append("tr").append("th")
                         .attr("class", "heading")
                         .attr("colspan", "4")
                         .text("Amateur History");
+
                     tbody.append("tr")
                         .attr("id", 'hsTr')
                         .append("td")
@@ -491,14 +469,13 @@ function displayPlayerProfile(picksByTeam, svg, clickProf) {
                     playerProfile.prevCircle = childCircle
                 } else {
                     d3.selectAll(clickProf+" > *").remove();
-                    d.clicked =false;
+                    d.clicked = false;
 
                     //Unhighlight the circle and go back to normal styling
                     let childCircle = this.childNodes[0];
-
                     d3.select(childCircle).style("stroke-opacity", "0");
                     d3.select(childCircle).style("stroke-width", "2px")
-
+                    d3.select("#instruction").attr("class", "highlighted");
                 }
             })
     })
