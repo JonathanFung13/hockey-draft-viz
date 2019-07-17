@@ -27,7 +27,6 @@ let playerProfile = {"active": undefined, "prevCircle": undefined};
 // Start visualization
 displayTeams();
 
-
 async function displayTeams() {
     let data = await d3.csv('data/draft_data.csv');
 
@@ -66,10 +65,10 @@ async function displayTeams() {
         .attr("width", 75)
         .attr("height", 100);
     $(".teamDiv"+2).trigger("click");
-    d3.select("section").append("div")
+    d3.select("aside").append("div")
         .attr("id", "clickProf");
 
-    // Get rid of player profile
+    // Get rid of player profile if no circle is clicked.
     $("#SvgHolder").click(function(e) {
         if (!$(e.target).is("circle")) {
             d3.select("#clickProf > *").remove();
@@ -95,8 +94,8 @@ function filterByTeamName(data, teamName) {
 function createSvg(svgHolder, className, sizes) {
     let radius = Math.ceil(sizes.width * 0.02);
     let g = svgHolder.append("svg")
-        .attr("class", className) //+" preview-svg")
-        .attr("width", sizes.width)//width + MARGINS.left + MARGINS.right)
+        .attr("class", className)
+        .attr("width", sizes.width)
         .attr("height", (sizes.height + MARGINS.top + MARGINS.bottom))
         .append("g")
         .attr("class", "circleGroup")
@@ -264,7 +263,6 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
         );
     console.log("line262");
 
-
     // PROPAGATE STATUS FILTER
     for (let key in clickedDict) {
         if (clickedDict[key]) {
@@ -309,7 +307,6 @@ function displayTeamDetail(picksByTeam, teamName, svgHolder) {
     d3.selectAll("#clickProf > *").remove();
     displayPlayerProfile(picksByTeam, svg, "#clickProf");
 }
-
 
 function recolorPlayers(){
     d3.selectAll("section circle")
@@ -474,7 +471,7 @@ function displayPlayerProfile(picksByTeam, svg, clickProf) {
                     //Unhighlight the circle and go back to normal styling
                     let childCircle = this.childNodes[0];
                     d3.select(childCircle).style("stroke-opacity", "0");
-                    d3.select(childCircle).style("stroke-width", "2px")
+                    d3.select(childCircle).style("stroke-width", "2px");
                     d3.select("#instruction").attr("class", "highlighted");
                 }
             })
