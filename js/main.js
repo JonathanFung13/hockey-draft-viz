@@ -1,4 +1,3 @@
-
 // Constants
 const MARGINS = {top: 5, right: 5, bottom: 5, left: 0}
 const PREVIEW_SIZE = {"width": 95 - MARGINS.left - MARGINS.right, "height": 110 - MARGINS.top - MARGINS.bottom, radius: 2}
@@ -11,8 +10,7 @@ const DIVISIONS = {"Anaheim Ducks": "#pacific", "Arizona Coyotes": "#pacific", "
 const minDraftYear = 2003;
 const maxDraftYear = 2018;
 
-const legendKey ={};
-//needed for legend - decide how many keys should be there
+const legendKey = {};
 legendKey['status'] = {class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
     text: {"active": ["On roster", 90], "other_team": ["Other teams roster", 90], "inactive": ["Inactive", 120]}};
 legendKey['gpClass'] = {class: {4: "four", 3: "three", 2: "two", 1: "one"},
@@ -21,9 +19,9 @@ legendKey['ppgClass'] = {class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "
     text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90]} };
 
 // Variables
-var draftsFilteredByTeamName;
 let clickedDict = {"active": false, "inactive": false, "other_team": false};
-var colorBy = $('#filters option:selected').val();
+let colorBy = $('#filters option:selected').val();
+let playerProfile = {"active": undefined, "prevCircle": undefined};
 
 // Start visualization
 displayTeams();
@@ -32,32 +30,32 @@ displayTeams();
 async function displayTeams() {
     let data = await d3.csv('data/draft_data.csv');
 
-    var svgHolder = d3.select("section")
+    let svgHolder = d3.select("section")
     svgHolder.append("div")
         .attr("id", "SvgHolder")
         .attr("height", DETAIL_SIZE.height + MARGINS.top + MARGINS.bottom)
         .attr("width", DETAIL_SIZE.width);
 
-    for (var i = 0; i < Object.keys(TEAM_ABBRVS).length; i++) {
+    for (let i = 0; i < Object.keys(TEAM_ABBRVS).length; i++) {
         let teamName = Object.keys(TEAM_ABBRVS)[i];
+        let picksByTeam = filterByTeamName(data, teamName);
 
         let previewHolder = d3.select(DIVISIONS[teamName])
             .append("div")
             .attr("class", "teamDiv teamDiv"+i);
-
         let previewSvg = createSvg(previewHolder, "Svg" + i, teamName, PREVIEW_SIZE.width, PREVIEW_SIZE.height)
         previewHolder.append("span")
             .html(TEAM_ABBRVS[teamName]);
         onPreviewHover(previewHolder); // change opacity of preview when you mouse over
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
-            var borderParams = $(this).offset();
+            let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
                 .attr("x", borderParams.left - 8)
                 .attr('y', borderParams.top - 64);
-            displayTeamDetail(data, this.children[0].children[0].getAttribute("team-name"), svgHolder)
+            displayTeamDetail(picksByTeam, this.children[0].children[0].getAttribute("team-name"), svgHolder)
         });
 
-        displayTeam(data, teamName, previewSvg, PREVIEW_SIZE)
+        plotDraftPicks(picksByTeam, previewSvg, PREVIEW_SIZE)
 
     }
 
@@ -65,33 +63,27 @@ async function displayTeams() {
         .attr("id", "selectedBorder")
         .append("rect")
         .attr("width", 75)
-        .attr("height", 100)
+        .attr("height", 100);
 
     $(".teamDiv"+2).trigger("click");
     d3.select("section").append("div")
-        .attr("id", "clickProf")
+        .attr("id", "clickProf");
 
     // Get rid of player information
     $("#SvgHolder").click(function(e) {
         if (!$(e.target).is("circle")) {
             d3.select("#clickProf > *").remove()
-            if (draftsFilteredByTeamName.active !== undefined) {
-                draftsFilteredByTeamName.active.clicked = false;
+            if (playerProfile.active !== undefined) {
+                playerProfile.active.clicked = false;
             }
-            if (draftsFilteredByTeamName.prevCircle !== undefined) {
-                d3.select(draftsFilteredByTeamName.prevCircle).style("stroke-opacity", "0");
-                d3.select(draftsFilteredByTeamName.prevCircle).style("stroke-width", "2px")
+            if (playerProfile.prevCircle !== undefined) {
+                d3.select(playerProfile.prevCircle).style("stroke-opacity", "0");
+                d3.select(playerProfile.prevCircle).style("stroke-width", "2px")
 
             }
         }
     });
     createLegend()
-};
-
-// For displaying all of the charts for all of the teams
-function displayTeam(data, teamName, svg, sizes) {
-    draftsFilteredByTeamName = filterByTeamName(data, teamName);
-    return plotDraftPicks(draftsFilteredByTeamName, svg, sizes);
 }
 
 function filterByTeamName(data, teamName) {
@@ -121,7 +113,7 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
             }
             return d.round;
         })
-        .rollup(function(leaves) { return leaves.length; })
+        .rollup(leaves => leaves.length)
         .entries(draftsFilteredByTeamName);
 
     let prev_round = 1; // used to change the start location of the circles depending on the round
@@ -183,11 +175,6 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
                 }
             } else if (posArr[0].value == 5 && draftPicks == 4) {
                 positionsObject[d.year] -= radius*0.9;
-//                if (draftPicks == 1 || draftPicks == 4) {
-//                    positionsObject[d.year] -=radius*1.5;
-//                } else {
-//                    positionsObject[d.year] +=radius*2.5;
-//                }
             } else {
                 positionsObject[d.year]+=radius*1.8
             }
@@ -195,9 +182,8 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
         prev_year = d.year;
         return positionsObject[d.year]
     };
-    // Set the ranges
-    //let x = d3.scale.linear().range([0, width]);
 
+    // Set the ranges
     let yLoc = d3.scaleLinear()
         .range([height/YLOC_SCALE, 0])
         .domain([minDraftYear, maxDraftYear]);
@@ -206,20 +192,15 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
         if (d.year != prev_year) {
             //reset prev_round to 1 at the beginning of new year
             prev_round = 1;
-            posArr = nested_data.filter(function(nd) {
-                return nd.key == d.year;
-            })[0].values.filter(function(nd) {
-                return nd.key == prev_round;
-            });
+            posArr = nested_data.filter(nd => nd.key == d.year)[0]
+                .values.filter(nd => nd.key == prev_round);
             draftPicks=0;
+            console.log(posArr);
         }
         if (d.round != prev_round) {
             draftPicks=0;
-            posArr = nested_data.filter(function(nd) {
-                return nd.key == d.year;
-            })[0].values.filter(function(nd) {
-                return nd.key == d.round;
-            });
+            posArr = nested_data.filter(nd => nd.key == d.year)[0]
+                .values.filter(nd => nd.key == d.round);
         }
         draftPicks++;
         prev_round = d.round;
@@ -291,7 +272,7 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
 
 
 
-function displayTeamDetail(data, teamName, svgHolder) {
+function displayTeamDetail(picksByTeam, teamName, svgHolder) {
 
     d3.selectAll("#SvgHolder > *").remove();
 
@@ -304,7 +285,7 @@ function displayTeamDetail(data, teamName, svgHolder) {
     svgHolder.select(".teamTitle")
         .append("div")
         .attr("id", "teamName")
-        .text(teamName + " Details");
+        .text(teamName + " Draft Record");
 
     svgHolder.select("#SvgHolder")
         .append("div")
@@ -313,12 +294,12 @@ function displayTeamDetail(data, teamName, svgHolder) {
         .text("Click on a circle to see detailed player information!");
 
     let svg = createSvg(svgHolder.select("#SvgHolder"), "selectedSvg","", DETAIL_SIZE.width, DETAIL_SIZE.height);
-    let positionFunctions = displayTeam(data, teamName, svg, DETAIL_SIZE);
+    let positionFunctions = plotDraftPicks(picksByTeam, svg, DETAIL_SIZE);
     addXYLabels(svg, DETAIL_SIZE.height, DETAIL_SIZE.radius);
     addPositionLabels(svg, positionFunctions);
     addHoverPreview(svg);
     d3.selectAll("#clickProf > *").remove();
-    mouseClick(svg, "#clickProf");
+    displayPlayerProfile(picksByTeam, svg, "#clickProf");
 }
 
 
@@ -384,192 +365,144 @@ function createLegend(){
     }
 }
 
-function mouseClick(svg, clickProf) {
+function displayPlayerProfile(picksByTeam, svg, clickProf) {
     // On mouse click on any of the circles, show player profile
     svg.selectAll("g > g").each(function(d) {
         d3.select(this)
             .on("click", function(d) {
                 d3.select("#instruction").classed("highlighted",false);
-                let profile = d
-                // let profile = mcDraft.filter(function(dClick) {
-                //     let names = dClick.name.split(" ");
-                //     let name = names[1]+", "+names[0];
-                //     return name === d.name;
-                // });
-                if (profile !== undefined) {
-                    if (d.clicked === undefined || !d.clicked) {
-                        if (draftsFilteredByTeamName.active !== undefined) {
-                            draftsFilteredByTeamName.active.clicked = false;
-                        }
-                        if (draftsFilteredByTeamName.prevCircle !== undefined) {
-                            //Unhighlight the previously selected circle
-//                        d3.select(draftsFilteredByTeamName.prevCircle).style("stroke", function() {
-//                            return legendKey[colorBy].basic[draftsFilteredByTeamName.prevCircle.className.baseVal.toUpperCase()];
+                if (d.clicked === undefined || !d.clicked) {
+                    if (playerProfile.active !== undefined) {
+                        playerProfile.active.clicked = false;
+                    }
+                    if (playerProfile.prevCircle !== undefined) {
+                        //Unhighlight the previously selected circle
+//                        d3.select(picksByTeam.prevCircle).style("stroke", function() {
+//                            return legendKey[colorBy].basic[picksByTeam.prevCircle.className.baseVal.toUpperCase()];
 //                        });
 
-                            d3.select(draftsFilteredByTeamName.prevCircle).style("stroke-opacity", "0");
-                            d3.select(draftsFilteredByTeamName.prevCircle).style("stroke-width", "2px")
-
-                        }
-                        size = parseInt(window.innerWidth) * 0.2;
-                        draftsFilteredByTeamName.active = d;
-                        d3.selectAll(clickProf+" > *").remove();
-                        d3.select(clickProf).append("table").append("caption")
-                            .attr("class", "nameCap")
-                            .text(d["prospect.fullName"])
-                        let tbody = d3.select(clickProf).select("table")
-                        tbody.append("tr").append("th")
-                            .attr("colspan", "4")
-                            .attr("class", "heading")
-                            .text(function() {
-                                if (d.status === "inactive") {
-                                    return "Not Active"
-                                }
-                                return "#" + d.jerseyNumber + ", " + d.position + ", " + d.teamName
-                            });
-                        tbody.append("tr")
-                            .attr("id", "expTr")
-                            .append("td")
-                            .attr("scope", "row")
-                            .attr("class", "infoHeading")
-                            .text("GP: ");
-                        d3.select("#expTr").append("td")
-                            .text("G: ");
-                        d3.select("#expTr").append("td")
-                            .text("A: ");
-                        d3.select("#expTr").append("td")
-                            .text("Pts: ");
-                        tbody.append("tr")
-                            .attr("id", "statTr")
-                            .append("td")
-                            .attr("scope", "row")
-                            .attr("class", "infoHeading")
-                            .text(d.gamesPlayed);
-                        d3.select("#statTr").append("td")
-                            .text(d.goals);
-                        d3.select("#statTr").append("td")
-                            .text(d.assists);
-                        d3.select("#statTr").append("td")
-                            .text(d.points);
-                        tbody.append("tr").append("th")
-                            .attr("colspan", "4")
-                            .attr("class", "heading")
-                            .text("Personal Information");
-                        tbody.append("tr")
-                            .attr("id", "ageTr")
-                            .append("th")
-                            .attr("colspan", "2")
-                            .attr("scope", "row")
-                            .attr("class", "infoHeading")
-                            .append("span").text("Birth Date: ");
-                        d3.select("#ageTr").append("td")
-                            .attr("colspan", "2")
-                            .text(d.birthDate);
-                        tbody.append("tr")
-                            .attr("id", "heightTr")
-                            .append("th")
-                            .attr("colspan", "2")
-                            .attr("class", "infoHeading")
-                            .attr("scope", "row")
-                            .text("Height: ");
-                        d3.select("#heightTr").append("td")
-                            .attr("colspan", "2")
-                            .text(function() {
-                                return checkUndefinedPlayer(d.height)
-                            });
-                        tbody.append("tr")
-                            .attr("id", "weightTr")
-                            .append("th")
-                            .attr("colspan", "2")
-                            .attr("class", "infoHeading")
-                            .attr("scope", "row")
-                            .text("Weight: ");
-                        d3.select("#weightTr").append("td")
-                            .attr("colspan", "2")
-                            .text(function() {
-                                return checkUndefinedPlayer(d.weight)
-                            });
-                        tbody.append("tr")
-                            .attr("id", "bornTr")
-                            .append("th")
-                            .attr("colspan", "2")
-                            .attr("scope", "row")
-                            .attr("class", "infoHeading")
-                            .append("span")
-                            .text("Nationality: ");
-                        d3.select("#bornTr")
-                            .attr("colspan", "2")
-                            .append("td").text(function() {
-                            return checkUndefinedPlayer(d.nationality)
-                        });
-                        tbody.append("tr").append("th")
-                            .attr("class", "heading")
-                            .attr("colspan", "4")
-                            .text("Amateur History");
-                        tbody.append("tr")
-                            .attr("id", 'hsTr')
-                            .append("td")
-                            .attr("colspan", "4")
-                            .attr("class", "infoHeading")
-                            .text(d['amateurTeam.name'] + " (" + d['amateurLeague.name'] + ")");
-                        // tbody.append("tr")
-                        //     .attr("id", 'collegeTr')
-                        //     .append("td")
-                        //     .attr("scope", "row")
-                        //     .attr("class", "infoHeading")
-                        //     .text("Team: ");
-                        // d3.select("#collegeTr").append("td")
-                        //     .text(d['amateurTeam.name']);
-                        // tbody.append("tr").append("th")
-                        //     .attr("class", "heading")
-                        //     .attr("colspan", "2")
-                        //     .text("Career History");
-
-                        // tbody.append("tr").append("th")
-                        //     .attr("class", "heading")
-                        //     .attr("colspan", "2")
-                        //     .text("2016 NFL Statistics");
-                        // for (let k = 0; k < profile[0].stats.length; k++) {
-                        //     let stat = profile[0].stats[k];
-                        //     let statKeys = Object.keys(stat);
-                        //     tbody.append("tr")
-                        //         .attr("id", statKeys[0]+"Tr")
-                        //         .append("td")
-                        //         .attr("scope", "row")
-                        //         .attr("class", "infoHeading")
-                        //         .text(statKeys[0] + ": ");
-                        //     d3.select("#"+statKeys[0]+"Tr").append("td")
-                        //         .text(stat[statKeys[0]]);
-                        //}
-                        d.clicked = true;
-                        //TODO: work for both sides
-                        // highlights the circle when clicked
-                        let childCircle = this.childNodes[0];
-                        d3.select(childCircle).style("stroke", "#ffeb00");
-                        d3.select(childCircle).style("stroke-opacity", ".5");
-                        d3.select(childCircle).style("stroke-width", "6px");
-                        draftsFilteredByTeamName.prevCircle = childCircle
-                    } else {
-                        d3.selectAll(clickProf+" > *").remove();
-                        d.clicked =false;
-
-                        //Unhighlight the circle and go back to normal styling
-                        let childCircle = this.childNodes[0];
-
-                        d3.select(childCircle).style("stroke-opacity", "0");
-                        d3.select(childCircle).style("stroke-width", "2px")
+                        d3.select(playerProfile.prevCircle).style("stroke-opacity", "0");
+                        d3.select(playerProfile.prevCircle).style("stroke-width", "2px")
 
                     }
+                    size = parseInt(window.innerWidth) * 0.2;
+                    playerProfile.active = d;
+                    d3.selectAll(clickProf+" > *").remove();
+                    d3.select(clickProf).append("table").append("caption")
+                        .attr("class", "nameCap")
+                        .text(d["prospect.fullName"])
+                    let tbody = d3.select(clickProf).select("table")
+                    tbody.append("tr").append("th")
+                        .attr("colspan", "4")
+                        .attr("class", "heading")
+                        .text(function() {
+                            if (d.status === "inactive") {
+                                return "Not Active"
+                            } else {
+                                return "#" + d.jerseyNumber + ", " + d.position + ", " + d.teamName
+                            }
+                        });
+                    tbody.append("tr")
+                        .attr("id", "expTr")
+                        .append("td")
+                        .attr("scope", "row")
+                        .attr("class", "infoHeading")
+                        .text("GP: ");
+                    d3.select("#expTr").append("td")
+                        .text("G: ");
+                    d3.select("#expTr").append("td")
+                        .text("A: ");
+                    d3.select("#expTr").append("td")
+                        .text("Pts: ");
+                    tbody.append("tr")
+                        .attr("id", "statTr")
+                        .append("td")
+                        .attr("scope", "row")
+                        .attr("class", "infoHeading")
+                        .text(d.gamesPlayed);
+                    d3.select("#statTr").append("td")
+                        .text(d.goals);
+                    d3.select("#statTr").append("td")
+                        .text(d.assists);
+                    d3.select("#statTr").append("td")
+                        .text(d.points);
+                    tbody.append("tr").append("th")
+                        .attr("colspan", "4")
+                        .attr("class", "heading")
+                        .text("Personal Information");
+                    tbody.append("tr")
+                        .attr("id", "ageTr")
+                        .append("th")
+                        .attr("colspan", "2")
+                        .attr("scope", "row")
+                        .attr("class", "infoHeading")
+                        .append("span").text("Birth Date: ");
+                    d3.select("#ageTr").append("td")
+                        .attr("colspan", "2")
+                        .text(d.birthDate);
+                    tbody.append("tr")
+                        .attr("id", "heightTr")
+                        .append("th")
+                        .attr("colspan", "2")
+                        .attr("class", "infoHeading")
+                        .attr("scope", "row")
+                        .text("Height: ");
+                    d3.select("#heightTr").append("td")
+                        .attr("colspan", "2")
+                        .text(d.height);
+                    tbody.append("tr")
+                        .attr("id", "weightTr")
+                        .append("th")
+                        .attr("colspan", "2")
+                        .attr("class", "infoHeading")
+                        .attr("scope", "row")
+                        .text("Weight: ");
+                    d3.select("#weightTr").append("td")
+                        .attr("colspan", "2")
+                        .text(d.weight);
+                    tbody.append("tr")
+                        .attr("id", "bornTr")
+                        .append("th")
+                        .attr("colspan", "2")
+                        .attr("scope", "row")
+                        .attr("class", "infoHeading")
+                        .append("span")
+                        .text("Nationality: ");
+                    d3.select("#bornTr")
+                        .attr("colspan", "2")
+                        .append("td").text(d.nationality);
+                    tbody.append("tr").append("th")
+                        .attr("class", "heading")
+                        .attr("colspan", "4")
+                        .text("Amateur History");
+                    tbody.append("tr")
+                        .attr("id", 'hsTr')
+                        .append("td")
+                        .attr("colspan", "4")
+                        .attr("class", "infoHeading")
+                        .text(d['amateurTeam.name'] + " (" + d['amateurLeague.name'] + ")");
+
+                    d.clicked = true;
+                    //TODO: work for both sides
+                    // highlights the circle when clicked
+                    let childCircle = this.childNodes[0];
+                    d3.select(childCircle).style("stroke", "#ffeb00");
+                    d3.select(childCircle).style("stroke-opacity", ".5");
+                    d3.select(childCircle).style("stroke-width", "6px");
+                    playerProfile.prevCircle = childCircle
+                } else {
+                    d3.selectAll(clickProf+" > *").remove();
+                    d.clicked =false;
+
+                    //Unhighlight the circle and go back to normal styling
+                    let childCircle = this.childNodes[0];
+
+                    d3.select(childCircle).style("stroke-opacity", "0");
+                    d3.select(childCircle).style("stroke-width", "2px")
+
                 }
             })
     })
-}
-
-function checkUndefinedPlayer(playerInfo) {
-    if (playerInfo == undefined) {
-        return "-"
-    }
-    return playerInfo
 }
 
 function createSvg(svgHolder, className, teamName, width, height) {
@@ -624,7 +557,7 @@ function addHoverPreview(svg) {
 
             divText
                 .append("div")
-                .text("Points per game: " + d.pointsPerGame)
+                .text("Points per game: " + (+d.pointsPerGame).toFixed(3));
         })
         .on("mousemove", function() {
             d3.select(this).style("opacity", 1);
@@ -673,9 +606,6 @@ function addXYLabels(svg, height, radius) {
 }
 
 function addPositionLabels(svg, positionFunctions) {
-    //prev_round = 0;
-    //prev_year = maxDraftYear;
-    //draftPicks = 0;
     svg.selectAll(".circleWrap")
         .append("text")
         .attr("class", "positionLabel")
