@@ -4,8 +4,6 @@ const PREVIEW_SIZE = {"width": 95 - MARGINS.left - MARGINS.right, "height": 110 
 const DETAIL_SIZE = {"width": 780 , "height": 700 - MARGINS.top - MARGINS.bottom, radius: 12.5};
 const YLOC_SCALE = 1.4;
 const CIRCLE_GAP_FACTOR = 1.5; // To have same gap between rounds
-console.log(PREVIEW_SIZE);
-console.log(DETAIL_SIZE);
 
 const TEAM_ABBRVS = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "Boston Bruins": "Boston", "Buffalo Sabres": "Buffalo", "Calgary Flames": "Calgary", "Carolina Hurricanes": "Carolina", "Chicago Blackhawks": "Chicago", "Colorado Avalanche": "Colorado", "Columbus Blue Jackets": "Columbus", "Dallas Stars": "Dallas", "Detroit Red Wings": "Detroit", "Edmonton Oilers": "Edmonton", "Florida Panthers": "Florida", "Los Angeles Kings": "Los Angeles", "Minnesota Wild": "Minnesota", "Montréal Canadiens": "Montréal", "Nashville Predators": "Nashville", "New Jersey Devils": "New Jersey", "New York Islanders": "NY Islanders", "New York Rangers": "NY Rangers", "Ottawa Senators": "Ottawa", "Philadelphia Flyers": "Philadelphia", "Pittsburgh Penguins": "Pittsburgh", "San Jose Sharks": "San Jose", "St. Louis Blues": "St. Louis", "Tampa Bay Lightning": "Tampa Bay", "Toronto Maple Leafs": "Toronto", "Vancouver Canucks": "Vancouver", "Vegas Golden Knights": "Vegas", "Washington Capitals": "Washington", "Winnipeg Jets": "Winnipeg"}
 const DIVISIONS = {"Anaheim Ducks": "#pacific", "Arizona Coyotes": "#pacific", "Boston Bruins": "#atlantic", "Buffalo Sabres": "#atlantic", "Calgary Flames": "#pacific", "Carolina Hurricanes": "#metropolitan", "Chicago Blackhawks": "#central", "Colorado Avalanche": "#central", "Columbus Blue Jackets": "#metropolitan", "Dallas Stars": "#central", "Detroit Red Wings": "#atlantic", "Edmonton Oilers": "#pacific", "Florida Panthers": "#atlantic", "Los Angeles Kings": "#pacific", "Minnesota Wild": "#central", "Montréal Canadiens": "#atlantic", "Nashville Predators": "#central", "New Jersey Devils": "#metropolitan", "New York Islanders": "#metropolitan", "New York Rangers": "#metropolitan", "Ottawa Senators": "#atlantic", "Philadelphia Flyers": "#metropolitan", "Pittsburgh Penguins": "#metropolitan", "San Jose Sharks": "#pacific", "St. Louis Blues": "#central", "Tampa Bay Lightning": "#atlantic", "Toronto Maple Leafs": "#atlantic", "Vancouver Canucks": "#pacific", "Vegas Golden Knights": "#pacific", "Washington Capitals": "#metropolitan", "Winnipeg Jets": "#central"}
@@ -108,18 +106,15 @@ function createSvg(svgHolder, className, sizes) {
     return g;
 }
 
-function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
+function plotDraftPicks(picksByTeam, svg, sizes) {
     //let width = sizes.width;
     let height = sizes.height;
     let radius = sizes.radius;
     let positionsObject={};
 
-    draftsFilteredByTeamName.forEach(function(d) {
-        d.year =+ d.year;
-        positionsObject[d.year]=0
-    });
+    picksByTeam.forEach(d => positionsObject[+d.year] = 0);
 
-    let nested_data = d3.nest()
+    let nested_data = d3.nest() // num picks for each team in each round
         .key(y => y.year)
         .key(function(d) {
             if (d.round > 7) {
@@ -128,27 +123,28 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
             return d.round;
         })
         .rollup(leaves => leaves.length)
-        .entries(draftsFilteredByTeamName);
+        .entries(picksByTeam);
 
     let prev_round = 1; // used to change the start location of the circles depending on the round
     let prev_year = maxDraftYear; //one that should be most recent year
     let draftPicks; //to locate circles depending on how many picks per round
-    let posArr = nested_data.filter(function(nd) {
-        return nd.key == prev_year;
-    })[0].values.filter(function(nd) {
-        return nd.key == prev_round;
-    });
+    let posArr = getArraySomething(nested_data, prev_year, prev_round);
+    // let posArr = nested_data.filter(function(nd) {
+    //     return nd.key == prev_year;
+    // })[0].values.filter(function(nd) {
+    //     return nd.key == prev_round;
+    // });
+    console.log("line137", posArr);
 
     let xPosition = function(d){
-        // console.log(d.year,d.round,d.Pick,d.Overall,d["team.name"],d["prospect.fullName"], prev_year, prev_round);
+        if (d["team.name"] === "Edmonton Oilers") {
+            console.log("line141", posArr, draftPicks)
+        }
+
         if (d.year != prev_year) {
             //reset prev_round to 0 at the beginning of new year
             prev_round = 0;
-            posArr = nested_data.filter(function(nd) {
-                return nd.key == d.year;
-            })[0].values.filter(function(nd) {
-                return nd.key == prev_round;
-            });
+            posArr = getArraySomething(nested_data, prev_year, prev_round);
             draftPicks=0;
         }
         if (d.round != prev_round) {
@@ -170,11 +166,7 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
                     prev_round = "N/A"
                 }
             }
-            posArr = nested_data.filter(function(nd) {
-                return nd.key == d.year;
-            })[0].values.filter(function(nd) {
-                return nd.key == d.round;
-            });
+            posArr = getArraySomething(nested_data, d.year, d.round);
             positionsObject[d.year]+=radius * 3;
             if (posArr[0].values === 1) {
                 positionsObject[d.year] += radius
@@ -185,15 +177,22 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
                 if (posArr[0].value == 3 || posArr[0].value == 5) {
                     positionsObject[d.year] -= radius*.9;
                 } else {
-                    positionsObject[d.year]-=radius*1.8;
+                    positionsObject[d.year] -= radius*1.8;
                 }
             } else if (posArr[0].value == 5 && draftPicks == 4) {
                 positionsObject[d.year] -= radius*0.9;
             } else {
-                positionsObject[d.year]+=radius*1.8
+                positionsObject[d.year] += radius*1.8
             }
         }
         prev_year = d.year;
+        if (d["team.name"] === "Edmonton Oilers") {
+            console.log("line186", positionsObject[d.year])
+            //console.log("line193",d.year,d.round,d.pickOverall,posArr, positionsObject);
+            //console.log("line194", positionsObject);
+        }
+
+        //console.log("xp", positionsObject[d.year]);
         return positionsObject[d.year]
     };
 
@@ -206,15 +205,13 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
         if (d.year != prev_year) {
             //reset prev_round to 1 at the beginning of new year
             prev_round = 1;
-            posArr = nested_data.filter(nd => nd.key == d.year)[0]
-                .values.filter(nd => nd.key == prev_round);
+            posArr = getArraySomething(nested_data, d.year, prev_round);
             draftPicks=0;
             //console.log(posArr);
         }
         if (d.round != prev_round) {
             draftPicks=0;
-            posArr = nested_data.filter(nd => nd.key == d.year)[0]
-                .values.filter(nd => nd.key == d.round);
+            posArr = getArraySomething(nested_data, d.year, d.round);
         }
         draftPicks++;
         prev_round = d.round;
@@ -233,21 +230,21 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
                 return yLoc(d.year) - radius * 0.7
             }
         }
+        //console.log("yp", yLoc(d.year));
+        if (d["team.name"] === "Edmonton Oilers") {
+            console.log("line235", yLoc(d.year))
+        }
+
         return yLoc(d.year)
     };
 
     // Add the scatterplot
-    draftsFilteredByTeamName.forEach(function(d) {
-        d.year =+ d.year;
-        positionsObject[d.year] = 0
-    });
     let circleWrap = svg.selectAll("dot")
-        .data(draftsFilteredByTeamName)
+        .data(picksByTeam)
         .enter()
         .append("g")
         .attr("class", "circleWrap")
         .style("opacity", 0.8);
-
 
     prev_round = 1;
     prev_year = maxDraftYear;
@@ -265,11 +262,7 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
         .attr("cx", x => xPosition(x))
         .attr("cy", y => yPosition(y)
         );
-
-    draftsFilteredByTeamName.forEach(function(d) {
-        d.year =+ d.year;
-        positionsObject[d.year]=0
-    });
+    console.log("line262");
 
 
     // PROPAGATE STATUS FILTER
@@ -282,6 +275,12 @@ function plotDraftPicks(draftsFilteredByTeamName, svg, sizes) {
     let positionFunctions = {"xPosition": xPosition, "yPosition": yPosition};
     return positionFunctions
 }
+
+function getArraySomething(data, year, round) {
+    return data.filter(nd => nd.key == year)[0]
+        .values.filter(nd => nd.key == round);
+}
+
 
 function displayTeamDetail(picksByTeam, teamName, svgHolder) {
     d3.selectAll("#SvgHolder > *").remove();
