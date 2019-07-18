@@ -481,7 +481,7 @@ function displayPlayerProfile(picksByTeam, svg, clickProf) {
 function addHoverPreview(svg) {
     svg.selectAll("g")
         .on("mouseover", function(d) {
-            let criteriaData = [[],[],[],[],[],[],[],[],
+            let criteriaData = [//[],[],[],[],[],[],[],[],
                 ["Name: " + d["prospect.fullName"]],
                 ["Draft Year: " + d.year],
                 ["Round: " + d.round],
