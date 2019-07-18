@@ -481,39 +481,28 @@ function displayPlayerProfile(picksByTeam, svg, clickProf) {
 function addHoverPreview(svg) {
     svg.selectAll("g")
         .on("mouseover", function(d) {
+            let criteriaData = [[],[],[],[],[],[],[],[],
+                ["Name: " + d["prospect.fullName"]],
+                ["Draft Year: " + d.year],
+                ["Round: " + d.round],
+                ["Pick: " + d.pickOverall],
+                ["Status: " + legendKey['status'].text[d.status][0]],
+                ["Games Played: " + d.gamesPlayed],
+                ["Points: " + d.points],
+                ["Points per game: " + (+d.pointsPerGame).toFixed(3)]];
+
             d3.select(this).style("opacity", 1);
+
             let divText = d3.selectAll("body")
                 .append("div")
                 .attr("class", "previewWrap")
                 .attr("width", "200px");
-            divText
-                .append("div")
-                .text("Name: " + d["prospect.fullName"]);
-            divText
-                .append("div")
-                .text("Draft Year: " + d.year);
-            divText
-                .append("div")
-                .text("Round: " + d.round);
-            divText
-                .append("div")
-                .text("Pick: " + d.pickOverall);
 
-            divText
+            divText.selectAll("div")
+                .data(criteriaData)
+                .enter()
                 .append("div")
-                .text("Status: " + legendKey['status'].text[d.status][0]);
-
-            divText
-                .append("div")
-                .text("Games Played: " + d.gamesPlayed);
-
-            divText
-                .append("div")
-                .text("Points: " + d.points);
-
-            divText
-                .append("div")
-                .text("Points per game: " + (+d.pointsPerGame).toFixed(3));
+                .text(d => d);
         })
         .on("mousemove", function() {
             d3.select(this).style("opacity", 1);
