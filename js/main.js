@@ -1,7 +1,7 @@
 // Constants
 const MARGINS = {top: 5, right: 5, bottom: 5, left: 0}
 const PREVIEW_SIZE = {"width": 95 - MARGINS.left - MARGINS.right, "height": 110 - MARGINS.top - MARGINS.bottom, radius: 2};
-const DETAIL_SIZE = {"width": 780 , "height": 700 - MARGINS.top - MARGINS.bottom, radius: 12.5};
+const DETAIL_SIZE = {"width": 500 , "height": 600 - MARGINS.top - MARGINS.bottom, radius: 12.5};
 const YLOC_SCALE = 1.4;
 const CIRCLE_GAP_FACTOR = 1.5; // To have same gap between rounds
 
@@ -9,7 +9,7 @@ const TEAM_ABBRVS = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "
 const DIVISIONS = {"Anaheim Ducks": "#pacific", "Arizona Coyotes": "#pacific", "Boston Bruins": "#atlantic", "Buffalo Sabres": "#atlantic", "Calgary Flames": "#pacific", "Carolina Hurricanes": "#metropolitan", "Chicago Blackhawks": "#central", "Colorado Avalanche": "#central", "Columbus Blue Jackets": "#metropolitan", "Dallas Stars": "#central", "Detroit Red Wings": "#atlantic", "Edmonton Oilers": "#pacific", "Florida Panthers": "#atlantic", "Los Angeles Kings": "#pacific", "Minnesota Wild": "#central", "Montréal Canadiens": "#atlantic", "Nashville Predators": "#central", "New Jersey Devils": "#metropolitan", "New York Islanders": "#metropolitan", "New York Rangers": "#metropolitan", "Ottawa Senators": "#atlantic", "Philadelphia Flyers": "#metropolitan", "Pittsburgh Penguins": "#metropolitan", "San Jose Sharks": "#pacific", "St. Louis Blues": "#central", "Tampa Bay Lightning": "#atlantic", "Toronto Maple Leafs": "#atlantic", "Vancouver Canucks": "#pacific", "Vegas Golden Knights": "#pacific", "Washington Capitals": "#metropolitan", "Winnipeg Jets": "#central"}
 const minDraftYear = 2003;
 const maxDraftYear = 2018;
-const draftRounds = [1,2,3,4,5,6,7];
+const numDraftRounds = 7; //[1,2,3,4,5,6,7];
 
 const legendKey = {};
 legendKey['status'] = {class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
@@ -51,7 +51,7 @@ async function displayTeams() {
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
-                .attr("x", borderParams.left - 8)
+                .attr("x", borderParams.left - 1)
                 .attr('y', borderParams.top - 64);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
@@ -92,14 +92,13 @@ function filterByTeamName(data, teamName) {
 }
 
 function createSvg(svgHolder, className, sizes) {
-    let radius = Math.ceil(sizes.width * 0.02);
     let g = svgHolder.append("svg")
         .attr("class", className)
         .attr("width", sizes.width)
         .attr("height", (sizes.height + MARGINS.top + MARGINS.bottom))
         .append("g")
         .attr("class", "circleGroup")
-        .attr("transform", "translate(" + radius * 3 + "," + radius * 3 + ")");
+        .attr("transform", "translate(" + Math.ceil(sizes.width * 0.2) + "," + Math.ceil(sizes.height * 0.09) + ")");
     g.style("opacity", 0)
         .transition().duration(500).style("opacity", 1);
     return g;
@@ -548,12 +547,12 @@ function addXYLabels(svg, height, radius) {
         .attr("transform", "translate(-6,-35)");
         //.style("font-size", radius * 1.3);
 
-    for (let i = 0; i < draftRounds.length; i++) {
+    for (let i = 1; i < (numDraftRounds+1); i++) {
         xTicks.append("text")
-            .text('R' + draftRounds[i])
+            .text('R' + i)
             .attr("x", function() {
                 let sumFactor = 0;
-                for (let j = 0; j < i; j++) {
+                for (let j = 1; j < i; j++) {
                     sumFactor += (CIRCLE_GAP_FACTOR - 0.01);
                 }
                 return radius * 3 * (sumFactor)+radius*2.5;

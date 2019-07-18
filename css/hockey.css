@@ -58,7 +58,7 @@ text{
 #clickProf {
     flex: 1;
     margin-left: 550px;
-    margin-top: 30px;
+    margin-top: 80px;
 }
 
 #clickProf img {
@@ -220,7 +220,7 @@ span{
 .team-info span {
     font-size: 10px;
     position: absolute;
-    margin-left: -80px;
+    margin-left: -70px;
     margin-top: 85px;
     width: 90px;
     overflow: hidden;
@@ -259,8 +259,8 @@ span{
 }
 
 #selectedBorder {
-    width: 1260px;
-    height: 500px;
+    width: 700px;
+    height: 475px;
 }
 #selectedBorder rect {
     fill: none;
@@ -288,6 +288,7 @@ span{
 }
 
 #instruction {
+    margin-left: 65px;
     /* width: 390px; */
     /* float: right; */
     /*display: flex;*/
@@ -324,8 +325,8 @@ span{
 
 /*LOGOS*/
 .teamTitle {
-    /*margin-left: 5%;*/
-    margin-top: 5%;
+    margin-left: 65px;
+    margin-top: 15px;
     width: 500px;
     /*margin-right: 10px;*/
     text-align: center;
@@ -504,7 +505,7 @@ section{
 
     /* margin-left: 20px; */
 
-    height: 900px;
+    /*height: 900px;*/
 
     /* margin-top: 50px; */
 
