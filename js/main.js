@@ -52,7 +52,7 @@ async function displayTeams() {
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
                 .attr("x", borderParams.left - 1)
-                .attr('y', borderParams.top - 64);
+                .attr('y', borderParams.top - 495);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
         plotDraftPicks(picksByTeam, previewSvg, PREVIEW_SIZE)
@@ -323,15 +323,15 @@ function createLegend(){
     d3.select("#legend svg").remove();
     let svgOrig = d3.select("#legend").append("svg")
         .attr("width", "700px") //to keep it below the svg files above
-        .attr("height", "55px");
+        .attr("height", "30px");
     let legend = svgOrig.append("g")
         .attr("class", "legend")
-        .attr("transform","translate(45,5)");
+        .attr("transform","translate(45,-15)");
     let count = 0;
     for (let i in legendKey[colorBy].class) {
         // let keys = Object.keys(legendKey[colorBy].class);
         legend.append("circle")
-            .attr("cx", MARGINS.left - 30 + count*legendKey[colorBy].text[i][1])
+            .attr("cx", -30 + count*legendKey[colorBy].text[i][1])
             .attr("cy", 30)
             .attr("r", 10)
             .attr("class", legendKey[colorBy].class[i])
