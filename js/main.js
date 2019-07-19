@@ -109,7 +109,7 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
     //let width = sizes.width;
     let height = sizes.height;
     let radius = sizes.radius;
-    let positionsObject={};
+    let positionsObject = {}
 
     picksByTeam.forEach(d => positionsObject[+d.year] = 0);
 
@@ -128,18 +128,14 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
     let prev_year = maxDraftYear; //one that should be most recent year
     let draftPicks; //to locate circles depending on how many picks per round
     let posArr = getArraySomething(nested_data, prev_year, prev_round);
-    // let posArr = nested_data.filter(function(nd) {
-    //     return nd.key == prev_year;
-    // })[0].values.filter(function(nd) {
-    //     return nd.key == prev_round;
-    // });
-    console.log("line137", posArr);
+
+    // function for finding x coordinate for circles
+    let xLoc = function(d) {
+        let sumFactor = (CIRCLE_GAP_FACTOR) * (d-1);
+        return radius * 3 * sumFactor + radius * 1.8;
+    };
 
     let xPosition = function(d){
-        if (d["team.name"] === "Edmonton Oilers") {
-            console.log("line141", posArr, draftPicks)
-        }
-
         if (d.year != prev_year) {
             //reset prev_round to 0 at the beginning of new year
             prev_round = 0;
@@ -148,29 +144,13 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
         }
         if (d.round != prev_round) {
             draftPicks = 1;
-            while (prev_round != d.round) {
-                let sumFactor = 0;
-                let limit;
-                if (prev_round === "N/A") {
-                    limit = 7;
-                } else {
-                    limit = prev_round;
-                }
-                for (let i = 0; i < limit; i++) {
-                    sumFactor += CIRCLE_GAP_FACTOR;
-                }
-                positionsObject[d.year]=radius * 3 * (sumFactor-1)+radius*1.8;
-                prev_round++;
-                if (prev_round > 7) {
-                    prev_round = "N/A"
-                }
-            }
+            positionsObject[d.year] = xLoc(d.round);
+            prev_round = d.round;
             posArr = getArraySomething(nested_data, d.year, d.round);
-            positionsObject[d.year]+=radius * 3;
-            if (posArr[0].values === 1) {
-                positionsObject[d.year] += radius
+            if (posArr[0].value === 1) {
+                positionsObject[d.year] += radius;
             }
-        } else {
+        } else { // jitter whenever there is more than one pick in a round
             draftPicks++;
             if (draftPicks === 3) {
                 if (posArr[0].value == 3 || posArr[0].value == 5) {
@@ -178,24 +158,19 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
                 } else {
                     positionsObject[d.year] -= radius*1.8;
                 }
-            } else if (posArr[0].value == 5 && draftPicks == 4) {
+            } else if (draftPicks == 4 && posArr[0].value == 5) {
                 positionsObject[d.year] -= radius*0.9;
+            } else if (draftPicks == 1 && d.round ==1) {
+                positionsObject[d.year] += radius * 2.8;
             } else {
-                positionsObject[d.year] += radius*1.8
+                positionsObject[d.year] += radius*1.8;
             }
         }
         prev_year = d.year;
-        if (d["team.name"] === "Edmonton Oilers") {
-            console.log("line186", positionsObject[d.year])
-            //console.log("line193",d.year,d.round,d.pickOverall,posArr, positionsObject);
-            //console.log("line194", positionsObject);
-        }
-
-        //console.log("xp", positionsObject[d.year]);
         return positionsObject[d.year]
     };
 
-    // Set the ranges
+    // Set the y ranges
     let yLoc = d3.scaleLinear()
         .range([height/YLOC_SCALE, 0])
         .domain([minDraftYear, maxDraftYear]);
@@ -206,7 +181,6 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
             prev_round = 1;
             posArr = getArraySomething(nested_data, d.year, prev_round);
             draftPicks=0;
-            //console.log(posArr);
         }
         if (d.round != prev_round) {
             draftPicks=0;
@@ -215,26 +189,22 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
         draftPicks++;
         prev_round = d.round;
         prev_year = d.year;
+
+        let coordY = yLoc(d.year);
         if (posArr[0].value === 5 && draftPicks !== 3) {
             if (draftPicks < 3) {
-                return yLoc(d.year) - radius * 0.7
+                coordY -= radius * 0.7
             } else {
-                return yLoc(d.year) + radius * 0.7
+                coordY += radius * 0.7
             }
-        }
-        if (posArr[0].value === 3 || posArr[0].value === 4) { // 3 and 4
+        } else if (posArr[0].value === 3 || posArr[0].value === 4) { // if there are 3 or 4 picks in the round
             if (draftPicks > 2) {
-                return yLoc(d.year) + radius * 0.7
+                coordY += radius * 0.7
             } else {
-                return yLoc(d.year) - radius * 0.7
+                coordY -= radius * 0.7
             }
         }
-        //console.log("yp", yLoc(d.year));
-        if (d["team.name"] === "Edmonton Oilers") {
-            console.log("line235", yLoc(d.year))
-        }
-
-        return yLoc(d.year)
+        return coordY
     };
 
     // Add the scatterplot
@@ -258,10 +228,14 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
             return legendKey[colorBy].class[val]
         })
         .attr("r", radius)
-        .attr("cx", x => xPosition(x))
+        .attr("cx", x => {
+            // if (x.team === "Edmonton Oilers") {
+            //     console.log(x);
+            // }
+            return xPosition(x);
+        })
         .attr("cy", y => yPosition(y)
         );
-    console.log("line262");
 
     // PROPAGATE STATUS FILTER
     for (let key in clickedDict) {
@@ -528,24 +502,20 @@ function addXYLabels(svg, height, radius) {
     svg.append("g")
         .attr("class", "yAxis")
         .call(yAxis)
-        .style("fill", "aliceblue")
         .style("font-size", String(radius * 1.3) + "px");
 
     // Add the draft round labels to the X Axis
     let xTicks = svg.append("g")
         .attr("class", "xAxis")
-        .attr("transform", "translate(-6,-35)");
-        //.style("font-size", radius * 1.3);
+        .attr("transform", "translate(-6,-35)")
+        .style("font-size", String(radius * 1.3) + "px");
 
     for (let i = 1; i < (numDraftRounds+1); i++) {
         xTicks.append("text")
             .text('R' + i)
             .attr("x", function() {
-                let sumFactor = 0;
-                for (let j = 1; j < i; j++) {
-                    sumFactor += (CIRCLE_GAP_FACTOR - 0.01);
-                }
-                return radius * 3 * (sumFactor)+radius*2.5;
+                let sumFactor = (CIRCLE_GAP_FACTOR) * (i-1);
+                return radius * 3 * sumFactor + radius * 2.5;
             })
     }
 }
