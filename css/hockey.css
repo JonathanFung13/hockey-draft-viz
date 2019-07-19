@@ -17,6 +17,13 @@ nav {
     top: 0;
     background: #2B2B2B;
     z-index: 1000;
+    opacity: 1;
+    /*background-color: transparent;*/
+    border-bottom: 1px solid rgb(224, 229, 232);
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    display: flex;
 }
 
 header {
@@ -25,8 +32,8 @@ header {
     color: #F6F6F6;
     position: fixed;
     width: 900px;
-    height: 60px;
-    top: 30px;
+    height: 65px;
+    top: 35px;
     background: #2B2B2B;
     z-index: 900;
 }
@@ -40,6 +47,7 @@ hr{
 
 label{
     display: inline-block;
+    font-size: 13px;
 }
 
 
@@ -55,12 +63,17 @@ text{
 }
 
 .navbar{
-    /*font-family: "Montserrat", Arial, sans-serif;*/
-    color: #3762FB;
-    text-transform: uppercase;
-    font-weight: normal;
     margin: 5px;
-    /*float: left;*/
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgb(69, 118, 199); /*#3762FB;*/
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 /*SVG*/
