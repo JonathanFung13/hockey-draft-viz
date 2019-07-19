@@ -52,7 +52,7 @@ async function displayTeams() {
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
                 .attr("x", borderParams.left - 1)
-                .attr('y', borderParams.top - 495);
+                .attr('y', borderParams.top - 100);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
         plotDraftPicks(picksByTeam, previewSvg, PREVIEW_SIZE)
@@ -65,6 +65,7 @@ async function displayTeams() {
         .attr("width", 75)
         .attr("height", 100);
     $(".teamDiv"+2).trigger("click");
+    //d3.select("#selectedBorder").moveToFront();
     d3.select("aside").append("div")
         .attr("id", "clickProf");
 
@@ -95,7 +96,7 @@ function createSvg(svgHolder, className, sizes) {
     let g = svgHolder.append("svg")
         .attr("class", className)
         .attr("width", sizes.width)
-        .attr("height", (sizes.height + MARGINS.top + MARGINS.bottom))
+        .attr("height", (sizes.height))// + MARGINS.top + MARGINS.bottom))
         .append("g")
         .attr("class", "circleGroup")
         .attr("transform", "translate(" + Math.ceil(sizes.width * 0.2) + "," + Math.ceil(sizes.height * 0.09) + ")");

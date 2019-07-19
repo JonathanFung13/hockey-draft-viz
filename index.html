@@ -24,16 +24,9 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <header>
-    <h1>NHL Draft</h1>
-    <div id = "legend"></div>
-    <select id="filters">
-      <option value="status">Roster Status</option>
-      <option value="gpClass">Games Played (per season)</option>
-      <option value="ppgClass">Points Per Game</option>
-    </select>
-
-
+  <nav>
+    <a class="navbar" href="#">NHL Draft</a>
+    <a class="navbar" href="#">NHL Rosters</a>
     <div class="help-tip">
       <div>
         <h4 style="text-align:center;color:white">Visualization Overview</h4>
@@ -51,6 +44,28 @@
         </ul>
       </div>
     </div>
+  </nav>
+  <header>
+    <label for="filters" style="font-weight: normal;">Draft results according to:</label>
+    <select id="filters">
+      <option value="status">Roster Status</option>
+      <option value="gpClass">Games Played (per season)</option>
+      <option value="ppgClass">Points Per Game</option>
+    </select>
+<!--    <div>-->
+<!--      <label for="position-filter" style="font-weight: normal;">Filter positions:</label>-->
+<!--      <form id="position-filter">-->
+<!--        <input type="checkbox" name="positionF" value="F">F-->
+<!--        <input type="checkbox" name="positionD" value="D">D-->
+<!--        <input type="checkbox" name="positionG" value="G">G-->
+<!--      </form>-->
+<!--    </div>-->
+
+    <br>
+    <div>
+      <label for="legend" style="font-weight: normal;">Legend:</label>
+      <div id = "legend"></div>
+    </div>
 
     <div id = "positionCheck"></div>
     <hr style="width: 100%;">
@@ -58,9 +73,9 @@
   </header>
 
   <section>
-    <div class="draft">Draft</div>
-    <div class="round">Round</div>
-    <div class="team-info" style="margin-top:10px;" id="atlantic"><div style="margin-top: 30px; width: 55px">Atlantic</div></div>
+<!--    <div class="draft">Draft</div>-->
+<!--    <div class="round">Round</div>-->
+    <div class="team-info" id="atlantic"><div style="margin-top: 30px; width: 55px">Atlantic</div></div>
     <div class="team-info" id="metropolitan"><div style="margin-top: 30px; width: 55px;">Metro</div></div>
     <div class="team-info" id="central"><div style="margin-top: 30px; width: 55px;">Central</div></div>
     <div class="team-info" id="pacific"><div style="margin-top: 30px; width: 55px;">Pacific</div></div>

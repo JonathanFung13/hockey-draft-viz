@@ -59,7 +59,7 @@ text{
     color: #3762FB;
     text-transform: uppercase;
     font-weight: normal;
-    /*margin: 10px;*/
+    margin: 5px;
     /*float: left;*/
 }
 
@@ -257,7 +257,7 @@ span{
     width: 900px;
     margin: auto 0;
     display: flex;
-    /*position: absolute;*/
+    position: absolute;
 }
 
 .team-info circle {
@@ -266,15 +266,15 @@ span{
 /*#atlantic {*/
 /*    margin-top: 120px;*/
 /*}*/
-/*#metropolitan {*/
-/*    margin-top: 120px;*/
-/*}*/
-/*#central {*/
-/*    margin-top: 240px;*/
-/*}*/
-/*#pacific {*/
-/*    margin-top: 360px;*/
-/*}*/
+#metropolitan {
+    margin-top: 100px;
+}
+#central {
+    margin-top: 200px;
+}
+#pacific {
+    margin-top: 300px;
+}
 
 
 .teamDiv {
@@ -302,7 +302,7 @@ span{
     flex-direction: column;
     margin-left: 5px;
     position: absolute;
-    /*margin-top: 450px;*/
+    margin-top: 400px;
     transition: all 0.8s ease;
 }
 
