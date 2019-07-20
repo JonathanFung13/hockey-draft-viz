@@ -108,23 +108,29 @@ text{
     font-weight: normal;
 }
 
-.navbar{
-    text-transform: none;
+.navbar {
     font-size: 14px;
     font-weight: 600;
-    margin-left: 12px;
-    margin-right: 10px;
-    /*color: rgb(52, 36, 252);*/
     color: rgb(242, 244, 246);
-    border-top: 2px solid transparent;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    display: flex;
-    -moz-box-align: center;
-    align-items: center;
-    -moz-box-pack: center;
-    justify-content: center;
-    height: 100%;
+    padding: 14px 20px;
+    /*text-decoration: none;*/
+    text-align: center;
+    /*margin-left: 12px;*/
+    /*margin-right: 10px;*/
+    /*color: rgb(52, 36, 252);*/
+    /*border-top: 2px solid transparent;*/
+    /*border-bottom: 2px solid transparent;*/
+    /*margin-bottom: -1px;*/
+    /*display: flex;*/
+    /*-moz-box-align: center;*/
+    /*align-items: center;*/
+    /*-moz-box-pack: center;*/
+    /*justify-content: center;*/
+    /*height: 100%;*/
+}
+.navbar:hover {
+    color: rgb(52, 36, 252);
+    background-color: rgb(242, 244, 246);
 }
 
 /*SVG*/

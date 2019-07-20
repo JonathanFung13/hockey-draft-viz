@@ -25,8 +25,9 @@
 
   <!-- Add your site or application content here -->
   <nav>
-    <a class="navbar" href="#">NHL Draft</a>
-    <a class="navbar" href="#">NHL Rosters</a>
+    <div class="title">NHL Visualizations</div>
+    <a class="navbar" href="#">Draft</a>
+    <a class="navbar" href="https://ihi.jonfun.dev/">Rosters</a>
     <div class="help-tip">
       <div>
         <h4 style="text-align:center;color:white">Visualization Overview</h4>
@@ -46,22 +47,21 @@
     </div>
   </nav>
   <header>
-    <label for="filters" style="font-weight: normal;">Draft results according to:</label>
-    <select id="filters">
-      <option value="status">Roster Status</option>
-      <option value="gpClass">Games Played (per season)</option>
-      <option value="ppgClass">Points Per Game</option>
-    </select>
-<!--    <div>-->
+    <div>
+      <label for="filters" style="font-weight: normal;">Record according to:</label>
+      <select id="filters">
+        <option value="status">Roster Status</option>
+        <option value="gpClass">Games Played (per season)</option>
+        <option value="ppgClass">Points Per Game</option>
+      </select>
 <!--      <label for="position-filter" style="font-weight: normal;">Filter positions:</label>-->
 <!--      <form id="position-filter">-->
 <!--        <input type="checkbox" name="positionF" value="F">F-->
 <!--        <input type="checkbox" name="positionD" value="D">D-->
 <!--        <input type="checkbox" name="positionG" value="G">G-->
 <!--      </form>-->
-<!--    </div>-->
+    </div>
 
-    <br>
     <div>
       <label for="legend" style="font-weight: normal;">Legend:</label>
       <div id = "legend"></div>
