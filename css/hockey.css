@@ -51,7 +51,7 @@ nav {
 
 header {
     border-radius: 0px;
-    color: rgb(242, 244, 246);
+    color: rgb(183, 195, 199);
     box-shadow: none;
     font-weight: 700;
     /*display: flex;*/
@@ -115,7 +115,7 @@ text{
     margin-left: 12px;
     margin-right: 10px;
     /*color: rgb(52, 36, 252);*/
-    color: rgb(183, 195, 199);
+    color: rgb(242, 244, 246);
     border-top: 2px solid transparent;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
@@ -466,10 +466,10 @@ span{
     /* left: 650px; */
     left: 80px;
     top: 25px;
-    fill: white;
+    fill: rgb(183, 195, 199);
     font-size:13px;
     margin-left: 25px;
-    color: rgb(242, 244, 246);
+    color: rgb(183, 195, 199);
     font-weight: normal;
 }
 #filters{

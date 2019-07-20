@@ -9,7 +9,7 @@ const TEAM_ABBRVS = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "
 const DIVISIONS = {"Anaheim Ducks": "#pacific", "Arizona Coyotes": "#pacific", "Boston Bruins": "#atlantic", "Buffalo Sabres": "#atlantic", "Calgary Flames": "#pacific", "Carolina Hurricanes": "#metropolitan", "Chicago Blackhawks": "#central", "Colorado Avalanche": "#central", "Columbus Blue Jackets": "#metropolitan", "Dallas Stars": "#central", "Detroit Red Wings": "#atlantic", "Edmonton Oilers": "#pacific", "Florida Panthers": "#atlantic", "Los Angeles Kings": "#pacific", "Minnesota Wild": "#central", "Montréal Canadiens": "#atlantic", "Nashville Predators": "#central", "New Jersey Devils": "#metropolitan", "New York Islanders": "#metropolitan", "New York Rangers": "#metropolitan", "Ottawa Senators": "#atlantic", "Philadelphia Flyers": "#metropolitan", "Pittsburgh Penguins": "#metropolitan", "San Jose Sharks": "#pacific", "St. Louis Blues": "#central", "Tampa Bay Lightning": "#atlantic", "Toronto Maple Leafs": "#atlantic", "Vancouver Canucks": "#pacific", "Vegas Golden Knights": "#pacific", "Washington Capitals": "#metropolitan", "Winnipeg Jets": "#central"}
 const minDraftYear = 2003;
 const maxDraftYear = 2018;
-const numDraftRounds = 7; //[1,2,3,4,5,6,7];
+const numDraftRounds = 7;
 
 const legendKey = {};
 legendKey['status'] = {class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
@@ -51,8 +51,8 @@ async function displayTeams() {
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
-                .attr("x", borderParams.left - 1)
-                .attr('y', borderParams.top - 100);
+                .attr("x", borderParams.left)
+                .attr('y', borderParams.top - 115);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
         plotDraftPicks(picksByTeam, previewSvg, PREVIEW_SIZE)
@@ -65,7 +65,6 @@ async function displayTeams() {
         .attr("width", 75)
         .attr("height", 100);
     $(".teamDiv"+2).trigger("click");
-    //d3.select("#selectedBorder").moveToFront();
     d3.select("aside").append("div")
         .attr("id", "clickProf");
 
@@ -160,7 +159,7 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
                 }
             } else if (draftPicks == 4 && posArr[0].value == 5) {
                 positionsObject[d.year] -= radius*0.9;
-            } else if (draftPicks == 1 && d.round ==1) {
+            } else if (draftPicks == 1 && posArr[0].value ==1) {
                 positionsObject[d.year] += radius * 2.8;
             } else {
                 positionsObject[d.year] += radius*1.8;
@@ -216,7 +215,7 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
         .style("opacity", 0.8);
 
     prev_round = 1;
-    prev_year = maxDraftYear;
+    //prev_year = maxDraftYear;
     draftPicks = 0;
     circleWrap.append("circle")
         .attr("class", function(d) {
@@ -228,12 +227,7 @@ function plotDraftPicks(picksByTeam, svg, sizes) {
             return legendKey[colorBy].class[val]
         })
         .attr("r", radius)
-        .attr("cx", x => {
-            // if (x.team === "Edmonton Oilers") {
-            //     console.log(x);
-            // }
-            return xPosition(x);
-        })
+        .attr("cx", x => xPosition(x))
         .attr("cy", y => yPosition(y)
         );
 
@@ -482,7 +476,7 @@ function addHoverPreview(svg) {
         .on("mousemove", function() {
             d3.select(this).style("opacity", 1);
             d3.selectAll(".previewWrap")
-                .style("top", (d3.mouse(document.body)[1] + 40) + "px")
+                .style("top", (d3.mouse(document.body)[1] + 5) + "px")
                 .style("left", (d3.mouse(document.body)[0] + 20) + "px");
         })
         .on("mouseout", function(d) {
