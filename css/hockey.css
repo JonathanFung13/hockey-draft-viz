@@ -1,41 +1,87 @@
+/*https://google-webfonts-helper.herokuapp.com/fonts/nunito-sans?subsets=latin*/
+/* nunito-sans-regular - latin */
+@font-face {
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Nunito Sans Regular'), local('NunitoSans-Regular'),
+    url('../fonts/nunito-sans-v4-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+    url('../fonts/nunito-sans-v4-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 /*GENERAL WRAP-UPS*/
 
 body {
-    background-color: #F6F6F6;
-    background: #2B2B2B;
+    /*font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;*/
+    font-family: "Nunito Sans";
+    position: absolute;
+    inset: 0px;
+    display: flex;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: center;
+    /*background-color: rgb(250, 249, 248);*/
+    background-color: rgb(30, 39, 43);
     color: #ddd;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-weight: normal;
-    width: 900px;
+    width: 780px;
 }
 nav {
+    font-family: "Nunito Sans";
     /*margin-bottom: 5px;*/
     /*color: #F6F6F6;*/
     position: fixed;
-    width: 100%;
-    height: 30px;
-    top: 0;
-    background: #2B2B2B;
-    z-index: 1000;
+    width: 780px;
+    height: 35px;
     opacity: 1;
     /*background-color: transparent;*/
-    border-bottom: 1px solid rgb(224, 229, 232);
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: row;
     display: flex;
+    flex-direction: row;
+    -moz-box-pack: start;
+    justify-content: flex-start;
+    -moz-box-align: center;
+    align-items: center;
+    border-bottom: 1px solid rgb(61, 75, 81);
+    top: 0;
+    background: rgb(30, 39, 43);
+    z-index: 1000;
+    padding: 0px 12px;
 }
 
 header {
-    /*margin-top: 5px;*/
-    /*margin-bottom: 5px;*/
-    color: #F6F6F6;
+    border-radius: 0px;
+    color: rgb(242, 244, 246);
+    box-shadow: none;
+    font-weight: 700;
+    /*display: flex;*/
+    flex-direction: row;
+    -moz-box-pack: start;
+    justify-content: flex-start;
+    -moz-box-align: center;
+    align-items: center;
+    /*flex: 1 1 0%;*/
+    /*-moz-box-pack: center;*/
+    border: 0px solid rgb(61,75,81);
     position: fixed;
-    width: 900px;
+    width: 780px;
     height: 65px;
-    top: 35px;
-    background: #2B2B2B;
-    z-index: 900;
+    top: 36px;
+    background-color: rgb(30, 39, 43);
+    /*background: rgb(30, 39, 43);*/
+    padding: 0px 12px;
+    padding-top: 5px;
+    z-index: 1000;
+}
+
+section{
+    /* float: left; */
+    margin-left: 5px;
+    height: 875px;
+    margin-top: 300px;
+    width: 100%;
+    /*position: absolute;*/
+    display: flex;
 }
 
 hr{
@@ -63,15 +109,20 @@ text{
 }
 
 .navbar{
-    margin: 5px;
-    text-transform: uppercase;
+    text-transform: none;
     font-size: 14px;
-    font-weight: 400;
-    color: rgb(69, 118, 199); /*#3762FB;*/
+    font-weight: 600;
+    margin-left: 12px;
+    margin-right: 10px;
+    /*color: rgb(52, 36, 252);*/
+    color: rgb(183, 195, 199);
     border-top: 2px solid transparent;
     border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
     display: flex;
+    -moz-box-align: center;
     align-items: center;
+    -moz-box-pack: center;
     justify-content: center;
     height: 100%;
 }
@@ -95,7 +146,7 @@ text{
     /*flex: 1;*/
     position: absolute;
     top: 600px;
-    left: 600px;
+    left: 550px;
 }
 
 #clickProf img {
@@ -110,18 +161,30 @@ text{
     width: 49%;
 }
 
+
+.title {
+    text-transform: uppercase;
+    font-size: 17px;
+    font-weight: 700;
+    color: rgb(242,244,246);
+    -moz-box-flex: 1;
+    flex-grow: 0.05;
+}
+
+
 /*GRAPH LABELS*/
 .domain {
     display: none;
 }
-.yAxis {
-    font-family: sans-serif;
-    font-weight: bold;
-}
+/*.yAxis {*/
+/*    font-family: sans-serif;*/
+/*    font-weight: bold;*/
+/*}*/
 .xAxis {
     font-family: sans-serif;
     font-weight: bold;
-    fill: aliceblue;
+    /*fill: aliceblue;*/
+    fill: rgb(149, 164, 170);
 }
 .positionLabel {
     border: none;
@@ -216,9 +279,9 @@ circle{
 /*CLICK PROFILE*/
 /*TABLE*/
 table {
-    width: 250px;
+    /*width: 175px;*/
     /*height: 540px;*/
-    border: 1px solid #6d6d6d;
+    border: 1px solid rgb(61, 75, 81);
     background: #262525;
     /* line-height: 1.2em; */
 }
@@ -226,8 +289,9 @@ table {
 .heading {
     font-size: 15px;
     text-align: center;
-    background: #6f6f6f;
-    color: white;
+    /*background: rgb(52, 36, 252);*/
+    background: rgb(40, 29, 205);
+    /*color: white;*/
     line-height: 25px;
     opacity: 0.9;
 }
@@ -242,8 +306,8 @@ table {
 }
 .nameCap {
     line-height: initial;
-    font-size: 110%;
-    font-weight: bold;
+    /*font-size: 110%;*/
+    /*font-weight: bold;*/
     padding: 0.2em;
 }
 
@@ -263,14 +327,18 @@ span{
     overflow: hidden;
     cursor: default;
     text-align: center;
+    color: rgb(149, 164, 170);
 }
 
 /* TEAMS PREVIEW*/
 .team-info {
-    width: 900px;
+    width: 780px;
     margin: auto 0;
     display: flex;
     position: absolute;
+    color: rgb(242, 244, 246);
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .team-info circle {
@@ -302,6 +370,7 @@ span{
 #selectedBorder rect {
     fill: none;
     stroke: #fff689;
+    /*stroke: rgb(52, 36, 252);*/
 }
 
 /* TEAM DETAILED VIEW */
@@ -309,14 +378,18 @@ span{
     margin-left: 5px;
     /*    width: 40%;*/
     transition: all 0.5s ease;
+    color: rgb(149, 164, 170);
 }
 #SvgHolder {
     display: flex;
     flex-direction: column;
     margin-left: 5px;
     position: absolute;
-    margin-top: 400px;
+    margin-top: 420px;
     transition: all 0.8s ease;
+    border-top: 1px solid rgb(61, 75, 81);
+    padding-top: 0px;
+    width: 780px;
 }
 
 .teamDiv svg{
@@ -334,7 +407,7 @@ span{
     /*top: 30px;*/
     /*position: absolute;*/
     font-size: 13px;
-    color: #8f8f8f;
+    color: rgb(149, 164, 170);
     /*margin-top: 2%;*/
     width: 500px;
     /*margin-right: 10px;*/
@@ -342,7 +415,8 @@ span{
 }
 
 #instruction.highlighted{
-    color: #ffff7d;
+    /*color: #ffff7d;*/
+    color: rgb(52, 36, 252);
     font-weight: 500;
 
 }
@@ -363,7 +437,7 @@ span{
 /*LOGOS*/
 .teamTitle {
     margin-left: 65px;
-    margin-top: 15px;
+    margin-top: 16px;
     width: 500px;
     /*margin-right: 10px;*/
     text-align: center;
@@ -377,7 +451,7 @@ span{
     /* margin: 0 auto; */
 }
 #teamName {
-    font-size: 18px;
+    font-size: 16px;
     /*
         margin-left: 25%;
         margin-top: -10%;
@@ -390,11 +464,13 @@ span{
     /*float: left;*/
      position: absolute;
     /* left: 650px; */
-    left: 75px;
+    left: 80px;
     top: 25px;
     fill: white;
-    font-size:14px;
+    font-size:13px;
     margin-left: 25px;
+    color: rgb(242, 244, 246);
+    font-weight: normal;
 }
 #filters{
     /*position: absolute;*/
@@ -416,15 +492,10 @@ span{
 
 
 .draft{
-
     position: absolute;
-
     top: 80px;
-
     left: 15px;
-
     font-size: 10px;
-
     color: gray;
 }
 
@@ -451,9 +522,9 @@ span{
 .help-tip{
     position: absolute;
     top: 5px;
-    left: 850px;
+    right: 5px;
     text-align: center;
-    background-color: #6a6a6a;
+    background-color: #777777;
     border-radius: 50%;
     width: 22px;
     height: 22px;
@@ -473,27 +544,26 @@ span{
 .help-tip:hover div {
     display:block;
     transform-origin: 100% 0%;
-
     -webkit-animation: fadeIn 0.3s ease-in-out;
     animation: fadeIn 0.3s ease-in-out;
-
 }
 
 .help-tip div{	/* The tooltip */
     display: none;
     text-align: left;
-    background-color: ##494949;
+    /*background-color: #494949;*/
     padding: 10px;
     width: 300px;
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
     right: -4px;
-    color: #fffbd9;
+    top: 100px;
+    color: rgb(149, 164, 170);
     font-size: 13px;
     line-height: 1.4;
     background: #434343;
-    border: 1px solid #575757;
+    border: 1px solid rgb(61, 75, 81);
     z-index: 100000;
 }
 
@@ -536,11 +606,3 @@ span{
     100% { opacity:100%; }
 }
 
-section{
-    /* float: left; */
-    margin-left: 5px;
-    /*height: 900px;*/
-    margin-top: 100px;
-    width: 100%;
-    /*position: absolute;*/
-}
