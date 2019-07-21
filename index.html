@@ -25,7 +25,7 @@
 
   <!-- Add your site or application content here -->
   <nav>
-    <div class="title">NHL Visualizations</div>
+    <h1>NHL Visualizations</h1>
     <a class="navbar" href="#">Draft</a>
     <a class="navbar" href="#">Rosters</a>
     <div class="help-tip">
@@ -47,28 +47,25 @@
     </div>
   </nav>
   <header>
-    <div>
-      <label for="filters" style="font-weight: normal;">Record according to:</label>
+    <div class="filters">
+      <label for="filters">Record according to:</label>
       <select id="filters">
         <option value="status">Roster Status</option>
         <option value="gpClass">Games Played (per season)</option>
         <option value="ppgClass">Points Per Game</option>
       </select>
-<!--      <label for="position-filter" style="font-weight: normal;">Filter positions:</label>-->
-<!--      <form id="position-filter">-->
-<!--        <input type="checkbox" name="positionF" value="F">F-->
-<!--        <input type="checkbox" name="positionD" value="D">D-->
-<!--        <input type="checkbox" name="positionG" value="G">G-->
-<!--      </form>-->
+      <label for="position-filter">Filter positions:</label>
+      <form id="position-filter">
+        <input type="checkbox" name="positionF" value="F">F
+        <input type="checkbox" name="positionD" value="D">D
+        <input type="checkbox" name="positionG" value="G">G
+      </form>
     </div>
 
-    <div>
-      <label for="legend" style="font-weight: normal;">Legend:</label>
+    <div class="legend">
+      <label for="legend">Legend:</label>
       <div id = "legend"></div>
     </div>
-
-    <div id = "positionCheck"></div>
-    <hr style="width: 95%;">
 
   </header>
 

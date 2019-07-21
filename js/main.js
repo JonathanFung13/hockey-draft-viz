@@ -13,11 +13,11 @@ const numDraftRounds = 7;
 
 const legendKey = {};
 legendKey['status'] = {class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
-    text: {"active": ["On roster", 90], "other_team": ["Other teams roster", 90], "inactive": ["Inactive", 120]}};
+    text: {"active": ["On roster", 90], "other_team": ["Other teams roster", 110], "inactive": ["Inactive", 140]}};
 legendKey['gpClass'] = {class: {4: "four", 3: "three", 2: "two", 1: "one"},
     text: {4: [">60", 90], 3: ["40-60", 90], 2: ["20-40", 90], 1: ["0-20", 120]} };
 legendKey['ppgClass'] = {class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"},
-    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 90],3: ["0.50-0.75", 90], 4: ["0.75-1.0", 90], 5: [">1.0", 90]} };
+    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 110],3: ["0.50-0.75", 110], 4: ["0.75-1.0", 110], 5: [">1.0", 110]} };
 
 // Variables
 let clickedDict = {"active": false, "inactive": false, "other_team": false};
