@@ -73,7 +73,6 @@ header {
 }
 
 section{
-    /*float: left;*/
     margin-left: 20px;
     margin-top: 10px;
     /*height: 875px;*/
@@ -324,7 +323,7 @@ span{
 
 /* TEAMS PREVIEW*/
 .team-info {
-    width: 780px;
+    width: 100%;
     margin: auto 0;
     display: flex;
     position: absolute;
@@ -484,15 +483,15 @@ span{
 }
 
 .legend {
-    /*font-size:16px;*/
-    /*font-weight: normal;*/
+    font-size: 24px;
+    font-weight: normal;
     display: flex;
     align-items: center;
     height: 50%;
 }
 
 #legend{
-    fill: rgb(183, 195, 199);
+    fill: rgb(149, 164, 170);
     margin-left: 20px;
 }
 

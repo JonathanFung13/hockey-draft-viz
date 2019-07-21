@@ -1,5 +1,6 @@
 // Constants
 const MARGINS = {top: 5, right: 5, bottom: 5, left: 0}
+// const PREVIEW_SIZE = {"width": 115, "height": 130 - MARGINS.top - MARGINS.bottom, radius: 3};
 const PREVIEW_SIZE = {"width": 95 - MARGINS.left - MARGINS.right, "height": 110 - MARGINS.top - MARGINS.bottom, radius: 2};
 const DETAIL_SIZE = {"width": 500 , "height": 600 - MARGINS.top - MARGINS.bottom, radius: 12.5};
 const YLOC_SCALE = 1.4;
@@ -51,7 +52,7 @@ async function displayTeams() {
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
-                .attr("x", borderParams.left - 15) // + $(window).scrollLeft())
+                .attr("x", borderParams.left - 10) // + $(window).scrollLeft())
                 .attr('y', borderParams.top - 77);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
