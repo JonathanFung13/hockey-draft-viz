@@ -298,7 +298,6 @@ function createLegend(){
         .attr("transform","translate(45,-15)");
     let count = 0;
     for (let i in legendKey[colorBy].class) {
-        // let keys = Object.keys(legendKey[colorBy].class);
         legend.append("circle")
             .attr("cx", -30 + count*legendKey[colorBy].text[i][1])
             .attr("cy", 30)
