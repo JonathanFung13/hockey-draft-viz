@@ -30,7 +30,7 @@ displayTeams();
 async function displayTeams() {
     let data = await d3.csv('data/draft_data.csv');
 
-    let svgHolder = d3.select("section");
+    let svgHolder = d3.select("#detail").select("section");
     svgHolder.append("div")
         .attr("id", "SvgHolder")
         .attr("height", DETAIL_SIZE.height + MARGINS.top + MARGINS.bottom)
@@ -51,8 +51,8 @@ async function displayTeams() {
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
-                .attr("x", borderParams.left)
-                .attr('y', borderParams.top - 115);
+                .attr("x", borderParams.left - 15) // + $(window).scrollLeft())
+                .attr('y', borderParams.top - 7);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
         plotDraftPicks(picksByTeam, previewSvg, PREVIEW_SIZE)
