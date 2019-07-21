@@ -52,7 +52,7 @@ async function displayTeams() {
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
                 .attr("x", borderParams.left - 15) // + $(window).scrollLeft())
-                .attr('y', borderParams.top - 7);
+                .attr('y', borderParams.top - 47);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
         plotDraftPicks(picksByTeam, previewSvg, PREVIEW_SIZE)

@@ -33,7 +33,7 @@ nav {
     color: rgb(242, 244, 246);
     position: fixed;
     width: 100%;
-    height: 35px;
+    height: 45px;
     opacity: 1;
     /*background-color: transparent;*/
     display: flex;
@@ -66,8 +66,8 @@ header {
     border: 0px solid rgb(61,75,81);
     position: fixed;
     width: 100%;
-    height: 60px;
-    top: 36px;
+    height: 80px;
+    top: 46px;
     background-color: rgb(30, 39, 43);
     /*background: rgb(30, 39, 43);*/
     padding: 5px 12px;
@@ -79,7 +79,7 @@ header {
 section{
     /*float: left;*/
     margin-left: 20px;
-    margin-top: 10px;
+    margin-top: 50px;
     /*height: 875px;*/
     /*width: 100%;*/
     /*!*position: absolute;*!*/
@@ -96,12 +96,12 @@ h1{
     text-transform: uppercase;
     color: rgb(242, 244, 246);
     /*font-weight: normal;*/
-    /*font-size: 24px;*/
+    font-size: 28px;
     /*font-weight: 700;*/
 }
 
 .navbar {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 600;
     padding: 14px 20px;
     /*text-decoration: none;*/
@@ -460,8 +460,8 @@ span{
     font-size: 16px;
     font-weight: normal;
     display: flex;
-    left: 300px;
-    height: 40%;
+    align-items: center;
+    height: 50%;
     z-index: 10000;
 }
 
@@ -486,7 +486,7 @@ span{
     font-weight: normal;
     display: flex;
     align-items: center;
-    height: 60%;
+    height: 50%;
 }
 
 #legend{
