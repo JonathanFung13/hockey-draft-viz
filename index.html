@@ -24,16 +24,10 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <div id = "header">
-    <h1>NHL Draft</h1>
-    <div id = "legend"></div>
-    <select name = "filters" id="filters" class="inputs">
-      <option value="status">Roster Status</option>
-      <option value="gpClass">Games Played (per season)</option>
-      <option value="ppgClass">Points Per Game</option>
-    </select>
-
-
+  <nav>
+    <div class="title">NHL Visualizations</div>
+    <a class="navbar" href="#">Draft</a>
+    <a class="navbar" href="#">Rosters</a>
     <div class="help-tip">
       <div>
         <h4 style="text-align:center;color:white">Visualization Overview</h4>
@@ -51,21 +45,49 @@
         </ul>
       </div>
     </div>
+  </nav>
+  <header>
+    <div>
+      <label for="filters" style="font-weight: normal;">Record according to:</label>
+      <select id="filters">
+        <option value="status">Roster Status</option>
+        <option value="gpClass">Games Played (per season)</option>
+        <option value="ppgClass">Points Per Game</option>
+      </select>
+<!--      <label for="position-filter" style="font-weight: normal;">Filter positions:</label>-->
+<!--      <form id="position-filter">-->
+<!--        <input type="checkbox" name="positionF" value="F">F-->
+<!--        <input type="checkbox" name="positionD" value="D">D-->
+<!--        <input type="checkbox" name="positionG" value="G">G-->
+<!--      </form>-->
+    </div>
+
+    <div>
+      <label for="legend" style="font-weight: normal;">Legend:</label>
+      <div id = "legend"></div>
+    </div>
 
     <div id = "positionCheck"></div>
-    <hr style="width: 100%;">
+    <hr style="width: 95%;">
 
-  </div>
+  </header>
 
-  <div class="content">
-    <div class="draft">Draft</div>
-    <div class="round">Round</div>
-    <div class="team-info" style="margin-top:10px;" id="atlantic"><div style="margin-top: 30px; width: 55px">Atlantic</div></div>
+  <section id="previews">
+<!--    <div class="draft">Draft</div>-->
+<!--    <div class="round">Round</div>-->
+    <div class="team-info" id="atlantic"><div style="margin-top: 30px; width: 55px">Atlantic</div></div>
     <div class="team-info" id="metropolitan"><div style="margin-top: 30px; width: 55px;">Metro</div></div>
     <div class="team-info" id="central"><div style="margin-top: 30px; width: 55px;">Central</div></div>
     <div class="team-info" id="pacific"><div style="margin-top: 30px; width: 55px;">Pacific</div></div>
+  </section>
+  <div id="detail">
+    <section></section>
+    <aside></aside>
   </div>
 
+  <footer>
+
+  </footer>
 <!--  ### TEMP ###-->
   <script src="js/jquery-1.12.2.min.js"></script>
   <script src="js/jquery.ddslick.min.js"></script>
