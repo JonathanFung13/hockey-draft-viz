@@ -1,7 +1,7 @@
 // Constants
 const MARGINS = {top: 5, right: 5, bottom: 5, left: 0}
-// const PREVIEW_SIZE = {"width": 115, "height": 130 - MARGINS.top - MARGINS.bottom, radius: 3};
-const PREVIEW_SIZE = {"width": 95 - MARGINS.left - MARGINS.right, "height": 110 - MARGINS.top - MARGINS.bottom, radius: 2};
+const PREVIEW_SIZE = {"width": 100, "height": 120, radius: 2.5};
+// const PREVIEW_SIZE = {"width": 95 - MARGINS.left - MARGINS.right, "height": 110 - MARGINS.top - MARGINS.bottom, radius: 2};
 const DETAIL_SIZE = {"width": 500 , "height": 600 - MARGINS.top - MARGINS.bottom, radius: 12.5};
 const YLOC_SCALE = 1.4;
 const CIRCLE_GAP_FACTOR = 1.5; // To have same gap between rounds
@@ -52,8 +52,8 @@ async function displayTeams() {
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
-                .attr("x", borderParams.left - 10) // + $(window).scrollLeft())
-                .attr('y', borderParams.top - 77);
+                .attr("x", borderParams.left - 13) // + $(window).scrollLeft())
+                .attr('y', borderParams.top - 75);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
         plotDraftPicks(picksByTeam, previewSvg, PREVIEW_SIZE)
@@ -63,8 +63,8 @@ async function displayTeams() {
     d3.select("section").append("svg")
         .attr("id", "selectedBorder")
         .append("rect")
-        .attr("width", 75)
-        .attr("height", 100);
+        .attr("width", 90)
+        .attr("height", 120);
     $(".teamDiv"+2).trigger("click");
     d3.select("aside").append("div")
         .attr("id", "clickProf");
@@ -95,7 +95,7 @@ function filterByTeamName(data, teamName) {
 function createSvg(svgHolder, className, sizes) {
     let g = svgHolder.append("svg")
         .attr("class", className)
-        .attr("width", sizes.width)
+        .attr("width", sizes.width + MARGINS.left + MARGINS.right + 5)
         .attr("height", (sizes.height))// + MARGINS.top + MARGINS.bottom))
         .append("g")
         .attr("class", "circleGroup")

@@ -310,10 +310,10 @@ span{
 */
 
 .team-info span {
-    font-size: 10px;
+    font-size: 16px;
     position: absolute;
-    margin-left: -70px;
-    margin-top: 85px;
+    margin-left: -80px;
+    margin-top: 100px;
     width: 90px;
     overflow: hidden;
     cursor: default;
@@ -323,12 +323,12 @@ span{
 
 /* TEAMS PREVIEW*/
 .team-info {
-    width: 100%;
+    /*width: 100%;*/
     margin: auto 0;
     display: flex;
     position: absolute;
     color: rgb(242, 244, 246);
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 400;
 }
 
@@ -339,13 +339,13 @@ span{
     margin-top: 100px;
 }
 #metropolitan {
-    margin-top: 200px;
+    margin-top: 230px;
 }
 #central {
-    margin-top: 300px;
+    margin-top: 360px;
 }
 #pacific {
-    margin-top: 400px;
+    margin-top: 490px;
 }
 
 
@@ -355,8 +355,8 @@ span{
 }
 
 #selectedBorder {
-    width: 700px;
-    height: 510px;
+    width: 900px;
+    height: 620px;
 }
 #selectedBorder rect {
     fill: none;
