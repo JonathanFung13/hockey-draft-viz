@@ -9,23 +9,18 @@
     url('../fonts/nunito-sans-v4-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-/*GENERAL WRAP-UPS*/
-
 body {
     /*font-family: apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;*/
     font-family: "Nunito Sans";
     position: relative;
-    /*inset: 0px;*/
-    /*display: flex;*/
     -moz-box-pack: center;
     justify-content: center;
     /*-moz-box-align: center;*/
     /*align-items: center;*/
-    /*background-color: rgb(250, 249, 248);*/
     background-color: rgb(30, 39, 43);
     color: rgb(149, 164, 170);
     font-size: 24px;
-    /*font-weight: normal;*/
+    font-weight: normal;
     width: 780px;
     white-space: nowrap;
 }
@@ -36,7 +31,6 @@ nav {
     width: 100%;
     height: 60px;
     opacity: 1;
-    /*background-color: transparent;*/
     display: flex;
     flex-direction: row;
     -moz-box-pack: start;
@@ -75,9 +69,6 @@ header {
 section{
     margin-left: 20px;
     margin-top: 10px;
-    /*height: 875px;*/
-    /*width: 100%;*/
-    /*!*position: absolute;*!*/
     /*display: flex;*/
 }
 
@@ -86,17 +77,13 @@ section#previews {
 }
 
 label{
-    /*display: inline-block;*/
-    /*font-size: 13px;*/
     margin-left: 20px;
 }
 
 h1{
     text-transform: uppercase;
     color: rgb(242, 244, 246);
-    /*font-weight: normal;*/
     font-size: 36px;
-    /*font-weight: 700;*/
 }
 
 .navbar {
@@ -107,7 +94,6 @@ h1{
     text-align: center;
     margin-left: 6px;
     color: rgb(242, 244, 246);
-
     /*margin-right: 10px;*/
     /*border-top: 2px solid transparent;*/
     /*border-bottom: 2px solid transparent;*/
@@ -119,6 +105,7 @@ h1{
     /*justify-content: center;*/
     /*height: 100%;*/
 }
+
 .navbar:hover {
     color: rgb(52, 36, 252);
     background-color: rgb(242, 244, 246);
@@ -162,23 +149,18 @@ text{
     width: 49%;
 }
 
-
 /*GRAPH LABELS*/
 .domain {
     display: none;
 }
 .yAxis {
-    /*font-family: sans-serif;*/
-    /*font-weight: bold;*/
     color: rgb(242, 244, 246);
 }
+
 .xAxis {
-    /*font-family: sans-serif;*/
-    /*font-weight: bold;*/
-    /*fill: aliceblue;*/
     fill: rgb(242, 244, 246);
-    /*fill: rgb(149, 164, 170);*/
 }
+
 .positionLabel {
     border: none;
     fill: black;
@@ -267,8 +249,6 @@ circle{
 
 .noinfo{fill: #878787;}
 
-
-
 /*CLICK PROFILE*/
 /*TABLE*/
 table {
@@ -303,13 +283,6 @@ table {
     /*font-weight: bold;*/
     padding: 0.2em;
 }
-
-/*
-span{
-        font-size: 10px;
-    display: -webkit-box;
-}
-*/
 
 .team-info span {
     font-size: 16px;
@@ -436,10 +409,6 @@ span{
 #teamName {
     font-size: 32px;
     color: rgb(242, 244, 246);
-    /*
-        margin-left: 25%;
-        margin-top: -10%;
-    */
 }
 
 /*HEADER FORMATTING*/
@@ -457,10 +426,6 @@ span{
     font-weight: normal;
     margin-left: 10px;
 }
-
-/*#filters label {*/
-/*    display: block;*/
-/*}*/
 
 #position-filter {
     /*font-size: 16px;*/
@@ -483,17 +448,9 @@ span{
     margin-left: 20px;
 }
 
-/*PREVIEW FORMATTING*/
-
-
-
-
-/*DETAIL FORMATTING*/
-
 .unselected{
     fill:#424343!important;
 }
-
 
 .draft{
     position: absolute;
@@ -525,23 +482,23 @@ span{
 /*http://tutorialzine.com/2014/07/css-inline-help-tips/*/
 .help-tip{
     position: absolute;
-    top: 5px;
-    right: 5px;
+    right: 50px;
     text-align: center;
-    background-color: #777777;
+    background-color: rgb(149, 164, 170);
     border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    font-size: 13px;
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
     line-height: 26px;
     cursor: default;
+    white-space: normal;
     z-index: 1000000;
 }
 
 .help-tip:before{
     content:'?';
     font-weight: bold;
-    color:#cecece;
+    color: rgb(40, 29, 205);
     opacity: 0.8;
 }
 
@@ -561,8 +518,8 @@ span{
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    right: -4px;
-    top: 100px;
+    right: 20px;
+    top: 150px;
     color: rgb(149, 164, 170);
     font-size: 13px;
     line-height: 1.4;
