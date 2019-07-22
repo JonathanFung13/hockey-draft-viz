@@ -167,15 +167,17 @@ text{
 .domain {
     display: none;
 }
-/*.yAxis {*/
-/*    font-family: sans-serif;*/
-/*    font-weight: bold;*/
-/*}*/
+.yAxis {
+    /*font-family: sans-serif;*/
+    /*font-weight: bold;*/
+    color: rgb(242, 244, 246);
+}
 .xAxis {
-    font-family: sans-serif;
-    font-weight: bold;
+    /*font-family: sans-serif;*/
+    /*font-weight: bold;*/
     /*fill: aliceblue;*/
-    fill: rgb(149, 164, 170);
+    fill: rgb(242, 244, 246);
+    /*fill: rgb(149, 164, 170);*/
 }
 .positionLabel {
     border: none;
@@ -312,8 +314,8 @@ span{
 .team-info span {
     font-size: 16px;
     position: absolute;
-    margin-left: -80px;
-    margin-top: 100px;
+    margin-left: -90px;
+    margin-top: 105px;
     width: 90px;
     overflow: hidden;
     cursor: default;
@@ -389,26 +391,15 @@ span{
 }
 
 #instruction {
-    margin-left: 65px;
-    /* width: 390px; */
-    /* float: right; */
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*right: 30px;*/
-    /*top: 30px;*/
-    /*position: absolute;*/
-    font-size: 13px;
+    font-size: 16px;
     color: rgb(149, 164, 170);
-    /*margin-top: 2%;*/
-    width: 500px;
-    /*margin-right: 10px;*/
     text-align: center;
 }
 
 #instruction.highlighted{
-    /*color: #ffff7d;*/
-    color: rgb(52, 36, 252);
-    font-weight: 500;
+    color: #ffff7d;
+    /*color: rgb(52, 36, 252);*/
+    /*font-weight: 500;*/
 
 }
 
@@ -428,16 +419,12 @@ span{
 #detail {
     display: flex;
     border-top: 1px solid rgb(61, 75, 81);
+    justify-content: center;
 }
 
 /*LOGOS*/
 .teamTitle {
-    margin-left: 65px;
-    margin-top: 16px;
-    width: 500px;
-    /*margin-right: 10px;*/
     text-align: center;
-    /*color: #ffff7d;*/
 }
 
 #teamLogo {
@@ -447,7 +434,8 @@ span{
     /* margin: 0 auto; */
 }
 #teamName {
-    font-size: 16px;
+    font-size: 32px;
+    color: rgb(242, 244, 246);
     /*
         margin-left: 25%;
         margin-top: -10%;

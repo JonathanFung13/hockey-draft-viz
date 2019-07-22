@@ -2,8 +2,8 @@
 const MARGINS = {top: 5, right: 5, bottom: 5, left: 0}
 const PREVIEW_SIZE = {"width": 100, "height": 120, radius: 2.5};
 // const PREVIEW_SIZE = {"width": 95 - MARGINS.left - MARGINS.right, "height": 110 - MARGINS.top - MARGINS.bottom, radius: 2};
-const DETAIL_SIZE = {"width": 500 , "height": 600 - MARGINS.top - MARGINS.bottom, radius: 12.5};
-const YLOC_SCALE = 1.4;
+const DETAIL_SIZE = {"width": 500 , "height": 700 - MARGINS.top - MARGINS.bottom, radius: 12.5};
+const YLOC_SCALE = 1.3;
 const CIRCLE_GAP_FACTOR = 1.5; // To have same gap between rounds
 
 const TEAM_ABBRVS = {"Anaheim Ducks": "Anaheim", "Arizona Coyotes": "Arizona", "Boston Bruins": "Boston", "Buffalo Sabres": "Buffalo", "Calgary Flames": "Calgary", "Carolina Hurricanes": "Carolina", "Chicago Blackhawks": "Chicago", "Colorado Avalanche": "Colorado", "Columbus Blue Jackets": "Columbus", "Dallas Stars": "Dallas", "Detroit Red Wings": "Detroit", "Edmonton Oilers": "Edmonton", "Florida Panthers": "Florida", "Los Angeles Kings": "Los Angeles", "Minnesota Wild": "Minnesota", "Montréal Canadiens": "Montréal", "Nashville Predators": "Nashville", "New Jersey Devils": "New Jersey", "New York Islanders": "NY Islanders", "New York Rangers": "NY Rangers", "Ottawa Senators": "Ottawa", "Philadelphia Flyers": "Philadelphia", "Pittsburgh Penguins": "Pittsburgh", "San Jose Sharks": "San Jose", "St. Louis Blues": "St. Louis", "Tampa Bay Lightning": "Tampa Bay", "Toronto Maple Leafs": "Toronto", "Vancouver Canucks": "Vancouver", "Vegas Golden Knights": "Vegas", "Washington Capitals": "Washington", "Winnipeg Jets": "Winnipeg"}
@@ -52,7 +52,7 @@ async function displayTeams() {
         previewHolder.on("click", function(d) { // do stuff when you click a teams preview
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
-                .attr("x", borderParams.left - 13) // + $(window).scrollLeft())
+                .attr("x", borderParams.left - 22) // + $(window).scrollLeft())
                 .attr('y', borderParams.top - 75);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
@@ -99,7 +99,7 @@ function createSvg(svgHolder, className, sizes) {
         .attr("height", (sizes.height))// + MARGINS.top + MARGINS.bottom))
         .append("g")
         .attr("class", "circleGroup")
-        .attr("transform", "translate(" + Math.ceil(sizes.width * 0.2) + "," + Math.ceil(sizes.height * 0.09) + ")");
+        .attr("transform", "translate(" + Math.ceil(sizes.width * 0.1) + "," + Math.ceil(sizes.height * 0.1) + ")");
     g.style("opacity", 0)
         .transition().duration(500).style("opacity", 1);
     return g;
