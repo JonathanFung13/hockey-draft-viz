@@ -19,7 +19,7 @@ body {
     /*align-items: center;*/
     background-color: rgb(30, 39, 43);
     color: rgb(149, 164, 170);
-    font-size: 24px;
+    font-size: 16px;
     font-weight: normal;
     width: 780px;
     white-space: nowrap;
@@ -58,11 +58,11 @@ header {
     /*-moz-box-pack: center;*/
     position: fixed;
     width: 100%;
-    height: 100px;
+    height: 80px;
     top: 61px;
     background-color: rgb(30, 39, 43);
     padding: 5px 12px;
-    z-index: 1000;
+    z-index: 900;
     border-bottom: 1px solid rgb(61, 75, 81);
 }
 
@@ -73,7 +73,7 @@ section{
 }
 
 section#previews {
-    margin-top: 80px;
+    margin-top: 60px;
 }
 
 label{
@@ -253,18 +253,15 @@ circle{
 /*TABLE*/
 table {
     /*width: 175px;*/
-    /*height: 540px;*/
     border: 1px solid rgb(61, 75, 81);
     background: #262525;
-    /* line-height: 1.2em; */
+    color: rgb(242, 244, 246);
 }
 
 .heading {
     font-size: 15px;
     text-align: center;
-    /*background: rgb(52, 36, 252);*/
     background: rgb(40, 29, 205);
-    /*color: white;*/
     line-height: 25px;
     opacity: 0.9;
 }
@@ -422,7 +419,7 @@ table {
 }
 
 #filters {
-    font-size: 24px;
+    font-size: 16px;
     font-weight: normal;
     margin-left: 10px;
 }
@@ -436,7 +433,7 @@ table {
 }
 
 .legend {
-    font-size: 24px;
+    font-size: 16px;
     font-weight: normal;
     display: flex;
     align-items: center;
@@ -514,14 +511,14 @@ table {
     text-align: left;
     /*background-color: #494949;*/
     padding: 10px;
-    width: 300px;
+    width: 350px;
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    right: 20px;
-    top: 150px;
+    right: -5px;
+    top: 35px;
     color: rgb(149, 164, 170);
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.4;
     background: #434343;
     border: 1px solid rgb(61, 75, 81);

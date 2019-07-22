@@ -14,11 +14,11 @@ const numDraftRounds = 7;
 
 const legendKey = {};
 legendKey['status'] = {class: {"active": "active", "other_team": "other_team", "inactive": "inactive"},
-    text: {"active": ["On roster", 90], "other_team": ["Other teams roster", 140], "inactive": ["Inactive", 190]}};
+    text: {"active": ["On roster", 90], "other_team": ["Other teams roster", 130], "inactive": ["Inactive", 160]}};
 legendKey['gpClass'] = {class: {4: "four", 3: "three", 2: "two", 1: "one"},
-    text: {4: [">60", 110], 3: ["40-60", 110], 2: ["20-40", 110], 1: ["0-20", 110]} };
+    text: {4: [">60", 90], 3: ["40-60", 90], 2: ["20-40", 90], 1: ["0-20", 120]} };
 legendKey['ppgClass'] = {class: {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"},
-    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 140],3: ["0.50-0.75", 150], 4: ["0.75-1.0", 150], 5: [">1.0", 150]} };
+    text: {1: ["0.0-0.25", 120], 2: ["0.25-0.50", 110],3: ["0.50-0.75", 110], 4: ["0.75-1.0", 110], 5: [">1.0", 110]} };
 
 // Variables
 let clickedDict = {"active": false, "inactive": false, "other_team": false};
@@ -53,7 +53,7 @@ async function displayTeams() {
             let borderParams = $(this).offset();
             d3.select("#selectedBorder > rect")
                 .attr("x", borderParams.left - 22) // + $(window).scrollLeft())
-                .attr('y', borderParams.top - 75);
+                .attr('y', borderParams.top - 55);
             displayTeamDetail(picksByTeam, teamName, svgHolder)
         });
         plotDraftPicks(picksByTeam, previewSvg, PREVIEW_SIZE)
